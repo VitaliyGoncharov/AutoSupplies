@@ -1,23 +1,23 @@
 .idea
 
 # backend
-/backend/.idea
-/backend/.git
-/backend/.mvn
-/backend/.settings
-/backend/target
-/backend/.classpath
-/backend/.project
-/backend/mvnw
-/backend/mvnw.cmd
+/server/.idea
+/server/.git
+/server/.mvn
+/server/.settings
+/server/target
+/server/.classpath
+/server/.project
+/server/mvnw
+/server/mvnw.cmd
 
 # frontend
-/frontend/.editorconfig
-/frontend/.git
-/frontend/.project
-/frontend/.settings
-/frontend/.vs
-/frontend/dist
-/frontend/e2e/*.js
-/frontend/e2e/*.map
-/frontend/node_modules
+/client/.editorconfig
+/client/.git
+/client/.project
+/client/.settings
+/client/.vs
+/client/dist
+/client/e2e/*.js
+/client/e2e/*.map
+/client/node_modules
