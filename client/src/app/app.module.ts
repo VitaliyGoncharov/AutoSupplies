@@ -21,6 +21,7 @@ import { OrderComponent } from './order/order.component';
   declarations: [
     AppComponent,
     routingComponents,
+    UserComponent,
     LoginComponent,
     HomeComponent,
     LogoutComponent,

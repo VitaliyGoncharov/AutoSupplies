@@ -11,7 +11,7 @@ import { Observable, observable } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'app';
   
-  private isLoggedIn: boolean;
+  isLoggedIn: boolean;
   
   constructor(private auth: AuthService, private router: Router) {}
   

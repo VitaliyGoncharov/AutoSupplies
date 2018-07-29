@@ -12,8 +12,8 @@ declare var $: any;
 })
 export class CartComponent implements OnInit {
 
-  private items: Array<Item> = [];
-  private totalPrice: number;
+  items: Array<Item> = [];
+  totalPrice: number;
 
   constructor(private cookieS: CookieService, private itemsS: ItemsService) { }
 

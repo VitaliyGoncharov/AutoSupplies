@@ -38,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/api/credits**").hasRole("ADMIN")
 			.antMatchers("/api/generate-token/**", "/api/register**").permitAll()
+			.anyRequest().permitAll()
 			.and()
 			.exceptionHandling().authenticationEntryPoint(unathorizedHandler)
 			.and()

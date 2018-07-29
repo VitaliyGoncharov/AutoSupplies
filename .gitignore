@@ -8,6 +8,7 @@
 /server/target
 /server/.classpath
 /server/.project
+/server/classes
 /server/mvnw
 /server/mvnw.cmd
 
