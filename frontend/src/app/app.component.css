@@ -1,0 +1,57 @@
+.main-header_top {
+  height: 80px;
+}
+.main-phone:hover {
+  text-decoration: none;
+}
+.main-profile {
+  font-size: 1.1em;
+}
+.btn--reg, .btn--login {
+  padding: 5px 25px;
+  border: 1px solid #d6d4d5;
+  text-transform: uppercase;
+  border-radius: 20px;
+  font-weight: bold;
+  line-height: 26px;
+  transition: background-color .3s ease-in-out;
+}
+.btn--reg {
+  background: #669cd6;
+  color: #fff;
+}
+.btn--reg:hover {
+  background: #5793d4;
+}
+.btn--login {
+  margin-right: 30px;
+  color: #669cd6;
+}
+.btn--login:hover {
+  background: #e6eef9;
+}
+.main-cart {
+  font-size: 2.2em;
+  border: 1px solid #669cd6;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #669cd6;
+  transition: color .7s ease-in-out, background .4s ease-out;
+}
+.main-cart:hover {
+  background: #669cd6;
+  color: #fff;
+}
+
+.main-header_bottom {
+  background: #5793d4;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.main-search_form--input {
+  border-radius: 25px 0 0 25px;
+}
+.main-search_form--icon {
+  border-radius: 0 25px 25px 0;
+}

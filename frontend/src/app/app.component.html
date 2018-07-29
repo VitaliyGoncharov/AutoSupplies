@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="main-header_top row align-items-center">
+    <div class="col-md-4">
+      <h3 class="text-primary">
+        <a class="main-phone" routerLink="/">8-800-555-35-35</a>
+      </h3>
+    </div>
+    <div class="col-md-4">
+      <a routerLink="/profile" *ngIf="isLoggedIn" class="main-profile">
+        <i class="fas fa-user mr-2"></i><span>Anonymous</span>
+      </a>
+    </div>
+    <div class="col-md-4 d-flex justify-content-end align-items-center">
+      <a routerLink="/cart" class="main-cart mr-3">
+        <i class="fas fa-shopping-cart"></i>
+      </a>
+      <a class="btn btn--login" routerLink="/login" *ngIf="!isLoggedIn">Вход</a>
+      <a href="#" class="btn btn--reg" *ngIf="!isLoggedIn">Регистрация</a>
+      <a href="#" class="btn btn--reg h-25" (click)="logout($event)" *ngIf="isLoggedIn">Выйти</a>
+    </div>
+  </div>
+</div>
+<div class="main-header_bottom mb-2">
+  <div class="container">
+    <div class="row p-3 align-items-center">
+      <div class="col-md-2">
+        <div class="dropdown">
+          <a class="dropdown-toggle btn text-white m-0 mr-auto" data-toggle="dropdown"
+            style="font-size: 1.3em ">Категории</a>
+          <div class="dropdown-menu">
+            <a routerLink="catalog/oil-and-grease" class="dropdown-item" href="#">Масло и смазки</a>
+            <a class="dropdown-item" href="#">Аккумуляторы</a>
+            <a class="dropdown-item" href="#">Шины и диски</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Автозапчасти</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-8 d-flex align-items-center justify-content-center">
+        <h5 class="text-white m-0 mr-3">Что хотите заказать</h5>
+
+        <form class="input-group w-50">
+          <input class="main-search_form--input form-control px-4 py-2 border-right-0" type="search" placeholder="Укажите наименование товара">
+  
+          <span class="input-group-append">
+            <div class="main-search_form--icon input-group-text bg-white"><i class="fa fa-search"></i></div>
+          </span>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
+

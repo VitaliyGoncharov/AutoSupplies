@@ -1,0 +1,22 @@
+.idea
+
+# backend
+/backend/.idea
+/backend/.git
+/backend/.mvn
+/backend/.settings
+/backend/target
+/backend/.classpath
+/backend/.project
+/backend/mvnw
+/backend/mvnw.cmd
+
+# frontend
+/frontend/.git
+/frontend/.settings
+/frontend/dist
+/frontend/e2e/*.js
+/frontend/e2e/*.map
+/frontend/node_modules
+/frontend/.editorconfig
+/frontend/.project

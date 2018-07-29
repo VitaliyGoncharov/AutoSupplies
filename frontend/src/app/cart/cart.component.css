@@ -1,0 +1,35 @@
+#items-container {
+    background: #fafafa;
+    box-shadow: 0px 0px 10px 2px #a7a7a7;
+    border: 1px solid blue;
+
+    margin-right: -15px;
+    margin-left: -15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.item:not(:last-child) {
+    border-bottom: 1px solid #dee2e6;
+}
+.plus {
+    display: flex;
+    align-items: center;
+}
+.minus, .plus {
+    color: #959595;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+    cursor: pointer;
+}
+.price {
+    font-size: 1.1em;
+}
+.total-price {
+    height: 40px;
+    font-size: 1.1em;
+    border-bottom: 2px solid blue;
+}
+.make-order {
+    font-size: 1.2em;
+}

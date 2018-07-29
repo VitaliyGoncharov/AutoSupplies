@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <!-- <div class="col-md-2 search-settings">
+      Brands, range of summs
+    </div> -->
+
+    <div class="col-md-12">
+      <div *ngFor="let item of items" class="row item-container">
+        <div class="col-md-3 text-center">
+            <img [src]="item.image" class="rounded w-25" alt="">
+        </div>
+
+        <div class="col-md-5">
+          <span>{{ item.title }}</span>
+        </div>
+
+        <div class="col-md-2 text-center align-content-center">
+          <span class="align-middle">${{ item.price }}</span>
+        </div>
+
+        <div class="col-md-2 text-center">
+          <a *ngIf="!isInCart(item)" class="btn btn-warning" (click)="addItemToCart(item.id)">В корзину</a>
+          <a *ngIf="isInCart(item)" class="btn btn-success" routerLink="/cart">Перейти в корзину</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

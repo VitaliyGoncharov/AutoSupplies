@@ -1,0 +1,12 @@
+.order-header {
+    flex-direction: column;
+    align-items: center;
+}
+.myArrows {
+    width: 0;
+    height: 0;
+    margin: 50px auto;
+    border: 50px solid transparent; 
+    border-top: 0;
+    border-color: orangered orangered transparent transparent;
+}

@@ -1,0 +1,29 @@
+<div (click)="profileContainerOnClick($event)">
+	<div class="container mt-4" >
+		<div class="row justify-content-center">
+			<div class="col-md-4" align="right">
+				<img alt="User Pic" class="rounded img-fluid" src="https://4.bp.blogspot.com/-UcIrbYKyJ2Y/V4dpDXRa3LI/AAAAAAAAS_A/bL0JSPSs3eEYwhwsq8_UTO-kX-Ju6sbdACLcB/s1600/oasis%2Barizona.jpg">
+			</div>
+
+			<div class="col-md-5">
+				<table class="table table-hover">
+					<tbody  *ngIf="profileInfo">
+						<tr *ngFor="let profileItem of profileInfo">
+							<td class="align-middle font-weight-bold" style="width: 25%">{{ profileItem.key }}</td>
+							<td class="pl-4 align-items-center" style="width: 75%">
+								<p class="my-0 py-0 profile-value" (click)="showInput($event)">{{ profileItem.value }}</p>
+								<div class="input-group d-none">
+									<input type="text" class="form-control mr-1 rounded" [value]="profileItem.value">
+									<div class="input-group-append">
+										<button class="btn btn-primary rounded">Save</button>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>	
+		</div>
+	</div>
+</div>
+

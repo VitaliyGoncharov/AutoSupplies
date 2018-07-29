@@ -1,0 +1,11 @@
+{
+	"id": 1,
+	"email": "www.devvit@gmail.com",
+	"name": "Vitaliy",
+	"surname": "Goncharov",
+	"age": 20,
+	"gender": "Male",
+	"birth": "07-04-1998",
+	"delivery_address": "Vladivostok, Kiparisovaya, 19",
+	"phone": "7 950 289-21-10"
+}
