@@ -19,3 +19,16 @@
 .tooltip-danger.bs-tooltip-left .arrow::before {
     border-left-color: #f8d7da !important;
 }
+
+* {
+    font-family: 'Roboto';
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+

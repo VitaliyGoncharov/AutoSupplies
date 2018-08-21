@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,7 +36,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	private PasswordEncoder encoder;
 	
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("figured it out!");
 		User user = userDao.findByUsername(username);
 		Set<Role> roles = user.getRoles();
 		
@@ -65,7 +66,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public List<User> findAll() {
 		List<User> list = new ArrayList<>();
-		userDao.findAll().iterator().forEachRemaining(list::add);
+//		userDao.findAll().iterator().forEachRemaining(list::add);
+		for (User user : userDao.findAll()) {
+			list.add(user);
+		}
 		return list;
 	}
 

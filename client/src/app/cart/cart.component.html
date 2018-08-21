@@ -1,66 +1,113 @@
-<div class="container mt-4">
-  <div class="row">
+<nav id="nav-back" (click)="toStep1()">
+    <i class="fas fa-arrow-circle-left"></i>Назад
+</nav>
+
+<div id="cart-container">
+  <div id="cart-header">
     <h3>Корзина</h3>
   </div>
 
-  <div id="items-container" class="rounded">
-    <div class="row total-price align-items-center">
-      <div class="col-md-2 pl-5">
-        <span class="font-weight-bold">Итого</span>
+  <div class="total" *ngIf="items.length">
+    <span class="lbl">Итого</span>
+
+    <div class="price-total">
+      <span *ngIf="totalPrice">${{ totalPrice }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="!items.length">Корзина пуста</div>
+
+  <div *ngFor="let item of items" class="item"  [attr.data-item-price]="item.price" 
+    [attr.data-item-id]="item.id">
+
+    <div class="title">
+      <span>{{ item.title }}</span>
+    </div>
+
+    <div class="image">
+      <img [src]="item.image" alt="Product image">
+    </div>
+
+    <div class="price">
+      <span>${{item.price * item.amount}}</span>
+    </div>
+
+    <div class="count-buttons">
+      <div class="btn-minus" (click)="minusItem($event)">
+        <i class="fas fa-minus"></i>
       </div>
 
-      <div class="col-md-2 offset-md-8 text-center">
-        <span class="font-weight-bold" *ngIf="totalPrice">${{ totalPrice }}</span>
+      <input type="text" class="count" maxlength="3"
+        (keydown)="changeAmount($event)" [value]="item.amount">
+      
+      <div class="btn-plus" (click)="plusItem($event)">
+        <i class="fas fa-plus"></i>
       </div>
     </div>
 
-    <div *ngFor="let item of items" class="row item py-2"  [attr.data-item-price]="item.price" 
-        [attr.data-item-id]="item.id">
-      <div class="col-md-2 text-center">
-        <img [src]="item.image" class="w-50 rounded" alt="">
-      </div>
+    <div class="special-buttons">
+      <a type="submit" class="btn-remove" (click)="removeItem($event)">
+        <i class="far fa-trash-alt"></i>
+      </a>
+    </div>
+  </div>
 
-      <div class="col-md-5 py-3">
-        <span>{{ item.title }}</span>
-        <div class="mt-3">
-          <button type="submit" class="btn btn-danger rounded" (click)="removeItem($event)">
-            <i class="far fa-trash-alt"></i>
-          </button>
-        </div>
-      </div>
+  <button *ngIf="items.length" type="submit" class="make-order" (click)="toStep2()">Шаг 2 ></button>
+</div>
 
-      <div class="col-md-3 py-3">
-        <div class="d-flex justify-content-center">
-          <div class="d-flex align-items-center minus mr-2 text-md-center" (click)="minusItem($event)">
-              <i class="fas fa-minus"></i>
-          </div>
-          <input type="text" class="form-control w-25 text-center item-amount" (blur)="autoCorrectNullVal($event)" (keyup)="changeAmount($event)" [value]="item.amount"
-            data-toggle="tooltip"
-            data-trigger="manual"
-            data-placement="bottom" title="Некорректное количество товара"
-            data-template='<div class="tooltip tooltip-danger" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'>
-          <div class="plus ml-2" (click)="plusItem($event)">
-              <i class="fas fa-plus"></i>
-          </div>
-        </div>
-        
-        <!-- <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-          <div class="input-group-append">
-            <span class="input-group-text" id="basic-addon2">@example.com</span>
-          </div>
-        </div> -->
-      </div>
+<div class="order-container">
+  <div id="order-header">Доставка</div>
 
-      <div class="col-md-2 py-3 text-center">
-        <span class="price">${{item.price * item.amount}}</span>
-      </div>
+  <div id="orderHelp">
+    Оплата товара при получении!<br>
+    Возможные способы оплаты: VISA, MASTERCARD, наличными.
+  </div>
+
+  <form id="order-form">
+    <div class="name-block">
+      <label for="name" id="name-lbl">Имя</label>
+      <input type="text" id="name" placeholder="Имя" autocomplete="given-name">
     </div>
 
-    <div class="row my-3">
-      <div class="col-md-3 offset-md-9 d-flex justify-content-center">
-        <button *ngIf="items.length" type="submit" class="btn btn-success make-order" routerLink="/order">Оформить заказ</button>
-      </div>
+    <div class="surname-block">
+      <label for="surname" id="surname-lbl">Фамилия</label>
+      <input type="text" id="surname" placeholder="Фамилия" autocomplete="family-name">
+    </div>
+
+    <div class="email-block">
+      <label for="email" id="email-lbl">Email</label>
+      <input type="text" id="email" placeholder="email" autocomplete="email">
+    </div>
+
+    <div class="address-block">
+      <label for="address" id="address-lbl">Адрес доставки</label>
+      <input type="text" id="address" placeholder="г.Москва, ул.Садовая, 15-3" autocomplete="street-address">
+    </div>
+
+    <div class="phone-block">
+      <label for="phone" id="phone-lbl">Телефон</label>
+      <input type="tel" id="phone" placeholder="7950-XXX-XX-XX" autocomplete="tel-national">
+    </div>
+    
+    <div class="checkbox-block">
+      <input type="checkbox" id="checkbox" (click)="toggleAddress($event)">
+      <label for="checkbox">
+        Заберу сам из пункта самовывоза
+      </label>
+    </div>
+
+    <button type="submit" class="btn--save-order" (click)="saveOrder()">Оформить заказ</button>
+  </form>
+</div>  
+
+<div id="order-info-container">
+  <div id="order-info">
+    <div id="order_info_1">Заказ принят в обработку!</div>
+    <div id="order_info_2" *ngIf="orderNumber">
+      <span>Номер заказа: </span><span id="order-number">#{{ orderNumber }}</span>
+    </div>
+    <div id="order_info_3">
+      Вы можете отслеживать заказ в разделе "Мои заказы"
     </div>
   </div>
 </div>

@@ -14,6 +14,12 @@ export class CartComponent implements OnInit {
 
   items: Array<Item> = [];
   totalPrice: number;
+  
+  orderNumber: number;
+
+  private _url_get_all = "/api/catalog/oil-and-grease";
+  private _url_get_all_by_ids = "/api/catalog/oil-and-grease/specific";
+  // private _url = "/assets/catalog/oil-and-grease.json";
 
   constructor(private cookieS: CookieService, private itemsS: ItemsService) { }
 
@@ -32,26 +38,34 @@ export class CartComponent implements OnInit {
     let items;
     let cartCookie = this.cookieS.getCookie("cart");
 
+    console.log("In get items");
+    console.log(cartCookie);
+
     if (cartCookie) {
       items = JSON.parse(cartCookie);
     }
+
+    console.log(items);
     
     if (!Array.isArray(items) || !items.length) {
+      console.log("Isn't array or null");
       return;
     }
     
     let itemsIds = items.map(item => item.id);
-    this.itemsS.getItemsByIds(itemsIds).subscribe( data => {
-      for (let key of Object.keys(data)) {
-        // find match the item in cookie and item from database
-        // item from DB is data[key], items from cookie is items
-        for (let item of items) {
-          if (item.id == data[key].id) {
-            data[key].amount = item.amount;
-            this.items.push(data[key]);
+    this.itemsS.findAllById(this._url_get_all_by_ids, itemsIds).subscribe( data => {
+        this.items = <Array<Item>> data;
+        console.log("Data was fetched");
+
+        for (let item of this.items) {
+          // amount of item is in cookie
+          for (let itemFromCookie of items) {
+            if (item.id == itemFromCookie.id) {
+              item.amount = itemFromCookie.amount;
+              break;
+            }
           }
         }
-      }
     }, null, () => {
       this.countTotalPrice();
     });
@@ -76,15 +90,15 @@ export class CartComponent implements OnInit {
   }
 
   minusItem(event) {
-    let amountInput = event.target.closest(".item").getElementsByClassName("item-amount")[0];
+    let amountInput = event.target.closest(".item").getElementsByClassName("count")[0];
     let amount = amountInput.value;
 
     if (amount == 1) {
       // alert("Amount can't be less than 1. Use trash button to remove item from cart");
-      $(amountInput).tooltip('show');
-      setTimeout(function () {
-        $(amountInput).tooltip('hide');
-      }, 1500);
+      // $(amountInput).tooltip('show');
+      // setTimeout(function () {
+      //   $(amountInput).tooltip('hide');
+      // }, 1500);
       return;
     }
     
@@ -104,19 +118,31 @@ export class CartComponent implements OnInit {
   }
 
   changeAmount(event) {
-    let amount = this.validateAmount(event.target.value);
     
-    if (!amount) {
-      console.log("Empty value");
-      $(event.target).tooltip('show');
-      return;
+    let amount = event.target.value;
+    
+    // if "Backspace" was pressed
+    if (event.keyCode == 8) {
+      console.log("Backspace was pressed!");
+      console.log(amount);
+      amount = amount.substr(0,amount.length-1);
+      console.log(amount);
+      this.changeAmountInCookie(event, amount);
+      this.updatePrice(event, amount);
+      this.countTotalPrice();
+      return false;
     }
-    event.target.value = amount;
-    $(event.target).tooltip('hide');
-    
-    this.changeAmountInCookie(event, amount);
-    this.updatePrice(event, amount);
-    this.countTotalPrice();
+
+    if (event.keyCode >= 48 && event.keyCode <= 57) {
+      console.log("You pressed key of type number");
+      amount = amount + event.key;
+      this.changeAmountInCookie(event, amount);
+      this.updatePrice(event, amount);
+      this.countTotalPrice();
+      return false;
+    }
+
+    return false;
   }
 
   changeAmountInCookie(event, amount?, flags?: {increment?: boolean, decrement?: boolean}) {
@@ -156,38 +182,6 @@ export class CartComponent implements OnInit {
     }
   }
 
-  validateAmount(amount) {
-    if (!amount) return "";
-    let matches = amount.match(/\d+/g);
-    if (!matches) return "";
-    return matches.join("");
-  }
-
-  autoCorrectNullVal(event) {
-    $(event.target).tooltip('hide');
-    let itemBlock, itemId;
-    if (event.target.value == "" || event.target.value  == 0) {
-      event.target.value = 1;
-      itemBlock = event.target.closest(".item");
-      itemId = itemBlock.dataset.itemId;
-
-      console.log("Value cannot be null");
-      console.log("Amount was autocorrected to 1 for item: " + itemId);
-
-      this.changeAmountInCookie(event, 1);
-      this.updatePrice(event, 1);
-    }
-  }
-
-  // getTotalItemPrice(total, item) {
-  //   let itemPrice;
-  //   for (let itemI of this.items) {
-  //     if (item.id == itemI.id) itemPrice = itemI.price;
-  //   }
-  //   let totalItemPrice = item.price * itemPrice;
-  //   return total + totalItemPrice;
-  // }
-
   countTotalPrice() {
     this.totalPrice = this.items.reduce(function (total, item) {
       let totalItemPrice = item.amount * item.price;
@@ -215,5 +209,36 @@ export class CartComponent implements OnInit {
       }
     }
     this.countTotalPrice();
+  }
+
+  toggleAddress(event) {
+    let input: HTMLInputElement = <HTMLInputElement> document.getElementById('address');
+    console.log(document.getElementById('address'));
+    if (input.hasAttribute("disabled")) {
+      input.removeAttribute("disabled");
+    } else {
+      input.setAttribute("disabled","");
+      input.value = "В пункт самовывоза";
+    }
+  }
+
+  toStep2() {
+    (<HTMLElement>document.querySelector('#cart-container')).style.display = "none";
+    (<HTMLElement>document.querySelector('.order-container')).style.display = "grid";
+    (<HTMLElement>document.querySelector('#nav-back')).style.display = "grid";
+  }
+
+  toStep1() {
+    (<HTMLElement>document.querySelector('#cart-container')).style.display = "grid";
+    (<HTMLElement>document.querySelector('.order-container')).style.display = "none";
+    (<HTMLElement>document.querySelector('#nav-back')).style.display = "none";
+  }
+
+  saveOrder() {
+    (<HTMLElement>document.querySelector('#cart-container')).style.display = "none";
+    (<HTMLElement>document.querySelector('.order-container')).style.display = "none";
+    (<HTMLElement>document.querySelector('#nav-back')).style.display = "none";
+    this.orderNumber = 805;
+    (<HTMLElement>document.querySelector('#order-info')).style.display = "grid";
   }
 }

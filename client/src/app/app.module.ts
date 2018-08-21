@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { UserComponent } from './user/user.component';
-import { UserService } from "./user.service";
+import { UserService } from "./services/user.service";
 import {HttpClientModule} from "@angular/common/http";
 import {AppRoutingModule, routingComponents} from "./app-routing.module";
 import { LoginComponent } from './login/login.component';
@@ -16,6 +16,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CatalogComponent } from './catalog/catalog.component';
 import { CartComponent } from './cart/cart.component';
 import { OrderComponent } from './order/order.component';
+import { ManagerModule } from './manager/manager.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { OrderComponent } from './order/order.component';
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ManagerModule
   ],
   providers: [UserService, AuthGuard],
   bootstrap: [AppComponent]

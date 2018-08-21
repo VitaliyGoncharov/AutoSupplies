@@ -1,4 +1,4 @@
-package com.carssps.model;
+package com.carssps.auth;
 
 import java.util.Collection;
 import java.util.Collections;

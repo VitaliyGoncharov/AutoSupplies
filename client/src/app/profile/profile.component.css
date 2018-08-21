@@ -1,3 +1,67 @@
-table {
-    table-layout: fixed;
-  }
+.profile-container {
+  display: grid;
+  justify-items: center;
+}
+
+#user-info {
+  width: 250px;
+}
+.email-block, .name-block,
+.surname-block, .birth-block,
+.address-block, .phone-block {
+  display: grid;
+  margin-bottom: 1em;
+}
+#email-lbl, #name-lbl,
+#surname-lbl, #birth-lbl,
+#address-lbl, #phone-lbl {
+  margin-bottom: .5em;
+}
+#email, #name, #surname, #birth, #address, #phone {
+  font-size: 1em;
+  padding: .375em .75em;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  color: #495057;
+  background-color: #fff;
+}
+.avatar-block {
+  margin-top: .5em;
+  margin-bottom: 1em;
+}
+#avatar {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: .25em;
+}
+.gender-block {
+  display: flex;
+  margin-bottom: 1em;
+}
+#gender-male-block,
+#gender-female-block {
+  display: flex;
+  flex: 0 0 50%;
+  justify-content: center;
+  align-items: center;
+}
+#gender-male, #gender-female {
+  margin-right: .7em;
+}
+#btn--update-profile {
+  color: #fff;
+  font-size: 1.2em;
+  padding: .375em .75em;
+  margin-top: 1em;
+  margin-bottom: 1.3em;
+  border: 1px solid #28a745;
+  border-radius: .25em;
+  background-color: #28a745;
+  transition: background-color .15s;
+  cursor: pointer;
+}
+#btn--update-profile:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}

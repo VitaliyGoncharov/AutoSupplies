@@ -18,7 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.carssps.model.UserPrinciple;
+import com.carssps.auth.UserPrinciple;
 import com.carssps.service.UserService;
 import com.carssps.util.JwtTokenUtil;
 

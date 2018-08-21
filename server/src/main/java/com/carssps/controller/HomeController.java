@@ -1,18 +1,26 @@
 package com.carssps.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.carssps.model.TokenResponse;
-import com.carssps.model.TokenRequest;
+import com.carssps.dao.GoodPropsDao;
+import com.carssps.dao.GoodPropsTitlesDao;
+import com.carssps.dao.ProductDao;
+import com.carssps.model.Product;
 import com.carssps.model.User;
+import com.carssps.model.response.TokenRequest;
+import com.carssps.model.response.TokenResponse;
 import com.carssps.service.UserService;
 import com.carssps.util.JwtTokenUtil;
 
@@ -30,11 +38,27 @@ public class HomeController {
 	private UserService userService;
 	
 	@Autowired
+	private GoodPropsDao goodProps;
+	
+	@Autowired
+	private GoodPropsTitlesDao goodPropsTitles;
+	
+	@Autowired
+	private ProductDao productDao;
+	
+	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+	
 	
 	@RequestMapping(value = "/credits", method = RequestMethod.POST)
 	public String getCredits() {
 		return "{\"message\":\"This app was build by Vitaliy!\"}";
+	}
+	
+	@RequestMapping(value = "/version", method = RequestMethod.GET)
+	public String getInfo() {
+		return "{\"message\":\"v.0.0.1\"}";
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)

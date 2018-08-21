@@ -11,6 +11,8 @@
 /server/classes
 /server/mvnw
 /server/mvnw.cmd
+/server/src/main/resources/public
+/server/src/main/resources/static
 
 # frontend
 /client/.editorconfig
@@ -22,3 +24,4 @@
 /client/e2e/*.js
 /client/e2e/*.map
 /client/node_modules
+/client/dist

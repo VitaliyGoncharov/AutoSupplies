@@ -1,4 +1,4 @@
-package com.carssps.model;
+package com.carssps.model.response;
 
 public class TokenResponse {
 	private String token_type;

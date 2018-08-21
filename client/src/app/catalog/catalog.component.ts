@@ -12,7 +12,7 @@ import { CookieService } from '../services/cookie.service';
 export class CatalogComponent implements OnInit {
 
   private _url = "/api/catalog/oil-and-grease";
-  private _urlLocal = "/assets/catalog/oil-and-grease.json";
+  // private _url = "/assets/catalog/oil-and-grease.json";
 
   items: Array<Item> = [];
 
@@ -23,10 +23,8 @@ export class CatalogComponent implements OnInit {
   }
 
   getItems() {
-    this.itemsS.getItems(this._urlLocal).subscribe( data  => {
-      for (let key of Object.keys(data)) {
-        this.items.push(data[key]);
-      }
+    this.itemsS.findAll(this._url).subscribe( data  => {
+      this.items = <Array<Item>> data;
     });
   }
 

@@ -1,0 +1,179 @@
+@media only screen and (max-width: 780px) {
+    .myCarContainer {
+        display: none;
+    }
+    .info {
+        margin-top: 30px;
+    }
+    .info h1 {
+        display: block!important;
+    }
+}
+.container {
+    display: grid;
+}
+.myCarContainer {
+    justify-self: center;
+    position: relative;
+    width: 100%;
+    min-width: 665px;
+    max-width: 860px;
+    margin: 30px;
+    border-radius: 30px;
+    overflow: hidden;
+}
+.myCar {
+    height: 340px;
+    width: 100%;
+    position: relative;
+    transition: transform 0.5s ease 0s;
+}
+.myCar li {
+    list-style: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.myCar li:nth-child(1) {
+    background-image: url("http://driving24.ru/wp-content/uploads/2017/08/cheap_oil_change_ten_useful_tips.jpg");
+    background-size: cover;
+    background-position: center;
+    transform: translateX(0%);
+}
+.myCar li:nth-child(2) {
+    background-image: url("http://xn--26-6kchot9agr5f.xn--p1ai/image/cache/data/slide-1247x392.png");
+    background-size: cover;
+    background-position: 30% 50%;
+    transform: translateX(100%);
+}
+.myCar li:nth-child(3) {
+    background-image: url("http://zavodilov.ru/image/data/!banner/podbor-880x380.png");
+    background-size: cover;
+    background-position: center;
+    transform: translateX(200%);
+}
+.show1 {
+    transform: translateX(0%);
+}
+.show2 {
+    transform: translateX(-100%);
+}
+.show3 {
+    transform: translateX(-200%);
+}
+.controls {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+}
+.controls .control--backward,
+.controls .control--forward {
+    position: absolute;
+    top: 50%; margin-top: -10px;
+    width: 30px;
+    height: 30px;
+    border-width: 0 0 5px 5px;
+    border-style: solid;
+    border-color: #fff;
+    opacity: .3;
+    z-index: 1;
+}
+.controls .control--backward:hover,
+.controls .control--forward:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+.controls .control--backward {
+    left: 10px;
+    transform: rotate(45deg);
+}
+.controls .control--forward {
+    right: 10px;
+    transform: rotate(-135deg);
+}
+.indicators {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+.indicator {
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 100%;
+    height: 15px;
+    width: 15px;
+    background-color: #fafafa;
+    margin: 0 3px 0 3px;
+    opacity: 0.35;
+    z-index: 2;
+}
+.indicator:hover {
+    opacity: .75;
+}
+.curIndicator {
+    opacity: 1;
+}
+li h1 {
+    font-size: 20px;
+    line-height: 20px;
+    color: #2a2929;
+    position: absolute;
+    top: 80%;
+    width: 100%;
+    text-align: center;
+    margin-top: -10px;
+}
+
+.info h1 {
+    display: none;
+    margin-bottom: 1em;
+}
+.info h2 {
+    margin-bottom: .5em;
+    border-bottom: 1px solid #808080a6;
+}
+.info div {
+    color: #000000d6;
+    font-size: 1.2em;
+}
+.bottom-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 2px 0;
+    background-color: #1b212b;
+}
+.bottom-links div {
+    width: 150px;
+    text-align: center;
+    cursor: pointer;
+    color: #fff;
+    opacity: .5;
+}
+.bottom-links div span {
+    display: block;
+}
+.bottom-links div i {
+    font-size: 3em;
+    margin-bottom: .1em;
+    /* color: rgba(0,0,0,.125); */
+}
+.bottom-links div:hover {
+    opacity: 1;
+}
+.footer {
+    position: fixed;
+    bottom: 0; left: 0;
+    width: 100%;
+    background-color: #0c0f12;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.footer-content {
+    color: #fff;
+    font-size: 1em;
+}

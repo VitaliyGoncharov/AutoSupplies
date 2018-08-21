@@ -1,20 +1,22 @@
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <form class="w-50" (submit)="loginUser($event)">
-      <div class="form-group">
-        <label for="email">Email адрес</label>
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Введите email">
-        <small id="emailHelp" class="form-text text-muted">Мы никогда не будем делиться вашей электронной почтой с кем-либо еще.</small>
-      </div>
-      <div class="form-group">
-        <label for="password">Пароль</label>
-        <input type="password" class="form-control" id="password" placeholder="Введите пароль">
-      </div>
-      <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Запомнить</label>
-      </div>
-      <button type="submit" class="btn btn-primary">Войти</button>
-    </form>
-  </div>
+<div class="login-container">
+  <form class="login-form" (submit)="loginUser($event)">
+    <!-- <div id="emailHint">Мы не разглашаем адреса электронной почты третьим лицам.</div> -->
+
+    <div class="email-block">
+      <label for="email" id="email-lbl">Email</label>
+      <input type="email" id="email" placeholder="Введите email">
+    </div>
+
+    <div class="password-block">
+      <label for="password" id="pwd-lbl">Пароль</label>
+      <input type="password" class="form-control" id="password" placeholder="Введите пароль">
+    </div>
+
+    <div class="checkbox-block">
+      <input type="checkbox" id="checkbox">
+      <label class="checkbox-lbl" for="checkbox">Запомнить</label>
+    </div>
+
+    <button type="submit" class="btn--login">Войти</button>
+  </form>
 </div>

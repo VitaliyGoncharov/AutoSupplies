@@ -1,4 +1,4 @@
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, observable } from 'rxjs';
@@ -10,6 +10,7 @@ import { Observable, observable } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   title = 'app';
+  width: number = 0;
   
   isLoggedIn: boolean;
   
@@ -29,5 +30,17 @@ export class AppComponent implements OnInit {
     
     this.auth.logout();
     this.isLoggedIn = this.auth.isLoggedIn();
+  }
+
+  // всего три строчки js кода
+  showSideMenu() {
+    document.querySelector('.toggleMenu').classList.toggle('translatedX');
+    document.querySelector('.sideMenu').classList.toggle('d-flex');
+
+    document.querySelector('.toggleMenu').classList.toggle('toggleMenu--active');
+  }
+
+  toggleDropDown() {
+    document.querySelector('.main-dropdown-content').classList.toggle('d-block');
   }
 }

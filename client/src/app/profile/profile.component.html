@@ -1,4 +1,4 @@
-<div (click)="profileContainerOnClick($event)">
+<!-- <div (click)="profileContainerOnClick($event)">
 	<div class="container mt-4" >
 		<div class="row justify-content-center">
 			<div class="col-md-4" align="right">
@@ -25,5 +25,56 @@
 			</div>	
 		</div>
 	</div>
+</div> -->
+<div class="profile-container">
+	<div class="avatar-block">
+		<img alt="Your avatar" id="avatar" src="https://4.bp.blogspot.com/-UcIrbYKyJ2Y/V4dpDXRa3LI/AAAAAAAAS_A/bL0JSPSs3eEYwhwsq8_UTO-kX-Ju6sbdACLcB/s1600/oasis%2Barizona.jpg">
+	</div>
+
+	<form id="user-info">
+		<div class="email-block">
+			<label for="email" id="email-lbl">Email</label>
+			<input type="email" id="email" placeholder="Ваша почта" [value]="userInfo.email">
+		</div>
+
+		<div class="name-block">
+			<label for="name" id="name-lbl">Имя</label>
+			<input type="text" id="name" placeholder="Ваше имя" [value]="userInfo.name">
+		</div>
+
+		<div class="surname-block">
+			<label for="surname" id="surname-lbl">Фамилия</label>
+			<input type="text" id="surname" placeholder="Ваша фамилия" [value]="userInfo.surname">
+		</div>
+
+		<div class="birth-block">
+			<label for="birth" id="birth-lbl">Дата рождения</label>
+			<input type="text" id="birth" placeholder="Дата рождения" [value]="userInfo.birth">
+		</div>
+
+		<div class="gender-block">
+			<div id="gender-male-block">
+				<input type="radio" name="gender" id="gender-male" checked>
+				<label for="gender-male" id="gender-male-lbl">Мужчина</label>
+			</div>
+			
+			<div id="gender-female-block">
+				<input type="radio" name="gender" id="gender-female">
+				<label for="gender-female" id="gender-female-lbl">Женщина</label>
+			</div>
+		</div>
+
+		<div class="address-block">
+			<label for="address" id="address-lbl">Адресс доставки (по умолчанию)</label>
+			<input type="text" id="address" placeholder="Адресс доставки" [value]="userInfo.address">
+		</div>
+
+		<div class="phone-block">
+			<label for="phone" id="phone-lbl">Телефон</label>
+			<input type="text" id="phone" placeholder="Ваш телефон" [value]="userInfo.phone">
+		</div>
+
+		<button type="submit" id="btn--update-profile">Сохранить изменения</button>
+	</form>
 </div>
 
