@@ -1,0 +1,23 @@
+<nav id="nav-back" *ngIf="prevLoc" (click)="goBack()">
+  <i class="fas fa-arrow-circle-left"></i>Назад
+</nav>
+
+<div id="orders-container">
+  <table id="orders-table">
+      <thead>
+          <th>#</th>
+          <th>Заказчик</th>
+          <th>Дата</th>
+          <th>Статус</th>
+      </thead>
+
+      <tbody>
+          <tr class="order" (click)="switchToOrderDetails($event)" [attr.data-order-id]="6">
+              <th class="number">805</th>
+              <td class="client">Гончаров Виталий Дмитриевич</td>
+              <td class="date">2018-06-28</td>
+              <td class="status">В обработке</td>
+          </tr>
+      </tbody>
+  </table>
+</div>

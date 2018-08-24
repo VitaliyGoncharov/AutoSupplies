@@ -1,0 +1,107 @@
+#add-item-panel {
+    display: grid;
+    padding: 0 8px;
+    justify-items: center;
+}
+#item-search {
+    width: 280px;
+    border: 1px solid #aaa;
+    border-radius: 1.3em;
+    margin-top: 1em;
+    padding: .4em 1.2em;
+    font-size: 1em;
+}
+
+
+.items-container {
+    min-height: calc(100vh - 137px);
+    padding-top: 1.1em;
+    padding-bottom: 1.1em;
+}
+.item-container:not(:last-child) {
+    border-bottom: 1px solid #dee2e6;
+}
+.items-container {
+    background-color: #f1f1f1;
+}
+.items-container .item {
+    display: grid;
+    grid-template-areas:"title title"
+                        "image rating"
+                        "image price"
+                        "btns btns";
+    grid-template-columns: 1fr 1.5fr;
+    margin: 10px 0;
+    padding: 10px 20px;
+    border-width: 2px 0 2px 0;
+    border-style: solid;
+    border-color: #ddd;
+    background-color: #fff;
+}
+.items-container .item > .title {
+    grid-area: title;
+    margin-bottom: 5px;
+}
+.items-container .item > .image {
+    grid-area: image;
+}
+.items-container .item > .rating {
+    grid-area: rating;
+}
+.items-container .item > .price {
+    grid-area: price;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+.items-container .item > .buttons {
+    grid-area: btns;
+}
+.items-container .item .image img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+.items-container .item .far.fa-star  {
+    color: darkgrey;
+}
+.items-container .checked {
+    color: orange;
+}
+.items-container .btn-add_to_cart,
+.items-container .btn-go_to_cart {
+    display: block;
+    width: 100%;
+    border-radius: 5px;
+    color: #fff;
+    background-color: rgb(17, 119, 17);
+    padding: .2em .3em;
+    font-size: 1.1em;
+    line-height: 1;
+    margin-top: .3em;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+.items-container .btn-add_to_cart:hover,
+.items-container .btn-go_to_cart:hover {
+    background-color: rgb(18, 143, 18);
+}
+
+
+
+@media screen and (min-width: 768px) {
+    .items-container .item {
+        grid-template-areas:"image title price btns"
+                            "rating title price btns" !important;
+        grid-template-columns: 1fr 2fr 1fr 1fr !important;
+    }
+    .items-container .item .title,
+    .items-container .item .price,
+    .items-container .item .buttons {
+        padding-top: 15px;
+    }
+    .items-container .btn-add_to_cart,
+    .items-container .btn-go_to_cart {
+        max-width: 185px!important;
+    }
+}

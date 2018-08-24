@@ -1,0 +1,64 @@
+<div class="order-details" [attr.data-order-id]="">
+  <table id="order-general-info">
+      <tbody>
+          <tr>
+              <th>Номер заказа</th>
+              <td>#805</td>
+          </tr>
+          <tr>
+              <th>Имя</th>
+              <td>Виталий</td>
+          </tr>
+          <tr>
+              <th>Фамилия</th>
+              <td>Гончаров</td>
+          </tr>
+          <tr>
+              <th>Телефон</th>
+              <td>79502892110</td>
+          </tr>
+          <tr>
+              <th>Адресс доставки</th>
+              <td>Самовывоз</td>
+          </tr>
+          <tr>
+              <th>Сумма заказа</th>
+              <td>$105</td>
+          </tr>
+          <tr>
+              <th>Дата создания</th>
+              <td>2018-07-28</td>
+          </tr>
+          <tr>
+              <th>Дата обновления</th>
+              <td>2018-07-30</td>
+          </tr>
+          <tr>
+              <th>Статус</th>
+              <td>В обработке</td>
+          </tr>
+      </tbody>
+  </table>
+
+  <table id="order-items">
+      <thead>
+          <th>#</th>
+          <th>Наименование</th>
+          <th>Ед.</th>
+          <th>Цена</th>
+          <th>Итого</th>
+      </thead>
+
+      <tbody>
+          <tr>
+              <td>5</td>
+              <td>Масло Shell HELIX HX8 Synthetic 5w40</td>
+              <td>1</td>
+              <td>$57</td>
+              <td>57</td>
+          </tr>
+      </tbody>
+  </table>
+
+  <button type="submit" id="edit-order" (click)="switchToOrderEditor($event)">Редактировать заказ</button>
+</div>

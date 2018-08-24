@@ -1,0 +1,55 @@
+#nav-back {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    align-items: center;
+    height: 30px;
+    padding: 0 15px;
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
+#nav-back:hover {
+    background-color: #cecccc;
+}
+#nav-back .fa-arrow-circle-left {
+    color: #ea6100;
+    margin-right: 5px;
+}
+#orders-container {
+    display: grid;
+    justify-items: center;
+    padding: 1em 0;
+}
+#orders-table {
+    display: grid;
+    width: 100%;
+    background-color: #fff;
+}
+.order, #orders-table thead {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr;
+}
+#orders-table thead {
+    border-bottom: 1px solid #dee2e6;
+}
+#orders-table thead, .order {
+    border-top: 1px solid #dee2e6;
+}
+.order {
+    cursor: pointer;
+}
+.order:nth-of-type(odd) {
+    background-color: rgba(0,0,0,0.05);
+}
+#orders-table thead th,
+.order .number,
+.order .client,
+.order .date,
+.order .status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    word-break: break-word;
+}
