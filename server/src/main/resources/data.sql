@@ -10,7 +10,9 @@ insert into p_prop (prop_title_id, value) values (1, 'white')
 
 insert into products_props (product_id, property_id) values (1,1), (2,2)
 
-insert into orders (id,address, created_at, status, total, updated_at) values (6,'Vladivostok','2018-05-15',1,1280,'2018-05-20')
+insert into customer (name, phone) values ('Vitaliy Dmitrievich','79502892110')
+
+insert into orders (id,customer_id,address, created_at, status, total, updated_at) values (6,1,'Vladivostok','2018-05-15',2,1280,'2018-05-20')
 insert into order_product (amount, order_id, product_id) values (54, 6, 2), (3, 6, 1)
 
 insert into users_roles values (1,1)

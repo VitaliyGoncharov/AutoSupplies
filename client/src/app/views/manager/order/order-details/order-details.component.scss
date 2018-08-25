@@ -25,7 +25,7 @@
     word-break: break-word;
 }
 .order-details #order-items tbody {
-    display: flex;
+    display: grid;
 }
 .order-details #order-items tbody td {
     padding: 0 4px;

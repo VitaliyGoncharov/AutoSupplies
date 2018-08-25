@@ -3,24 +3,24 @@
       <span class="lbl">Итого</span>
 
       <div class="price-total">
-          <span *ngIf="totalPrice">${{ totalPrice }}</span>
+          <span *ngIf="total">${{ total }}</span>
       </div>
   </div>
 
   
-  <div *ngFor="let item of tempItems" class="item"  [attr.data-item-price]="item.price" 
-      [attr.data-item-id]="item.id">
+  <div *ngFor="let item of tempItems" class="item"  [attr.data-item-price]="item.product.price" 
+      [attr.data-item-id]="item.product.id">
 
       <div class="title">
-          <span>{{ item.title }}</span>
+          <span>{{ item.product.title }}</span>
       </div>
 
       <div class="image">
-          <img [src]="item.image" alt="Product image">
+          <img [src]="item.product.image" alt="Product image">
       </div>
 
       <div class="price">
-          <span>${{item.price * item.amount}}</span>
+          <span>${{item.product.price * item.amount}}</span>
       </div>
 
       <div class="count-buttons">
@@ -29,7 +29,7 @@
           </div>
 
           <input type="text" class="count" maxlength="3"
-              (keydown)="changeAmount($event)" [value]="item.amount">
+              (keydown)="changeAmount($event)" (blur)="checkAmount($event)" [value]="item.amount">
           
           <div class="btn-plus" (click)="plusItem($event)">
               <i class="fas fa-plus"></i>

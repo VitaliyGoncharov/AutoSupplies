@@ -16,9 +16,9 @@ export const routes: Routes = [
             { path: '', redirectTo: '/' , pathMatch: 'full' },
             // { path: '', component: PageNotFoundComponent }
             { path: 'orders', component: OrdersListComponent },
-            { path: 'order/:id/details', component: OrderDetailsComponent },
+            { path: 'order/details', component: OrderDetailsComponent },
             { path: 'order/edit', component: OrderEditComponent, canActivate: [OrderGuard] },
-            { path: 'order/item/add', component: OrderAddItemComponent }
+            { path: 'order/item/add', component: OrderAddItemComponent, canActivate: [OrderGuard] }
         ]
     }
 ]

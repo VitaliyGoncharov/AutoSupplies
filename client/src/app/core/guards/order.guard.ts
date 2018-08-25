@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { CanLoad, Route, CanActivate, Router } from "@angular/router";
+import { CanLoad, Route, CanActivate, Router, ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -10,12 +10,10 @@ export class OrderGuard implements CanActivate {
 
     constructor(private _router: Router) { }
 
-    // canLoad(route: Route): boolean {
-    //     return false;
-    // }
-
-    canActivate() {
-        this._router.navigate(['/']);
-        return false;
+    canActivate(route: ActivatedRouteSnapshot) {
+        if (!route.paramMap.get('id')) {
+            this._router.navigate(['/']);
+        }
+        return true;
     }
 }

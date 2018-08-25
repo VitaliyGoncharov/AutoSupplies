@@ -21,8 +21,7 @@ import { AuthGuard } from './core/guards/auth.guard';
     routingComponents,
     HomeComponent,
     CatalogComponent,
-    CartComponent,
-    OrderComponent
+    CartComponent
   ],
   imports: [
     BrowserModule,

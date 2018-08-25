@@ -8,7 +8,4 @@ export interface Item {
     price: number,
     description: string
     properties: Array<Prop>
-
-    /* Custom key */
-    amount: number
 }

@@ -11,7 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 
 import com.carssps.controller.View;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -20,27 +22,30 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Table(name = "orders")
 public class Order {
 	
+	@JsonView(View.Public.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "customerId")
-//	private int customerId;
-	
 	@JsonView(View.Public.class)
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
+	
 	@Column(name = "address")
 	private String address;
 	
 	@Column(name = "total")
 	private int total;
 	
+	@JsonView(View.Public.class)
 	@Column(name = "status")
 	private short status;
 	
 	@Column(name = "updated_at")
 	private Date updatedAt;
 	
+	@JsonView(View.Public.class)
 	@Column(name = "created_at")
 	private Date createdAt;
 	

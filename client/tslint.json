@@ -3,7 +3,8 @@
     "node_modules/codelyzer"
   ],
   "rules": {
-    "arrow-return-shorthand": true,
+    "allow-named-functions": true,
+    "arrow-return-shorthand": false,
     "callable-types": true,
     "class-name": true,
     "comment-format": [

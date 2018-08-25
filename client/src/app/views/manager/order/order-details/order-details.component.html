@@ -1,48 +1,44 @@
-<div class="order-details" [attr.data-order-id]="">
+<div class="order-details" *ngIf="order">
   <table id="order-general-info">
       <tbody>
           <tr>
               <th>Номер заказа</th>
-              <td>#805</td>
+              <td>#{{order.id}}</td>
           </tr>
           <tr>
               <th>Имя</th>
-              <td>Виталий</td>
-          </tr>
-          <tr>
-              <th>Фамилия</th>
-              <td>Гончаров</td>
+              <td>{{ order.customer.name }}</td>
           </tr>
           <tr>
               <th>Телефон</th>
-              <td>79502892110</td>
+              <td>{{ order.customer.phone }}</td>
           </tr>
           <tr>
               <th>Адресс доставки</th>
-              <td>Самовывоз</td>
+              <td>{{ order.address }}</td>
           </tr>
           <tr>
               <th>Сумма заказа</th>
-              <td>$105</td>
+              <td>${{ order.total }}</td>
           </tr>
           <tr>
               <th>Дата создания</th>
-              <td>2018-07-28</td>
+              <td>{{ order.createdAt }}</td>
           </tr>
           <tr>
               <th>Дата обновления</th>
-              <td>2018-07-30</td>
+              <td>{{ order.updatedAt }}</td>
           </tr>
           <tr>
               <th>Статус</th>
-              <td>В обработке</td>
+              <td>{{ order.status }}</td>
           </tr>
       </tbody>
   </table>
 
   <table id="order-items">
       <thead>
-          <th>#</th>
+          <th>id</th>
           <th>Наименование</th>
           <th>Ед.</th>
           <th>Цена</th>
@@ -50,15 +46,15 @@
       </thead>
 
       <tbody>
-          <tr>
-              <td>5</td>
-              <td>Масло Shell HELIX HX8 Synthetic 5w40</td>
-              <td>1</td>
-              <td>$57</td>
-              <td>57</td>
+          <tr *ngFor="let product of order.products">
+              <td>{{ product.product.id }}</td>
+              <td>{{ product.product.title }}</td>
+              <td>{{ product.amount }}</td>
+              <td>${{ product.product.price }}</td>
+              <td>${{ product.product.price * product.amount }}</td>
           </tr>
       </tbody>
   </table>
 
-  <button type="submit" id="edit-order" (click)="switchToOrderEditor($event)">Редактировать заказ</button>
+  <button type="submit" id="edit-order" (click)="goToOrderEditor($event)">Редактировать заказ</button>
 </div>

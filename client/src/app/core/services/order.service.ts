@@ -13,8 +13,14 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   private _url = "/api/manager/order";
+
+  private FIND_ALL_ORDERS = "api/manager/orders";
   private UPDATE_PRODUCT_AMOUNT = "/api/manager/order/product/amount/edit";
   private DELETE_PRODUCT = "/api/manager/order/product/delete";
+
+  findAll() {
+    return this.http.get(this.FIND_ALL_ORDERS);
+  }
 
   findById(id: number) {
     let params = new HttpParams().set("id", id.toString());
