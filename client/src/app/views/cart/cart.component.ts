@@ -12,7 +12,7 @@ declare var $: any;
 })
 export class CartComponent implements OnInit {
 
-  items: Array<Item> = [];
+  items: Array<{product: Item, amount: number}> = [];
   totalPrice: number;
   
   orderNumber: number;
@@ -53,14 +53,16 @@ export class CartComponent implements OnInit {
     }
     
     let itemsIds = items.map(item => item.id);
-    this.itemsS.findAllById(this._url_get_all_by_ids, itemsIds).subscribe( data => {
-        this.items = <Array<Item>> data;
+    this.itemsS.findAllById(this._url_get_all_by_ids, itemsIds).subscribe( (data: Array<Item>) => {
+        for (let i = 0; i < data.length; i++) {
+          this.items[i].product = data[i];
+        }
         console.log("Data was fetched");
 
         for (let item of this.items) {
           // amount of item is in cookie
           for (let itemFromCookie of items) {
-            if (item.id == itemFromCookie.id) {
+            if (item.product.id == itemFromCookie.id) {
               item.amount = itemFromCookie.amount;
               break;
             }
@@ -81,7 +83,7 @@ export class CartComponent implements OnInit {
     
     // update amount in view 
     for (let item of this.items) {
-      if (item.id == itemId) {
+      if (item.product.id == itemId) {
         item.amount = ++item.amount;
       }
     }
@@ -111,7 +113,7 @@ export class CartComponent implements OnInit {
     
     // update amount in view 
     for (let item of this.items) {
-      if (item.id == itemId) item.amount -= 1;
+      if (item.product.id == itemId) item.amount -= 1;
     }
 
     this.countTotalPrice();
@@ -176,7 +178,7 @@ export class CartComponent implements OnInit {
 
     // update amount in view 
     for (let item of this.items) {
-      if (item.id == itemId) {
+      if (item.product.id == itemId) {
         item.amount = inputedAmount;
       }
     }
@@ -184,7 +186,7 @@ export class CartComponent implements OnInit {
 
   countTotalPrice() {
     this.totalPrice = this.items.reduce(function (total, item) {
-      let totalItemPrice = item.amount * item.price;
+      let totalItemPrice = item.amount * item.product.price;
       return total + totalItemPrice;
     }, 0);
   }
@@ -203,7 +205,7 @@ export class CartComponent implements OnInit {
     this.cookieS.setCookie("cart", JSON.stringify(items));
 
     for (let itemI of this.items) {
-      if (itemI.id == itemId) {
+      if (itemI.product.id == itemId) {
         let index = this.items.indexOf(itemI);
         if (index > -1) this.items.splice(index, 1);
       }

@@ -1,8 +1,12 @@
+<nav id="nav-back" (click)="goBack()">
+    <i class="fas fa-arrow-circle-left"></i>Назад
+</nav>
+
 <div id="add-item-panel">
-  <input type="text" id="item-search" placeholder="Товар для поиска">
+  <input type="text" id="item-search" [formControl]="searchField" placeholder="Товар для поиска">
 
   <div class="items-container">
-      <div *ngFor="let item of items" class="item">
+      <div *ngFor="let item of results" class="item">
           <div class="title">
               <span>{{ item.title }}</span> 
           </div>
@@ -24,8 +28,7 @@
           </div>
       
           <div class="buttons">
-              <a *ngIf="!isInCart(item)" class="btn-add_to_cart" (click)="addItemToCart(item.id)">В корзину</a>
-              <a *ngIf="isInCart(item)" class="btn-go_to_cart" routerLink="/cart">Перейти в корзину</a>
+              <a class="btn-add_item" (click)="addItem(item)">Добавить</a>
           </div>
       </div>
   </div>

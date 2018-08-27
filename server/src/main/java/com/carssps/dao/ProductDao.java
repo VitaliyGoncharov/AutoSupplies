@@ -15,5 +15,5 @@ public interface ProductDao extends CrudRepository<Product, Integer>{
 	
 	@Query(value = "SELECT * FROM product where title @@ to_tsquery(?1)",
 			nativeQuery=true)
-	Product findByKeyword(String keyword);
+	List<Product> findByKeyword(String keyword);
 }

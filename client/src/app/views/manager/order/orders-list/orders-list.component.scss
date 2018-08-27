@@ -1,20 +1,3 @@
-#nav-back {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: max-content;
-    align-items: center;
-    height: 30px;
-    padding: 0 15px;
-    background-color: #e6e6e6;
-    cursor: pointer;
-}
-#nav-back:hover {
-    background-color: #cecccc;
-}
-#nav-back .fa-arrow-circle-left {
-    color: #ea6100;
-    margin-right: 5px;
-}
 #orders-container {
     display: grid;
     justify-items: center;

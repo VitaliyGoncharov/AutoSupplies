@@ -12,10 +12,10 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  private _url = "/api/manager/order";
-
+  private FIND_BY_ID = "/api/manager/order";
   private FIND_ALL_ORDERS = "api/manager/orders";
   private UPDATE_PRODUCT_AMOUNT = "/api/manager/order/product/amount/edit";
+  private ADD_PRODUCT = "/api/manager/order/product/add";
   private DELETE_PRODUCT = "/api/manager/order/product/delete";
 
   findAll() {
@@ -27,7 +27,7 @@ export class OrderService {
     let options = {
       params: params
     }
-    return this.http.get(this._url, options);
+    return this.http.get(this.FIND_BY_ID, options);
   }
 
   updateProductAmount(amount: number, orderId: number, productId: number) {
@@ -36,9 +36,7 @@ export class OrderService {
       "orderId": orderId.toString(),
       "productId": productId.toString()
     }
-    let options = {
-      headers: this.headers
-    }
+    let options = { headers: this.headers }
     return this.http.post(this.UPDATE_PRODUCT_AMOUNT, body, options);
   }
   
@@ -47,9 +45,17 @@ export class OrderService {
       "orderId": orderId.toString(),
       "productId": productId.toString()
     }
-    let options = {
-      headers: this.headers
-    }
+    let options = { headers: this.headers }
     return this.http.post(this.DELETE_PRODUCT, body, options);
+  }
+
+  addProduct(orderId: number, productId: number, amount: number) {
+    let body = {
+      "orderId": orderId.toString(),
+      "productId": productId.toString(),
+      "amount": amount.toString()
+    }
+    let options = { headers: this.headers };
+    return this.http.post(this.ADD_PRODUCT, body, options);
   }
 }

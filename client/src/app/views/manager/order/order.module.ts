@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { OrdersListComponent } from './orders-list/orders-list.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderEditComponent } from './order-edit/order-edit.component';
@@ -10,7 +11,8 @@ import { OrderComponent } from './order.component';
 @NgModule({
   imports: [
     CommonModule,
-    OrderRoutingModule
+    OrderRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [
     OrderComponent,

@@ -1,8 +1,10 @@
 insert into users (username, password) values ('admin@gmail.com','$2a$10$6l.h1f6VVF65Uq0nkDwj8.pDey4EBTjh.48exa46P9XJAbJiLqz/y')
 insert into role (name) values ('ROLE_ADMIN'), ('ROLE_USER')
 
-insert into product (title, image, price) values ('Букет из алых роз','https://ozon-st.cdn.ngenix.net/multimedia/audio_cd_covers/1023562045.jpg',50)
-insert into product (title, image, price) values ('Масло 2','https://ozon-st.cdn.ngenix.net/multimedia/audio_cd_covers/1022715721.jpg',60)
+insert into product (title, image, price) values ('Масло Castrol','https://ozon-st.cdn.ngenix.net/multimedia/audio_cd_covers/1023562045.jpg',50)
+insert into product (title, image, price) values ('Масло Toyota','https://ozon-st.cdn.ngenix.net/multimedia/audio_cd_covers/1022715721.jpg',60)
+insert into product (title, image, price) values ('Масло Mitsubisi','https://autolans.ru/d/mz320757.jpg',110)
+insert into product (title, image, price) values ('Масло Motul Scooter для скутеров','https://motorov.net/upload/iblock/f9e/f9e845e04a81be5ad749579d9439ddb6.png',40)
 
 insert into p_prop_title (name) values ('color'), ('manufacturer')
 insert into p_prop (prop_title_id, value) values (1, 'orange')

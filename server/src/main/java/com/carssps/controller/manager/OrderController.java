@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.carssps.controller.View;
 import com.carssps.model.Order;
+import com.carssps.model.OrderProduct;
+import com.carssps.model.Product;
 import com.carssps.model.request.UpdateOrderProductRequest;
 import com.carssps.service.OrderProductService;
 import com.carssps.service.OrderService;
+import com.carssps.service.ProductService;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
@@ -27,6 +30,9 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private ProductService productService;
 	
 	@Autowired
 	private OrderProductService orderProductService;
@@ -39,6 +45,14 @@ public class OrderController {
 				orderProductReq.getProductId()
 		);
 		return ResponseEntity.ok(success);
+	}
+	
+	@RequestMapping(value = "/order/product/add", method = RequestMethod.POST)
+	public ResponseEntity<OrderProduct> addProduct(@RequestBody UpdateOrderProductRequest orderProductReq) {
+		Product product = productService.findById(orderProductReq.getProductId());
+		Order order = orderService.findById(orderProductReq.getOrderId());
+		OrderProduct orderProduct = new OrderProduct(order, product, orderProductReq.getAmount());
+		return ResponseEntity.ok(orderProductService.save(orderProduct));
 	}
 	
 	@RequestMapping(value = "/order/product/delete", method = RequestMethod.POST)

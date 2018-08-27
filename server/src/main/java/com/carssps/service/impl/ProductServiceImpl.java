@@ -18,6 +18,11 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	private ProductDao productDao;
+	
+	@Override
+	public Product findById(int id) {
+		return productDao.findById(id).get();
+	}
 
 	@Override
 	public List<Product> findAll() {
@@ -34,8 +39,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Product findByKeyword(String keyword) {
+	public List<Product> findByKeyword(String keyword) {
 		return productDao.findByKeyword(keyword);
 	}
-	
 }

@@ -13,7 +13,20 @@ export class OrderEditComponent implements OnInit {
 
   private total;
   private orderId;
+
+  /**
+   * Unmodified Array of order's items from database
+   */
   private items: Array<{product: Item, amount: number}>;
+
+  /**
+   *  It is an array of items that were modified by user.
+   *  He could change amount, delete item or add new item.
+   *  => If user refreshes page or doesn't click save btn, this arr will be cleaned
+   *  => If user presses save btn, this this.tempItems will be compared with this.items
+   *     and if they are not equal then we will send request to server
+   *     to update order items in database 
+   */
   private tempItems: Array<{product: Item, amount: number}>;
 
   constructor(private route: ActivatedRoute, private orderS: OrderService) { }
@@ -137,11 +150,31 @@ export class OrderEditComponent implements OnInit {
   }
 
   applyChanges(event) {
-    this.asyncLoop((loop, i) => {
-      this.checkItem(i).then(
-        response => loop()
-      )
-    }, this.items);
+    this.asyncLoop({
+      items: this.items,
+      funcToLoop: (loop, i) => {
+        this.checkItem(i).then(
+          response => loop()
+        )
+      }
+    }).then(response => this.checkNewItems());
+  }
+
+  async checkNewItems() {
+    let itemsIds = this.items.map(x => {
+      return x.product.id;
+    });
+
+    let newItems = this.tempItems.filter(x => {
+      return itemsIds.indexOf(x.product.id) == -1;
+    });
+
+    for (let newItem of newItems) {
+      await this.orderS.addProduct(this.orderId, newItem.product.id, newItem.amount).toPromise().then(res => {
+        console.log("Item with id="+newItem.product.id+" was added");
+      });
+    }
+    console.log("All items were proccessed");
   }
 
   checkItem(i) {
@@ -180,18 +213,17 @@ export class OrderEditComponent implements OnInit {
     });
   }
 
-  asyncLoop(func: Function, arr) {
-    let i = -1;
+  asyncLoop(o) {
+    return new Promise((res,rej) => {
+      let i = -1;
 
-    let loop = function() {
-      i++;
-      if (i >= arr.length) {
-        console.log("The end");
-        return;
+      let loop = function() {
+        i++;
+        if (i == o.items.length) { return res() }
+        o.funcToLoop(loop, i);
       }
-      func(loop, i);
-    }
-    loop();
+      loop();
+    });
   }
 
   clone(obj) {
@@ -212,5 +244,9 @@ export class OrderEditComponent implements OnInit {
       }
       return copy;
     }
+  }
+
+  showAddItemPanel() {
+    (<HTMLElement>document.querySelector("app-order-add-item")).style.left = "0";
   }
 }

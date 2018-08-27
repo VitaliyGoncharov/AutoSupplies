@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.carssps.dao.OrderProductDao;
+import com.carssps.model.OrderProduct;
 import com.carssps.service.OrderProductService;
 
 import javax.transaction.Transactional;
@@ -23,5 +24,10 @@ public class OrderProductServiceImpl implements OrderProductService {
 	@Override
 	public int deleteByOrderIdAndProductId(int orderId, int productId) {
 		return orderProductDao.deleteByOrderIdAndProductId(orderId, productId);
+	}
+	
+	@Override
+	public OrderProduct save(OrderProduct orderProduct) {
+		return orderProductDao.save(orderProduct);
 	}
 }

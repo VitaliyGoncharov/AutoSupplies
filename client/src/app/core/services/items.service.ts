@@ -1,10 +1,14 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ItemsService {
+
+    headers = new HttpHeaders({
+        'Content-Type':"application/json"
+    });
 
     private OIL     = "oil";
     private GREASE  = "grease";
@@ -12,10 +16,20 @@ export class ItemsService {
     private TIRE    = "tire";
     private WHEEL_DISKS = "wheel_disks";
 
+    private FIND_BY_KEYWORD = "/api/search/product";
+
     constructor(private http: HttpClient) {}
 
     findAll(_url) {
         return this.http.get(_url);
+    }
+
+    findByKeyword(keyword: string) {
+        let body = { "keyword": keyword }
+        let options = {
+            headers: this.headers
+        }
+        return this.http.post(this.FIND_BY_KEYWORD, body, options);
     }
 
     findAllById(_url, ids) {

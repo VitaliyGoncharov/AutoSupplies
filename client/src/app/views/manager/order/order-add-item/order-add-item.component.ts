@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Item } from '../../../../core/interfaces/item';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ItemsService } from '../../../../core/services/items.service';
 
 @Component({
   selector: 'app-order-add-item',
@@ -7,10 +11,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderAddItemComponent implements OnInit {
 
-  constructor() { }
+  @Input() tempItems: Array<{product: Item, amount: number}>;
+
+  results: Array<Item>;
+  searchField: FormControl = new FormControl();
+
+  constructor(private itemS: ItemsService) { }
 
   ngOnInit() {
-    console.log("ADD-ITEM");
+    this.searchField.valueChanges.pipe(
+      debounceTime(1000),
+      distinctUntilChanged()
+    ).subscribe(val => {
+      if (val != null) {
+        this.itemS.findByKeyword(val).subscribe((data: Array<Item>) => {
+          this.results = data;
+        })
+      }
+    });
   }
 
+  goBack() {
+    (<HTMLElement>document.querySelector("app-order-add-item")).style.left = "100%";
+  }
+
+  addItem(item: Item) {
+    this.tempItems.push({product: item, amount: 1});
+    this.goBack();
+  }
 }

@@ -1,48 +1,55 @@
 <div id="order-editor">
-  <div class="total">
-      <span class="lbl">Итого</span>
-
-      <div class="price-total">
-          <span *ngIf="total">${{ total }}</span>
-      </div>
-  </div>
-
+    <div id="order-items">
+        <div class="total">
+            <span class="lbl">Итого</span>
+        
+            <div class="price-total">
+                <span *ngIf="total">${{ total }}</span>
+            </div>
+        </div>
+        
+        
+        <div *ngFor="let item of tempItems" class="item"  [attr.data-item-price]="item.product.price" 
+            [attr.data-item-id]="item.product.id">
+        
+            <div class="title">
+                <span>{{ item.product.title }}</span>
+            </div>
+        
+            <div class="image">
+                <img [src]="item.product.image" alt="Product image">
+            </div>
+        
+            <div class="price">
+                <span>${{item.product.price * item.amount}}</span>
+            </div>
+        
+            <div class="count-buttons">
+                <div class="btn-minus" (click)="minusItem($event)">
+                    <i class="fas fa-minus"></i>
+                </div>
+        
+                <input type="text" class="count" maxlength="3"
+                    (keydown)="changeAmount($event)" (blur)="checkAmount($event)" [value]="item.amount">
+                
+                <div class="btn-plus" (click)="plusItem($event)">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+        
+            <div class="special-buttons">
+                <a type="submit" class="btn-remove" (click)="removeItem($event)">
+                    <i class="far fa-trash-alt"></i>
+                </a>
+            </div>
+        </div>
+        
+        <button type="submit" class="show-add_item_panel" (click)="showAddItemPanel()">Добавить +</button>
+        <button type="submit" class="apply_changes" (click)="applyChanges($event)">Сохранить изменения</button>
+    </div>
   
-  <div *ngFor="let item of tempItems" class="item"  [attr.data-item-price]="item.product.price" 
-      [attr.data-item-id]="item.product.id">
 
-      <div class="title">
-          <span>{{ item.product.title }}</span>
-      </div>
-
-      <div class="image">
-          <img [src]="item.product.image" alt="Product image">
-      </div>
-
-      <div class="price">
-          <span>${{item.product.price * item.amount}}</span>
-      </div>
-
-      <div class="count-buttons">
-          <div class="btn-minus" (click)="minusItem($event)">
-              <i class="fas fa-minus"></i>
-          </div>
-
-          <input type="text" class="count" maxlength="3"
-              (keydown)="changeAmount($event)" (blur)="checkAmount($event)" [value]="item.amount">
-          
-          <div class="btn-plus" (click)="plusItem($event)">
-              <i class="fas fa-plus"></i>
-          </div>
-      </div>
-
-      <div class="special-buttons">
-          <a type="submit" class="btn-remove" (click)="removeItem($event)">
-              <i class="far fa-trash-alt"></i>
-          </a>
-      </div>
-  </div>
-
-  <button type="submit" class="show-add_item_panel" (click)="switchToAddItemPanel()">Добавить +</button>
-  <button type="submit" class="apply_changes" (click)="applyChanges($event)">Сохранить изменения</button>
+    <app-order-add-item [tempItems]="tempItems"></app-order-add-item>
 </div>
+
+

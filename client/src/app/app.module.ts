@@ -9,7 +9,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HomeComponent } from './views/home/home.component';
 import { CatalogComponent } from './views/catalog/catalog.component';
 import { CartComponent } from './views/cart/cart.component';
-import { OrderComponent } from './views/order/order.component';
 import { UserModule } from './views/user/user.module';
 import { ManagerModule } from './views/manager/manager.module';
 import { UserService } from './core/services/user.service';
