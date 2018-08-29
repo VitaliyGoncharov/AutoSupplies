@@ -47,9 +47,7 @@
         <button type="submit" class="show-add_item_panel" (click)="showAddItemPanel()">Добавить +</button>
         <button type="submit" class="apply_changes" (click)="applyChanges($event)">Сохранить изменения</button>
     </div>
-  
-
-    <app-order-add-item [tempItems]="tempItems"></app-order-add-item>
 </div>
+<app-order-add-item [tempItems]="tempItems" (addedItem)="countTotal()"></app-order-add-item>
 
 

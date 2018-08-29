@@ -1,6 +1,6 @@
 package com.carssps.model.request;
 
-public class ProductSearchRequest {
+public class ProductSearchReq {
 	private String keyword;
 
 	public String getKeyword() {

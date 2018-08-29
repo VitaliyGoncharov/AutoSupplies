@@ -33,4 +33,8 @@ export class CookieService {
         }
         document.cookie = cookie;
     }
+
+    eraseCookie(cname): void {
+        document.cookie = cname + '=; Max-Age=-99999999;';
+    }
 }

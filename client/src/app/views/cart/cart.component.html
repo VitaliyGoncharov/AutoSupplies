@@ -18,18 +18,18 @@
   <div *ngIf="!items.length">Корзина пуста</div>
 
   <div *ngFor="let item of items" class="item"  [attr.data-item-price]="item.price" 
-    [attr.data-item-id]="item.id">
+    [attr.data-item-id]="item.product.id">
 
     <div class="title">
-      <span>{{ item.title }}</span>
+      <span>{{ item.product.title }}</span>
     </div>
 
     <div class="image">
-      <img [src]="item.image" alt="Product image">
+      <img [src]="item.product.image" alt="Product image">
     </div>
 
     <div class="price">
-      <span>${{item.price * item.amount}}</span>
+      <span>${{item.product.price * item.amount}}</span>
     </div>
 
     <div class="count-buttons">
@@ -63,30 +63,20 @@
     Возможные способы оплаты: VISA, MASTERCARD, наличными.
   </div>
 
-  <form id="order-form">
+  <form id="order-form" [formGroup]="orderForm">
     <div class="name-block">
       <label for="name" id="name-lbl">Имя</label>
-      <input type="text" id="name" placeholder="Имя" autocomplete="given-name">
-    </div>
-
-    <div class="surname-block">
-      <label for="surname" id="surname-lbl">Фамилия</label>
-      <input type="text" id="surname" placeholder="Фамилия" autocomplete="family-name">
-    </div>
-
-    <div class="email-block">
-      <label for="email" id="email-lbl">Email</label>
-      <input type="text" id="email" placeholder="email" autocomplete="email">
+      <input type="text" id="name" formControlName="name" placeholder="Имя" autocomplete="given-name">
     </div>
 
     <div class="address-block">
       <label for="address" id="address-lbl">Адрес доставки</label>
-      <input type="text" id="address" placeholder="г.Москва, ул.Садовая, 15-3" autocomplete="street-address">
+      <input type="text" id="address" formControlName="address" placeholder="г.Москва, ул.Садовая, 15-3" autocomplete="street-address">
     </div>
 
     <div class="phone-block">
       <label for="phone" id="phone-lbl">Телефон</label>
-      <input type="tel" id="phone" placeholder="7950-XXX-XX-XX" autocomplete="tel-national">
+      <input type="tel" id="phone" formControlName="phone" placeholder="7950-XXX-XX-XX" autocomplete="tel-national">
     </div>
     
     <div class="checkbox-block">
@@ -96,18 +86,18 @@
       </label>
     </div>
 
-    <button type="submit" class="btn--save-order" (click)="saveOrder()">Оформить заказ</button>
+    <button type="submit" class="btn--save-order" (click)="showInfoMsg()">Оформить заказ</button>
   </form>
 </div>  
 
 <div id="order-info-container">
   <div id="order-info">
     <div id="order_info_1">Заказ принят в обработку!</div>
-    <div id="order_info_2" *ngIf="orderNumber">
-      <span>Номер заказа: </span><span id="order-number">#{{ orderNumber }}</span>
+    <div id="order_info_2" *ngIf="orderId">
+      <span>Номер заказа: </span><span id="order-number">#{{ orderId }}</span>
     </div>
     <div id="order_info_3">
-      Вы можете отслеживать заказ в разделе "Мои заказы"
+      Когда заказ будет готов, мы отправим вам SMS уведомление.
     </div>
   </div>
 </div>

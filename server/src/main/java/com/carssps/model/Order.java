@@ -56,6 +56,14 @@ public class Order {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Order(Customer customer, String address, short status, int total) {
+		super();
+		this.customer = customer;
+		this.address = address;
+		this.status = status;
+		this.total = total;
+	}
 
 	public int getId() {
 		return id;

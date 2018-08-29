@@ -14,6 +14,7 @@ export class OrderService {
 
   private FIND_BY_ID = "/api/manager/order";
   private FIND_ALL_ORDERS = "api/manager/orders";
+  private ADD_ORDER = "/api/manager/order/add";
   private UPDATE_PRODUCT_AMOUNT = "/api/manager/order/product/amount/edit";
   private ADD_PRODUCT = "/api/manager/order/product/add";
   private DELETE_PRODUCT = "/api/manager/order/product/delete";
@@ -28,6 +29,11 @@ export class OrderService {
       params: params
     }
     return this.http.get(this.FIND_BY_ID, options);
+  }
+
+  add(body) {
+    let options = { headers: this.headers };
+    return this.http.post(this.ADD_ORDER, body, options);
   }
 
   updateProductAmount(amount: number, orderId: number, productId: number) {

@@ -1,24 +1,21 @@
 $fromTop: 137px;
 
 #order-editor {
-    position: relative;
-    overflow-x: hidden;
     min-height: calc(100vh - #{$fromTop});
 
     #order-items {
         display: grid;
         padding: 0 8px;
-    }
-
-    app-order-add-item {
-        position: absolute;
-        top: 0;
-        left: 100%;
         width: 100%;
-        height: 100%;
-        background-color: #f1f1f1;
-        transition: .3s;
+        margin-bottom: 20px;
     }
+}
+
+app-order-add-item {
+    display: none;
+    width: 100%;
+    min-height: calc(100vh - #{$fromTop});
+    background-color: #f1f1f1;
 }
 
 .total {

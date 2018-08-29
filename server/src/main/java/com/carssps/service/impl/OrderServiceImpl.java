@@ -30,6 +30,11 @@ public class OrderServiceImpl implements OrderService {
 	public Order findById(int id) {
 		return orderDao.findById(id).get();
 	}
+	
+	@Override
+	public Order add(Order order) {
+		return orderDao.save(order);
+	}
 
 	@Override
 	public int updateAddressAndStatus(String address, short status, int id) {
@@ -44,5 +49,10 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public int updateStatus(short status, int id) {
 		return orderDao.updateStatus(status, id);
+	}
+	
+	@Override
+	public int updateTotal(int total, int id) {
+		return orderDao.updateTotal(total, id);
 	}
 }

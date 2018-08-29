@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService } from '../../core/services/cookie.service';
 import { ItemsService } from '../../core/services/items.service';
 import { Item } from '../../core/interfaces/item';
-import * as $ from 'jquery';
-declare var $: any;
+import { FormGroup, FormControl } from '@angular/forms';
+import { OrderService } from '../../core/services/order.service';
 
 @Component({
   selector: 'app-cart',
@@ -12,16 +12,33 @@ declare var $: any;
 })
 export class CartComponent implements OnInit {
 
+  // implement later
+  // create model Cart and
+  // 3 components: order-step-1, ..., order-step-3
+  // switch the variables below to switch step
+  step1: boolean;
+  step2: boolean;
+  step3: boolean;
+
+
   items: Array<{product: Item, amount: number}> = [];
   totalPrice: number;
   
-  orderNumber: number;
+  orderForm: FormGroup = new FormGroup({
+    name: new FormControl(),
+    address: new FormControl(),
+    phone: new FormControl()
+  });
+  orderId: number;
 
   private _url_get_all = "/api/catalog/oil-and-grease";
   private _url_get_all_by_ids = "/api/catalog/oil-and-grease/specific";
-  // private _url = "/assets/catalog/oil-and-grease.json";
 
-  constructor(private cookieS: CookieService, private itemsS: ItemsService) { }
+  constructor(
+    private cookieS: CookieService,
+    private itemsS: ItemsService,
+    private orderS: OrderService
+  ) { }
 
   ngOnInit() {
     // $('[data-toggle="tooltip"]').tooltip will not work
@@ -38,14 +55,9 @@ export class CartComponent implements OnInit {
     let items;
     let cartCookie = this.cookieS.getCookie("cart");
 
-    console.log("In get items");
-    console.log(cartCookie);
-
     if (cartCookie) {
       items = JSON.parse(cartCookie);
     }
-
-    console.log(items);
     
     if (!Array.isArray(items) || !items.length) {
       console.log("Isn't array or null");
@@ -54,8 +66,9 @@ export class CartComponent implements OnInit {
     
     let itemsIds = items.map(item => item.id);
     this.itemsS.findAllById(this._url_get_all_by_ids, itemsIds).subscribe( (data: Array<Item>) => {
+      console.log(data);
         for (let i = 0; i < data.length; i++) {
-          this.items[i].product = data[i];
+          this.items[i] = { product: data[i], amount: null };
         }
         console.log("Data was fetched");
 
@@ -236,11 +249,35 @@ export class CartComponent implements OnInit {
     (<HTMLElement>document.querySelector('#nav-back')).style.display = "none";
   }
 
-  saveOrder() {
+  showInfoMsg() {
+    this.saveOrder();
     (<HTMLElement>document.querySelector('#cart-container')).style.display = "none";
     (<HTMLElement>document.querySelector('.order-container')).style.display = "none";
     (<HTMLElement>document.querySelector('#nav-back')).style.display = "none";
-    this.orderNumber = 805;
     (<HTMLElement>document.querySelector('#order-info')).style.display = "grid";
+  }
+
+  saveOrder() {
+    let orderInfo: {
+      name: string,
+      phone: string,
+      address: string,
+      products: Array<{productId, amount}>
+    } = {
+      name: this.orderForm.get('name').value,
+      address: this.orderForm.get('address').value,
+      phone: this.orderForm.get('phone').value,
+      products: this.items.map(x => {
+        return { productId: x.product.id, amount: x.amount };
+      })
+    };
+
+    this.orderS.add(orderInfo).subscribe(data => {
+      console.log(data);
+      this.orderId = <number>data;
+
+      this.items = [];
+      this.cookieS.eraseCookie('cart');
+    })
   }
 }

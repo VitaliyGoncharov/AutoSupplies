@@ -22,7 +22,7 @@
               <a routerLink="/cart" class="main-cart">
                 <i class="fas fa-shopping-cart"></i>
               </a>
-              <div class="toggleMenu" (click)="showSideMenu()">
+              <div class="toggleMenu" (click)="toggleSideMenu()">
                 <span></span>
               </div>
             </div>
@@ -75,18 +75,18 @@
     <a routerLink="/profile" class="mobile-profile--link" *ngIf="isLoggedIn">
       <span>Виталий</span><i class="fas fa-user"></i>
     </a>
-    <a href="#" class="btn btn--reg" (click)="logout($event)" *ngIf="isLoggedIn">Выйти</a>
+    <a href="#" class="btn btn--reg" (click)="logout($event)" *ngIf="isLoggedIn" (click)="toggleSideMenu()">Выйти</a>
 
-    <a class="btn btn--login" routerLink="/login" *ngIf="!isLoggedIn">Вход</a>
-    <a href="#" class="btn btn--reg" *ngIf="!isLoggedIn">Регистрация</a>
+    <a class="btn btn--login" routerLink="/login" *ngIf="!isLoggedIn" (click)="toggleSideMenu()">Вход</a>
+    <a href="#" class="btn btn--reg" *ngIf="!isLoggedIn" (click)="toggleSideMenu()">Регистрация</a>
   </div>
 
   <div class="catalogs">
       <ul>
-        <li><a href="#" routerLink="catalog/oil-and-grease">Масло и смазки</a></li>
-        <li><a href="#" routerLink="catalog/accumulator">Аккумуляторы</a></li>
-        <li><a href="#" routerLink="catalog/tire">Шины и диски</a></li>
-        <li><a href="#" routerLink="catalog/parts">Запчасти</a></li>
+        <li><a href="#" (click)="toggleSideMenu()" routerLink="catalog/oil-and-grease">Масло и смазки</a></li>
+        <li><a href="#" (click)="toggleSideMenu()" routerLink="catalog/accumulator">Аккумуляторы</a></li>
+        <li><a href="#" (click)="toggleSideMenu()" routerLink="catalog/tire">Шины и диски</a></li>
+        <li><a href="#" (click)="toggleSideMenu()" routerLink="catalog/parts">Запчасти</a></li>
       </ul>
   </div>
 </div>

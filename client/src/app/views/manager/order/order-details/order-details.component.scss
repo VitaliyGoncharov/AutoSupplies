@@ -2,46 +2,52 @@
     display: grid;
     justify-items: center;
     padding: 1em 0;
+
+    #order-general-info {
+        width: 250px;
+
+        th { text-align: left }
+        td { padding-left: 8px }
+    }
+
+    #order-items {
+        display: grid;
+        width: 100%;
+        margin-top: 2em;
+
+        thead, tbody tr {
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-columns: 18% 40% 10% 15% 17%;
+            width: 100%;
+            border-top: 1px solid #dee2e6;
+        }
+
+        thead { border-bottom: 1px solid #dee2e6 }
+
+        thead tr {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-word;
+        }
+
+        .item {
+            &:nth-child(odd) { background-color: rgba(0,0,0,0.05) }
+            
+            .id, .title, .amount, .pricePerItem, .price {
+                display: flex;
+                align-items: center;
+                padding: 0 4px;
+                word-break: break-word;
+            }
+
+            .id, .amount, .pricePerItem, .price { justify-content: center }
+            .title { justify-content: start }
+        }
+    }
 }
-.order-details #order-general-info {
-    width: 250px;
-}
-.order-details #order-general-info th {
-    text-align: left;
-}
-.order-details #order-items {
-    display: grid;
-    width: 100%;
-    margin-top: 2em;
-}
-.order-details #order-items thead {
-    border-bottom: 1px solid #dee2e6;
-}
-.order-details #order-items thead th,
-.order-details #order-items tbody td {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    word-break: break-word;
-}
-.order-details #order-items tbody {
-    display: grid;
-}
-.order-details #order-items tbody td {
-    padding: 0 4px;
-}
-.order-details #order-items thead,
-.order-details #order-items tbody tr {
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: 18% 40% 10% 15% 17%;
-    width: 100%;
-    border-top: 1px solid #dee2e6;
-}
-.order-details #order-items tbody tr:nth-child(odd) {
-    background-color: rgba(0,0,0,0.05);
-}
-#edit-order, .show-add_item_panel {
+#edit-order {
     margin-top: 1em;
     padding: .375em .75em;
     color: #212529;
@@ -51,109 +57,9 @@
     cursor: pointer;
     transition: background-color .15s;
     border-radius: .25em;
-}
-#edit-order:hover, .show-add_item_panel:hover {
-    background-color: #e0a800;
-    background-color: #d39e00;
-}
 
-#order-editor {
-    display: none;
-    padding: 0 8px;
-}
-.total, .item {
-    margin: 0 -8px;
-}
-.total {
-    display: flex;
-    align-items: center;
-    height: 40px;
-    font-size: 1.1em;
-    border-bottom: 2px solid blue;
-    box-shadow: 0px -4px 10px -2px #a7a7a7;
-}
-.total > .lbl {
-    flex: 0 0 80%;
-    padding-left: 8px;
-}
-.total > .total-price {
-    flex: 0 0 20%;
-}
-.item {
-    display: grid;
-    grid-template-areas:"title title title"
-                        "image price special-buttons"
-                        "image count-buttons special-buttons";
-    grid-template-rows: 0.6fr 0.6fr 1fr;
-    padding: 5px 8px;
-}
-.item > .image img {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-}
-.item > .title {
-    grid-area: title;
-}
-.item > .image {
-    grid-area: image;
-}
-.item > .price {
-    grid-area: price;
-    font-weight: bold;
-}
-.item > .count-buttons {
-    display: flex;
-    grid-area: count-buttons;
-    width: 100px;
-    height: 34px;
-}
-.item > .special-buttons {
-    grid-area: special-buttons;
-}
-.item .btn-minus,
-.item .count,
-.item .btn-plus {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 33.333333%;
-}
-.item .btn-minus,
-.item .btn-plus {
-    text-align: center;
-    color: gray;
-    cursor: pointer;
-}
-.item .btn-minus:hover,
-.item .btn-plus:hover {
-    color: #333;
-    border-color: #aaa;
-}
-.item .btn-minus {
-    border: solid #ddd;
-    border-width: 1px 0 1px 1px;
-    border-radius: 5px 0 0 5px;
-}
-.item .count {
-    border: solid #ddd;
-    border-width: 1px 0 1px 0;
-    text-align: center;
-}
-.item .btn-plus {
-    border: solid #ddd;
-    border-width: 1px 1px 1px 0;
-    border-radius: 0 5px 5px 0;
-}
-.btn-remove {
-    display: inline-block;
-    background-color: #dc3545;
-    color: #fff;
-    padding: .375em .75em;
-    border-radius: .25em;
-    transition: background-color .15s;
-    cursor: pointer;
-}
-.btn-remove:hover {
-    background-color: #bd2130;
+    &:hover {
+        background-color: #e0a800;
+        background-color: #d39e00;
+    }
 }

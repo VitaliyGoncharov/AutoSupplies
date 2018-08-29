@@ -27,7 +27,6 @@
 }
 #orders-table thead th,
 .order .number,
-.order .client,
 .order .date,
 .order .status {
     display: flex;
@@ -35,4 +34,7 @@
     justify-content: center;
     padding: 0 4px;
     word-break: break-word;
+}
+.order .client {
+    justify-content: start;
 }

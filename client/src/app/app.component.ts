@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   }
 
   // всего три строчки js кода
-  showSideMenu() {
+  toggleSideMenu() {
     document.querySelector('.toggleMenu').classList.toggle('translatedX');
     document.querySelector('.sideMenu').classList.toggle('d-flex');
 

@@ -29,7 +29,11 @@ export class OrderEditComponent implements OnInit {
    */
   private tempItems: Array<{product: Item, amount: number}>;
 
-  constructor(private route: ActivatedRoute, private orderS: OrderService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private orderS: OrderService
+  ) { }
 
   ngOnInit() {
     this.getProducts();
@@ -157,24 +161,30 @@ export class OrderEditComponent implements OnInit {
           response => loop()
         )
       }
-    }).then(response => this.checkNewItems());
+    }).then(response => this.checkNewItems())
+    .then(response => {
+      this.router.navigate(['/manager/order/details', { id: this.orderId }])
+    });
   }
 
-  async checkNewItems() {
-    let itemsIds = this.items.map(x => {
-      return x.product.id;
-    });
-
-    let newItems = this.tempItems.filter(x => {
-      return itemsIds.indexOf(x.product.id) == -1;
-    });
-
-    for (let newItem of newItems) {
-      await this.orderS.addProduct(this.orderId, newItem.product.id, newItem.amount).toPromise().then(res => {
-        console.log("Item with id="+newItem.product.id+" was added");
+  checkNewItems() {
+    return new Promise(async (res, rej) => {
+      let itemsIds = this.items.map(x => {
+        return x.product.id;
       });
-    }
-    console.log("All items were proccessed");
+  
+      let newItems = this.tempItems.filter(x => {
+        return itemsIds.indexOf(x.product.id) == -1;
+      });
+  
+      for (let newItem of newItems) {
+        await this.orderS.addProduct(this.orderId, newItem.product.id, newItem.amount).toPromise().then(res => {
+          console.log("Item with id="+newItem.product.id+" was added");
+        });
+      }
+      console.log("All items were proccessed");
+      res();
+    });
   }
 
   checkItem(i) {
@@ -247,6 +257,7 @@ export class OrderEditComponent implements OnInit {
   }
 
   showAddItemPanel() {
-    (<HTMLElement>document.querySelector("app-order-add-item")).style.left = "0";
+    (<HTMLElement>document.querySelector("app-order-add-item")).style.display = "block";
+    (<HTMLElement>document.querySelector("#order-editor")).style.display = "none";
   }
 }

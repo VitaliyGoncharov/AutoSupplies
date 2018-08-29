@@ -24,4 +24,8 @@ public interface OrderDao extends JpaRepository<Order, Integer> {
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE Order o SET o.address = :address, o.status = :status WHERE o.id = :orderId")
 	int updateAddressAndStatus(@Param("address") String address, @Param("status") short status, @Param("orderId") int id);
+	
+	@Modifying(clearAutomatically = true)
+	@Query("UPDATE Order o SET o.total = :total WHERE o.id = :orderId")
+	int updateTotal(@Param("total") int total, @Param("orderId") int id);
 }

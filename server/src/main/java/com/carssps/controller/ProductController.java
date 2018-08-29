@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.carssps.model.Product;
-import com.carssps.model.request.ProductSearchRequest;
+import com.carssps.model.request.ProductSearchReq;
 import com.carssps.service.ProductService;
 
 @RestController
@@ -22,7 +22,7 @@ public class ProductController {
 	private ProductService productService;
 
 	@RequestMapping(value = "/search/product", method = RequestMethod.POST)
-	public ResponseEntity<List<Product>> findByKeyword(@RequestBody ProductSearchRequest productSearchReq) {
+	public ResponseEntity<List<Product>> findByKeyword(@RequestBody ProductSearchReq productSearchReq) {
 		return ResponseEntity.ok(productService.findByKeyword(productSearchReq.getKeyword()));
 	}
 }

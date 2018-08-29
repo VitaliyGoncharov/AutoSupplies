@@ -7,6 +7,8 @@ import com.carssps.dao.OrderProductDao;
 import com.carssps.model.OrderProduct;
 import com.carssps.service.OrderProductService;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 @Service
@@ -24,6 +26,11 @@ public class OrderProductServiceImpl implements OrderProductService {
 	@Override
 	public int deleteByOrderIdAndProductId(int orderId, int productId) {
 		return orderProductDao.deleteByOrderIdAndProductId(orderId, productId);
+	}
+	
+	@Override
+	public List<OrderProduct> saveAll(List<OrderProduct> orderProduct) {
+		return orderProductDao.saveAll(orderProduct);
 	}
 	
 	@Override

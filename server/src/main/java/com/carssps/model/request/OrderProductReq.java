@@ -1,11 +1,13 @@
 package com.carssps.model.request;
 
-public class UpdateOrderProductRequest {
+import java.util.Optional;
+
+public class OrderProductReq {
 	private int amount;
 	private int orderId;
 	private int productId;
 	
-	public UpdateOrderProductRequest() {
+	public OrderProductReq() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -15,7 +17,7 @@ public class UpdateOrderProductRequest {
 	}
 
 	public void setAmount(int amount) {
-		this.amount = amount;
+		this.amount = Optional.ofNullable(amount).orElse(1);
 	}
 
 	public int getOrderId() {
@@ -23,7 +25,7 @@ public class UpdateOrderProductRequest {
 	}
 
 	public void setOrderId(int orderId) {
-		this.orderId = orderId;
+		this.orderId = Optional.ofNullable(orderId).orElse(null);
 	}
 
 	public int getProductId() {
@@ -31,6 +33,12 @@ public class UpdateOrderProductRequest {
 	}
 
 	public void setProductId(int productId) {
-		this.productId = productId;
+		this.productId = Optional.ofNullable(productId).orElse(null);
+	}
+
+	@Override
+	public String toString() {
+		return "UpdateOrderProductRequest [amount=" + amount + ", orderId=" + orderId + ", productId=" + productId
+				+ "]";
 	}
 }
