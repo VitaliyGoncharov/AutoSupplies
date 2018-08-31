@@ -7,7 +7,8 @@ import { HttpClient, HttpParams, HttpHeaders } from '../../../../node_modules/@a
 export class OrderService {
 
   headers = new HttpHeaders({
-    'Content-Type':"application/json"
+    'Content-Type':"application/json",
+    'Authorization': localStorage.getItem('access_token')
   });
 
   constructor(private http: HttpClient) { }
@@ -20,13 +21,15 @@ export class OrderService {
   private DELETE_PRODUCT = "/api/manager/order/product/delete";
 
   findAll() {
-    return this.http.get(this.FIND_ALL_ORDERS);
+    let options = { headers: this.headers }
+    return this.http.get(this.FIND_ALL_ORDERS, options);
   }
 
   findById(id: number) {
     let params = new HttpParams().set("id", id.toString());
     let options = {
-      params: params
+      params: params,
+      headers: this.headers
     }
     return this.http.get(this.FIND_BY_ID, options);
   }

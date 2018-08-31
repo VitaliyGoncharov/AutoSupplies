@@ -2,6 +2,7 @@ import { Injectable, Output, EventEmitter, NgZone } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from "@angular/router";
 import { BehaviorSubject } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 const httpOptions = {
   // headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded'})
@@ -18,7 +19,11 @@ interface Tokens {
 export class AuthService {
   loggedInSubj = new BehaviorSubject<boolean>(false);
   
-  private _url: string = '/api/token';
+  private LOGIN = "/api/token";
+
+  headers = new HttpHeaders({
+    'Content-Type':'application/json'
+  });
 
   constructor(private http: HttpClient, private router: Router) { }
   
@@ -29,44 +34,60 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    let status: boolean = JSON.parse(localStorage.getItem('loggedIn'));
-    this.loggedInSubj.next(status);
-    return status;
+    let access_token: string = localStorage.getItem('access_token');
+
+    const helper = new JwtHelperService();
+    const decodedToken = helper.decodeToken(access_token);
+    let curTime = Math.floor(Date.now() / 1000);
+
+    if (decodedToken && decodedToken.exp > curTime) {
+      this.loggedInSubj.next(true);
+      return true;
+    }
+
+    this.loggedInSubj.next(false);
+    this.logout();
+    return false;
   }
 
   logout() {
-    localStorage.removeItem('loggedIn');
     localStorage.removeItem('access_token');
   }
-  
-  getTokens(email, password) {
-    console.log("Navigating ...");
-    if(email == 'admin@mail.ru' && password == '1111') {
-      this.setLoggedIn(true);
-      this.saveTokens("my_token_secret");
-      this.router.navigate(['']);
-    } else {
-      window.alert("Wrong credentials -- (");
+
+  login(email, password) {
+    let body = {
+      "grant_type": "password",
+      "email": email.toString(),
+      "password": password.toString()
     }
-    
-    
-//    const postedData = { username: email, password: password, grant_type: "password" };
-//    return this.http.post<Tokens>(this._url, postedData, httpOptions).subscribe(data => {
-//      console.log("Sending ...");
-//      console.log(data);
-//      
-//      if (data.access_token) {
-//        console.log("Navigating ...");
-//        this.setLoggedIn(true);
-//        this.saveTokens(data.access_token);
-//        this.router.navigate(['/']);
-//      } else {
-//        window.alert('Auth error!!! :(((');
-//      }
-//    });
+    let options = { headers: this.headers };
+    return this.http.post(this.LOGIN, body, options);
   }
   
   saveTokens(access_token) {
     localStorage.setItem('access_token', access_token);
+  }
+
+  hasAuthorities(authorities: Array<string>) {
+    let hasAuthorities = false;
+    authorities = authorities.map(authority => {
+      return 'ROLE_' + authority;
+    });
+
+    let access_token = localStorage.getItem('access_token');
+    const helper = new JwtHelperService();
+    const decodedToken = helper.decodeToken(access_token);
+    let token_authorities: Array<string> = decodedToken.authorities;
+
+    for (let tokenAuthority of token_authorities) {
+      for (let authority of authorities) {
+        console.log(tokenAuthority + " ---- " + authority);
+        if (tokenAuthority == authority) {
+          hasAuthorities = true;
+          break;
+        }
+      }
+    }
+    return hasAuthorities;
   }
 }

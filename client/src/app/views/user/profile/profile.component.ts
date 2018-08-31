@@ -13,6 +13,8 @@ import { Observable, of } from 'rxjs';
 })
 export class ProfileComponent implements OnInit {
 
+  editForm: FormGroup;
+
   profileKeys: Array<string>;
   userInfo: UserInfo;
 
@@ -24,6 +26,10 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.editForm = this.fb.group({
+      
+    });
+
     this.profileInfo = [];
 
     this.getUserInfo().then(
