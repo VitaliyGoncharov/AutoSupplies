@@ -1,28 +1,28 @@
 package com.carssps.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.carssps.dao.GoodPropsDao;
 import com.carssps.dao.GoodPropsTitlesDao;
 import com.carssps.dao.ProductDao;
-import com.carssps.model.Product;
+import com.carssps.model.RefreshToken;
 import com.carssps.model.User;
 import com.carssps.model.response.TokenRequest;
 import com.carssps.model.response.TokenResponse;
+import com.carssps.service.RefreshTokenService;
 import com.carssps.service.UserService;
 import com.carssps.util.JwtTokenUtil;
+import com.carssps.util.TokenUtil;
 
 @RestController
 @RequestMapping("/api")
@@ -38,27 +38,17 @@ public class HomeController {
 	private UserService userService;
 	
 	@Autowired
-	private GoodPropsDao goodProps;
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	private GoodPropsTitlesDao goodPropsTitles;
+	private TokenUtil tokenUtil;
 	
 	@Autowired
-	private ProductDao productDao;
+	private RefreshTokenService refreshTokenService;
 	
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	
-	
-	
-	@RequestMapping(value = "/credits", method = RequestMethod.POST)
-	public String getCredits() {
-		return "{\"message\":\"This app was build by Vitaliy!\"}";
-	}
-	
-	@RequestMapping(value = "/version", method = RequestMethod.GET)
-	public String getInfo() {
-		return "{\"message\":\"v.0.0.1\"}";
+	@RequestMapping(value = "/password", method = RequestMethod.GET)
+	public String getInfo(@RequestParam String password) {
+		return passwordEncoder.encode(password);
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -72,21 +62,15 @@ public class HomeController {
 	 * =======================================
 	 * https://auth0.com/learn/refresh-tokens/
 	 * =======================================
-	 * 
-	 * |Token                |
-	 * |---------------------|
-	 * |INT id               |
-	 * |VARCHAR appName		 |
-	 * |VARCHAR refreshToken |
-	 * |BIGINT  expiration   |
 	 */
 	@RequestMapping(value = "/token", method = RequestMethod.POST)
-	public ResponseEntity<?> register(@RequestBody TokenRequest tokenRequest) throws Exception {
+	public ResponseEntity<?> register(@RequestBody TokenRequest tokenRequest, HttpServletRequest request) throws Exception {
 		TokenResponse tokenResponse = null;
 		final User user;
 		
 		if (tokenRequest.getGrant_type().equals("password")) {
-			user = userService.findOne(tokenRequest.getUsername());
+			user = userService.findOne(tokenRequest.getEmail());
+			
 			
 			String rawPassword = tokenRequest.getPassword();
 			String encodedPassword = user.getPassword();
@@ -95,9 +79,16 @@ public class HomeController {
 				throw new Exception(getClass().getCanonicalName() + " Invalid credentials!");
 			}
 			
-			String token = jwtTokenUtil.generateToken(user);
+			String accessToken = jwtTokenUtil.generateToken(user);
+			String refreshToken = tokenUtil.generateToken();
+			
 			tokenResponse = new TokenResponse();
-			tokenResponse.setAccess_token(token);
+			tokenResponse.setAccess_token(accessToken);
+			tokenResponse.setRefresh_token(refreshToken);
+			
+			int exp = jwtTokenUtil.getRefreshTokenExp(accessToken);
+			String userAgent = request.getHeader("User-Agent");
+			refreshTokenService.save(new RefreshToken(user, refreshToken, exp, userAgent));
 			
 			/**
 			 * TODO

@@ -23,6 +23,9 @@ import io.jsonwebtoken.SignatureException;
 public class JwtTokenUtil {
 	protected final Log logger = LogFactory.getLog(getClass());
 	
+	private static final int ACCESS_TOKEN_EXPIRATION = 30 * 60; // 30 minutes
+	private static final int REFRESH_TOKEN_EXPIRATION = 24 * 60 * 60; // 1 day
+	
 	@Value("${app.signing_key}")
 	private String SIGNING_KEY;
 	
@@ -38,6 +41,8 @@ public class JwtTokenUtil {
 		
 		Claims claims = Jwts.claims().setSubject(user.getUsername());
 		claims.put("authorities", roles);
+		Long expTime = (System.currentTimeMillis() / 1000L) + ACCESS_TOKEN_EXPIRATION;
+		claims.put("exp", expTime);
 		return Jwts.builder()
 				.setClaims(claims)
 				.signWith(SignatureAlgorithm.HS512, SIGNING_KEY)
@@ -55,5 +60,13 @@ public class JwtTokenUtil {
 		logger.info("Getting claims!");
 		
 		return claims;
+	}
+	
+	public int getRefreshTokenExp(String jwtToken) {
+		return this.getAccessTokenExp(jwtToken) + REFRESH_TOKEN_EXPIRATION;
+	}
+	
+	public int getAccessTokenExp(String jwtToken) {
+		return (int) this.parse(jwtToken).get("exp");
 	}
 }

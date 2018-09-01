@@ -28,8 +28,6 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
   
   setLoggedIn(value: boolean) {
-    let status: string = String(value);
-    localStorage.setItem('loggedIn', status);
     this.loggedInSubj.next(value);
   }
 
@@ -45,7 +43,6 @@ export class AuthService {
       return true;
     }
 
-    this.loggedInSubj.next(false);
     this.logout();
     return false;
   }
@@ -64,8 +61,9 @@ export class AuthService {
     return this.http.post(this.LOGIN, body, options);
   }
   
-  saveTokens(access_token) {
+  saveTokens(access_token, refresh_token) {
     localStorage.setItem('access_token', access_token);
+    localStorage.setItem('refresh_token', refresh_token);
   }
 
   hasAuthorities(authorities: Array<string>) {
@@ -81,7 +79,6 @@ export class AuthService {
 
     for (let tokenAuthority of token_authorities) {
       for (let authority of authorities) {
-        console.log(tokenAuthority + " ---- " + authority);
         if (tokenAuthority == authority) {
           hasAuthorities = true;
           break;

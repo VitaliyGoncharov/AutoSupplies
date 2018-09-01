@@ -36,10 +36,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private JwtTokenUtil jwtTokenUtil;
 
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String header = request.getHeader("Authorization");
 		String username = null;
+		Integer exp = null;
 		String authToken = null;
 		List<String> authorities = null;
 		
@@ -49,15 +51,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			
 			Claims claims = jwtTokenUtil.parse(authToken);
 			username = claims.getSubject();
+			exp = (int) claims.get("exp");
 			authorities = claims.get("authorities", ArrayList.class);
 		}
 		
-		System.out.println("Here in jwt auth token filter!");
-		
-		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			
-			System.out.println("Username " + username);
-			System.out.println(authorities);
+		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null 
+				&& exp > (System.currentTimeMillis() / 1000L)) {
 			
 			Set<SimpleGrantedAuthority> contextAuthorities = new HashSet<>();
 			for (String authority : authorities) {

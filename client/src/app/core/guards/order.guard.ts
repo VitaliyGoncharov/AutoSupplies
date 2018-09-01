@@ -31,10 +31,11 @@ export class OrderGuard implements CanActivate {
         }
 
         /**
-         * If requested url is nor /manager/orders and has id
+         * If requested url is not /manager/orders and has id
+         * OR requested url is /manager/orders
          * then allow access to the page
          */
-        if (route.url[0].path != "orders" && route.paramMap.get('id')) {
+        if (route.url[0].path != "orders" && route.paramMap.get('id') || route.url[0].path == "orders") {
             return true;
         }
 

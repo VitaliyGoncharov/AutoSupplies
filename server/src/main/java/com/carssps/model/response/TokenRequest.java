@@ -1,9 +1,11 @@
 package com.carssps.model.response;
 
+import java.util.Optional;
+
 public class TokenRequest {
 	
 	private String grant_type;
-	private String username;
+	private String email;
 	private String password;
 	private String refresh_token;
 	
@@ -18,12 +20,12 @@ public class TokenRequest {
 		this.grant_type = grant_type;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -39,6 +41,6 @@ public class TokenRequest {
 	}
 
 	public void setRefresh_token(String refresh_token) {
-		this.refresh_token = refresh_token;
+		this.refresh_token = Optional.of(refresh_token).orElse(null);
 	}
 }

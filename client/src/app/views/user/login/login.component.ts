@@ -31,7 +31,8 @@ export class LoginComponent implements OnInit {
     const email = this.loginForm.get('email').value;
     const password = this.loginForm.get('password').value;
     this.authS.login(email, password).subscribe((data: AuthLogin) => {
-      this.authS.saveTokens(data.access_token);
+      this.authS.saveTokens(data.access_token, data.refresh_token);
+      this.authS.setLoggedIn(true);
       this.router.navigate(['/']);
     });
   }

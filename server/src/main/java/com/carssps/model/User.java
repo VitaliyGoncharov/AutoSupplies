@@ -1,6 +1,8 @@
 package com.carssps.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -36,6 +39,9 @@ public class User {
 			)
 	private Set<Role> roles = new HashSet<>();
 
+	@OneToMany(mappedBy = "user")
+	private List<RefreshToken> refreshTokens = new ArrayList<>();
+	
 	public User() {
 	}
 	
@@ -66,6 +72,14 @@ public class User {
 		this.roles = roles;
 	}
 	
+	public List<RefreshToken> getRefreshTokens() {
+		return refreshTokens;
+	}
+
+	public void setRefreshTokens(List<RefreshToken> refreshTokens) {
+		this.refreshTokens = refreshTokens;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
