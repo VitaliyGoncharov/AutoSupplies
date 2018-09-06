@@ -14,20 +14,7 @@ export class OrderEditComponent implements OnInit {
   private total;
   private orderId;
 
-  /**
-   * Unmodified Array of order's items from database
-   */
   private items: Array<{product: Item, amount: number}>;
-
-  /**
-   *  It is an array of items that were modified by user.
-   *  He could change amount, delete item or add new item.
-   *  => If user refreshes page or doesn't click save btn, this arr will be cleaned
-   *  => If user presses save btn, this this.tempItems will be compared with this.items
-   *     and if they are not equal then we will send request to server
-   *     to update order items in database 
-   */
-  private tempItems: Array<{product: Item, amount: number}>;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,7 +27,7 @@ export class OrderEditComponent implements OnInit {
   }
 
   countTotal() {
-    this.total = this.tempItems.reduce((total, product) => {
+    this.total = this.items.reduce((total, product) => {
       return total + product.product.price * product.amount;
     },0);
   }
@@ -48,55 +35,73 @@ export class OrderEditComponent implements OnInit {
   getProducts() {
     this.orderId = Number.parseInt(this.route.snapshot.paramMap.get('id'));
     this.orderS.findById(this.orderId).subscribe((order: Order) => {
-        this.tempItems = order.products;
-        this.items = this.clone(this.tempItems);
+        this.items = order.products;
         this.countTotal();
     });
   }
 
+  /**
+   * Note async!!!
+   */
   minusItem(event) {
     let target = event.target;
     let itemId = target.closest('.item').dataset.itemId;
 
-    for (let item of this.tempItems)  {
-      if(item.product.id == itemId && item.amount == 1) {
-        console.log("The amount can't be less than 1. Use trash btn to remove product");
-        return;
-      }
+    let item = this.items.find(item => item.product.id == itemId);
 
-      if(item.product.id == itemId && item.amount > 1) {
-        item.amount = --item.amount;
-      }
+    if (item.amount == 1) {
+      console.log("The amount can't be less than 1. Use trash btn to remove product");
+      return;
     }
-    this.countTotal();
+
+    if (item.amount > 1) {
+      this.orderS.updateProductAmount(item.amount - 1, this.orderId, itemId).subscribe(data => {
+        console.log("Amount of item with id="+itemId+" was changed");
+        item.amount = --item.amount;
+      }, null, () => {
+        this.countTotal();
+      });
+    }
   }
 
   plusItem(event) {
     let target = event.target;
     let itemId = target.closest('.item').dataset.itemId;
 
-    for (let item of this.tempItems) {
-      if (item.product.id == itemId) item.amount = ++item.amount;
-    }
-    this.countTotal();
+    let item = this.items.find(item => item.product.id == itemId);
+
+    this.orderS.updateProductAmount(item.amount + 1, this.orderId, itemId).subscribe(data => {
+      console.log("Amount of item with id="+itemId+" was changed");
+      item.amount = ++item.amount;
+      console.log(this.items);
+    }, null, () => {
+      this.countTotal();
+    });
+    // item.amount = ++item.amount;
+    // this.countTotal();
   }
 
   removeItem(event) {
     let target = event.target;
     let itemId = target.closest('.item').dataset.itemId;
 
-    for (let item of this.tempItems) {
-      if (item.product.id == itemId) {
-        let index = this.tempItems.indexOf(item);
-        if (index > -1) this.tempItems.splice(index, 1);
-      }
-    }
-    this.countTotal();
+    let item = this.items.find(item => item.product.id == itemId);
+
+    this.orderS.deleteProduct(this.orderId, itemId).subscribe(data => {
+      console.log("Item with id="+itemId+" was removed");
+      let index = this.items.indexOf(item);
+      if (index > -1) this.items.splice(index, 1);
+    }, null, () => {
+      this.countTotal();
+    });
   }
 
   changeAmount(event) {
     let input = event.target;
     let amount = input.value;
+    let itemBlock = event.target.closest(".item");
+    let itemId = itemBlock.dataset.itemId;
+    let item = this.items.find(item => item.product.id == itemId);
 
     if (event.keyCode != 8 && (event.keyCode < 48 || event.keyCode > 57)) return false;
     
@@ -106,27 +111,21 @@ export class OrderEditComponent implements OnInit {
       amount = amount.substr(0,amount.length-1);
     }
 
+    // if digit was pressed
     if (event.keyCode >= 48 && event.keyCode <= 57) {
       console.log("You pressed key of type number");
       amount = amount + event.key;
     }
 
-    this.updatePrice(event, amount);
-    this.countTotal();
+    this.orderS.updateProductAmount(amount, this.orderId, itemId).subscribe(data => {
+      console.log("Amount of item with id="+itemId+" was changed");
+      item.amount = amount;
+      console.log(this.items);
+    }, null, () => {
+      this.countTotal();
+    });
 
     return false;
-  }
-
-  updatePrice(event, amount) {
-    let itemBlock = event.target.closest(".item");
-    let itemId = itemBlock.dataset.itemId;
-
-    // update amount in view 
-    for (let item of this.tempItems) {
-      if (item.product.id == itemId) {
-        item.amount = amount;
-      }
-    }
   }
 
   /**
@@ -142,97 +141,17 @@ export class OrderEditComponent implements OnInit {
     let itemBlock = event.target.closest(".item");
     let itemId = itemBlock.dataset.itemId;
 
-    for (let item of this.tempItems) {
-      //find item which amount we need to check
-      if (item.product.id == itemId) {
-        if (item.amount == 0 || item.amount == null) {
-          item.amount = 1;
-          this.countTotal();
-        }
-      }
+    let item = this.items.find(item => item.product.id == itemId);
+
+    if (item.amount == 0 || item.amount == null) {
+      item.amount = 1;
+      this.countTotal();
     }
   }
 
-  applyChanges(event) {
-    this.asyncLoop({
-      items: this.items,
-      funcToLoop: (loop, i) => {
-        this.checkItem(i).then(
-          response => loop()
-        )
-      }
-    }).then(response => this.checkNewItems())
-    .then(response => {
-      this.router.navigate(['/manager/order/details', { id: this.orderId }])
-    });
-  }
-
-  checkNewItems() {
-    return new Promise(async (res, rej) => {
-      let itemsIds = this.items.map(x => {
-        return x.product.id;
-      });
-  
-      let newItems = this.tempItems.filter(x => {
-        return itemsIds.indexOf(x.product.id) == -1;
-      });
-  
-      for (let newItem of newItems) {
-        await this.orderS.addProduct(this.orderId, newItem.product.id, newItem.amount).toPromise().then(res => {
-          console.log("Item with id="+newItem.product.id+" was added");
-        });
-      }
-      console.log("All items were proccessed");
-      res();
-    });
-  }
-
-  checkItem(i) {
-    return new Promise((res, rej) => {
-      let initialItem = this.items[i];
-      let productId = initialItem.product.id;
-      let itemExist, amountWasChanged, newAmount;
-
-      for (let tempItem of this.tempItems) {
-        if (tempItem.product.id == productId) {
-          itemExist = true;
-
-          if (tempItem.amount !== initialItem.amount) {
-            amountWasChanged = true;
-            newAmount = tempItem.amount;
-          }
-        }
-      }
-
-      if (!itemExist) {
-        this.orderS.deleteProduct(this.orderId, productId).subscribe(data => {
-          console.log("Item with id="+productId+" was removed");
-          return res();
-        });
-      }
-      if (amountWasChanged) {
-        this.orderS.updateProductAmount(newAmount, this.orderId, productId).subscribe(data => {
-          console.log("Amount of item with id="+productId+" was changed");
-          return res();
-        });
-      }
-      if (itemExist && !amountWasChanged) {
-        console.log("Item with id="+productId+" left untouched");
-        return res();
-      }
-    });
-  }
-
-  asyncLoop(o) {
-    return new Promise((res,rej) => {
-      let i = -1;
-
-      let loop = function() {
-        i++;
-        if (i == o.items.length) { return res() }
-        o.funcToLoop(loop, i);
-      }
-      loop();
+  saveChanges() {
+    this.orderS.save(this.items).subscribe(data => {
+      console.log(data);
     });
   }
 

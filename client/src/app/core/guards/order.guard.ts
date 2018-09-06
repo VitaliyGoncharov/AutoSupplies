@@ -1,30 +1,24 @@
 import { Injectable } from "@angular/core";
-import { CanLoad, Route, CanActivate, Router, ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
+import { CanLoad, Route, CanActivate, Router, ActivatedRouteSnapshot, ActivatedRoute, CanActivateChild } from "@angular/router";
 import { AuthService } from "../services/auth.service";
+import { Observable, of } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
-export class OrderGuard implements CanActivate {
+export class OrderGuard implements CanActivateChild {
 
     can: boolean = false;
 
     constructor(private _router: Router, private authS: AuthService) { }
 
-    canActivate(route: ActivatedRouteSnapshot) {
+    canActivateChild(route: ActivatedRouteSnapshot) {
+        console.log(":: OrderGuard ::");
 
-        /**
-         * If user is not logged in, then redirect to home page
-         */
-        if (!this.authS.isLoggedIn()) {
-            console.log("You're not logged in");
-            this._router.navigate(['/']);
-            return false;
-        }
         /**
          * If user doesn't have authorities, then redirect to home page
          */
-        if (!this.authS.hasAuthorities(['MANAGER','ADMIN'])) {
+        if (!this.authS.hasAuthorities('MANAGER','ADMIN')) {
             console.log("Don't have authorities");
             this._router.navigate(['/']);
             return false;
@@ -39,6 +33,7 @@ export class OrderGuard implements CanActivate {
             return true;
         }
 
+        
         this._router.navigate(['/']);
         return false;
     }

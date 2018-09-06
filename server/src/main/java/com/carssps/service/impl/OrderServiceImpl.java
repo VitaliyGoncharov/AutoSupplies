@@ -20,6 +20,11 @@ public class OrderServiceImpl implements OrderService {
 	private OrderDao orderDao;
 
 	@Override
+	public Order save(Order order) {
+		return orderDao.save(order);
+	}
+
+	@Override
 	public List<Order> findAll() {
 		List<Order> orders = new ArrayList<>();
 		orderDao.findAll().forEach(orders::add);

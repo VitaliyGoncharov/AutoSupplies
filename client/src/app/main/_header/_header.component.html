@@ -1,0 +1,67 @@
+<div class="container main-header">
+    <div class="main-header_top">
+        <div class="main-phone">
+          <h3>
+            <a class="main-phone--link" routerLink="/">8-800-555-35-35</a>
+          </h3>
+        </div>
+
+        <div class="main-search">
+          <form>
+            <input type="search" placeholder="Укажите наименование товара">
+    
+            <span>
+              <div class="main-search__icon"><i class="fa fa-search"></i></div>
+            </span>
+          </form>
+        </div>
+        
+        <div class="main-controls">
+          <div class="main-controls-1">
+            <a routerLink="/cart" class="main-cart">
+              <i class="fas fa-shopping-cart"></i>
+            </a>
+            <div class="toggleMenu" toggleSidebar>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="main-controls-2">
+            <a class="btn btn--login" routerLink="/login" *ngIf="!isLoggedIn">Вход</a>
+            <!-- <a href="#" class="btn btn--reg" *ngIf="!isLoggedIn">Регистрация</a> -->
+
+            <div class="main-dropdown" *ngIf="isLoggedIn">
+              <a class="main-profile--link" toggleDropdown>
+                <span>{{ email }}</span><i class="fas fa-user"></i><i class="fas fa-angle-down"></i>
+              </a>
+              <div class="main-dropdown-content">
+                <a href="#" routerLink="/profile">Профиль</a>
+                <a href="#" (click)="logout($event)">Выйти</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-header_bottom container">
+    <div class="main-search">
+      <form>
+        <input type="search" placeholder="Укажите наименование товара">
+
+        <span>
+          <div class="main-search__icon"><i class="fa fa-search"></i></div>
+        </span>
+      </form>
+    </div>
+
+    <div class="catalogs">
+        <ul>
+          <li><a href="#" routerLink="catalog/oil-and-grease">Масло и смазки</a></li>
+          <li><a href="#" routerLink="catalog/accumulator">Аккумуляторы</a></li>
+          <li><a href="#" routerLink="catalog/tire">Шины и диски</a></li>
+          <li><a href="#" routerLink="catalog/parts">Запчасти</a></li>
+        </ul>
+    </div>
+</div>

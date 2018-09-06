@@ -7,6 +7,12 @@ public class TokenResponse {
 
 	public TokenResponse() {
 	}
+	
+	public TokenResponse(String token_type, String access_token, String refresh_token) {
+		this.token_type = token_type;
+		this.access_token = access_token;
+		this.refresh_token = refresh_token;
+	}
 
 	public String getToken_type() {
 		return token_type;

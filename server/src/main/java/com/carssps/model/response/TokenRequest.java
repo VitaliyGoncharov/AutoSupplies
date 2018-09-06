@@ -33,7 +33,7 @@ public class TokenRequest {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = Optional.of(password).orElse(null);
 	}
 
 	public String getRefresh_token() {

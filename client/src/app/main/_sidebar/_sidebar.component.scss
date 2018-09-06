@@ -1,0 +1,76 @@
+@import '../../scss/buttons.scss';
+
+#main-sidebar {
+    display: grid;
+    position: fixed;
+    top: 0; right: 0;
+    grid-auto-flow: row;
+    grid-template-rows: 10% 90%;
+    align-items: start;
+    height: 100vh;
+    width: 0px;
+    background-color: purple;
+    transition: .3s;
+}
+#main-sidebar.is-open { width: 260px }
+
+.mobile-controls {
+    width: 260px;
+    padding: 0 15px;
+
+    &, .controls--not_authenticated {
+        display: grid;
+        grid-auto-flow: column;
+        align-self: center;
+    }
+
+    .controls--authenticated .mobile-profile--link{
+        text-decoration: none;
+        font-size: 1em;
+        color: #fff;
+        margin-right: .6em;
+        margin-bottom: 5px;
+
+        .fa-user { margin-right: 8px }
+
+        span {
+            font-size: 1.2em;
+            margin-right: .3em;
+        }
+    }
+
+    a {
+        display: block;
+        width: fit-content;
+        padding: .3em .9em;
+        line-height: 1;
+    }
+
+    .btn--login { justify-self: start }
+    .btn--reg { justify-self: end }
+    .btn--logout { margin-left: 12px }
+}
+
+.catalogs {
+    li {
+        list-style: none;
+
+        a {
+            display: block;
+            width: 100%;
+            text-decoration: none;
+            color: #fff;
+            font-size:1.2em;
+            padding: .6em 0 .6em 1.6em;
+            border-bottom: 1px solid #fff;
+
+            &:hover {
+                background-color: #f1f0ff;
+                color: #0062cc;
+            }
+        }
+
+        &:first-child a { border-top: 1px solid #fff }
+    }
+}
+

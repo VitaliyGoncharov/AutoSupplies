@@ -23,7 +23,7 @@ import io.jsonwebtoken.SignatureException;
 public class JwtTokenUtil {
 	protected final Log logger = LogFactory.getLog(getClass());
 	
-	private static final int ACCESS_TOKEN_EXPIRATION = 30 * 60; // 30 minutes
+	private static final int ACCESS_TOKEN_EXPIRATION = 1 * 60; // 30 minutes
 	private static final int REFRESH_TOKEN_EXPIRATION = 24 * 60 * 60; // 1 day
 	
 	@Value("${app.signing_key}")
@@ -49,6 +49,16 @@ public class JwtTokenUtil {
 				.compact();
 	}
 	
+	public String generateRefreshToken(User user) {
+		Claims claims = Jwts.claims().setSubject(user.getUsername());
+		Long expTime = (System.currentTimeMillis() / 1000L) + REFRESH_TOKEN_EXPIRATION;
+		claims.put("exp", expTime);
+		return Jwts.builder()
+				.setClaims(claims)
+				.signWith(SignatureAlgorithm.HS512, SIGNING_KEY)
+				.compact();
+	}
+	
 	public Claims parse(String compactJws) {
 		Claims claims = null;
 		try {
@@ -63,10 +73,14 @@ public class JwtTokenUtil {
 	}
 	
 	public int getRefreshTokenExp(String jwtToken) {
-		return this.getAccessTokenExp(jwtToken) + REFRESH_TOKEN_EXPIRATION;
+		return (int) this.parse(jwtToken).get("exp");
 	}
 	
 	public int getAccessTokenExp(String jwtToken) {
 		return (int) this.parse(jwtToken).get("exp");
+	}
+	
+	public String getSubject(String jwtToken) {
+		return this.parse(jwtToken).getSubject();
 	}
 }

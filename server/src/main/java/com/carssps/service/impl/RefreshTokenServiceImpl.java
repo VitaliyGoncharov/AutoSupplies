@@ -18,8 +18,13 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 	private RefreshTokenDao refreshTokenDao;
 
 	@Override
-	public RefreshToken findByUserAndTokenAndDevice(User user, String token, String device) {
-		return refreshTokenDao.findByUserAndTokenAndDevice(user, token, device);
+	public RefreshToken findByUser(User user) {
+		return refreshTokenDao.findByUser(user);
+	}
+
+	@Override
+	public RefreshToken findByUserAndToken(User user, String token) {
+		return refreshTokenDao.findByUserAndToken(user, token);
 	}
 
 	@Override

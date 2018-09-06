@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,35 +41,65 @@ public class OrderController {
 	@Autowired
 	private OrderProductService orderProductService;
 	
-	@RequestMapping(value = "/order/product/amount/edit", method = RequestMethod.POST)
-	public ResponseEntity<Integer> updateProductAmount(@RequestBody OrderProductReq orderProductReq) {
-		int success = orderProductService.updateProductAmountByOrderId(
-				orderProductReq.getAmount(),
-				orderProductReq.getOrderId(),
-				orderProductReq.getProductId()
-		);
-		this.updateTotal(orderProductReq.getOrderId());
-		return ResponseEntity.ok(success);
-	}
-	
-	@RequestMapping(value = "/order/product/add", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> addProduct(@RequestBody OrderProductReq orderProductReq) {
-		Product product = productService.findById(orderProductReq.getProductId());
-		Order order = orderService.findById(orderProductReq.getOrderId());
-		OrderProduct orderProduct = new OrderProduct(order, product, orderProductReq.getAmount());
-		orderProductService.save(orderProduct);
-		this.updateTotal(orderProductReq.getOrderId());
+	@RequestMapping(value = "/order/{orderId}/products/edit", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> updateOrderProducts(
+			@PathVariable("orderId") Integer orderId,
+			@RequestBody List<OrderProductReq> productsReq) {
+		
+		Order order = orderService.findById(orderId);
+		
+		List<OrderProduct> productsDB = order.getProducts();
+		for (OrderProduct productDB : productsDB) {
+			OrderProductReq productReq = productsReq.stream()
+				.filter(product -> product.getProductId() == productDB.getProduct().getId())
+				.findFirst().orElse(null);
+			
+			if (productReq == null) {
+				this.deleteProduct(productDB, orderId);
+			}
+			
+			if (productReq != null && productReq.getAmount() != productDB.getAmount()) {
+				this.updateProductAmount(productReq, orderId);
+			}
+			
+			if (productReq != null) {
+				productsReq.remove(productReq);
+			}
+		}
+		
+		if (!productsReq.isEmpty()) {
+			for (OrderProductReq productReq: productsReq) {
+				this.addProduct(productReq, orderId);
+			}
+		}
 		return ResponseEntity.ok(true);
 	}
 	
-	@RequestMapping(value = "/order/product/delete", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> deleteProduct(@RequestBody OrderProductReq orderProductReq) {
+	public Integer updateProductAmount(OrderProductReq productReq, int orderId) {
+		int orderProductId = orderProductService.updateProductAmountByOrderId(
+				productReq.getAmount(),
+				orderId,
+				productReq.getProductId()
+		);
+		this.updateTotal(orderId);
+		return orderProductId;
+	}
+	
+	public ResponseEntity<Integer> addProduct(OrderProductReq productReq, int orderId) {
+		Product product = productService.findById(productReq.getProductId());
+		Order order = orderService.findById(orderId);
+		OrderProduct orderProduct = new OrderProduct(order, product, productReq.getAmount());
+		OrderProduct newRcd = orderProductService.save(orderProduct);
+		this.updateTotal(orderId);
+		return ResponseEntity.ok(newRcd.getId());
+	}
+	
+	public void deleteProduct(OrderProduct productDB, int orderId) {
 		orderProductService.deleteByOrderIdAndProductId(
-				orderProductReq.getOrderId(),
-				orderProductReq.getProductId()
+				orderId,
+				productDB.getProduct().getId()
 		);
-		this.updateTotal(orderProductReq.getOrderId());
-		return ResponseEntity.ok(true);
+		this.updateTotal(orderId);
 	}
 	
 	@JsonView(View.Public.class)
@@ -86,31 +117,6 @@ public class OrderController {
 	public ResponseEntity<Order> getOrder(@RequestParam("id") Integer orderId) {
 		return ResponseEntity.ok(orderService.findById(orderId));
 	}
-	
-//	@RequestMapping(value = "/order/edit", method = RequestMethod.POST)
-//	public ResponseEntity<Integer> editOrder(
-//			@RequestParam("id") int id,
-//			@RequestParam(value = "address", required = false) String address,
-//			@RequestParam(value = "status", required = false) Short status) {
-//		int updatedId = 0;
-//		
-//		System.out.println("ADRESS:: " + address);
-//		System.out.println("STATUS:: " + status);
-//		
-//		if (address != null && status != null) {
-//			updatedId = orderService.updateAddressAndStatus(address, status, id);
-//		}
-//		
-//		if (address != null && status == null) {
-//			updatedId = orderService.updateAddress(address, id);
-//		}
-//		
-//		if (address == null && status != null) {
-//			updatedId = orderService.updateStatus(status, id);
-//		}
-//		
-//		return ResponseEntity.ok(updatedId);
-//	}
 	
 	@RequestMapping(value = "/order/add", method = RequestMethod.POST)
 	public ResponseEntity<Integer> addOrder(@RequestBody OrderReq orderReq) {

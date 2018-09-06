@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "product")
@@ -48,7 +50,6 @@ public class Product {
 			)
 	private List<ProductProp> properties = new ArrayList<>();
 	
-	@JsonBackReference
 	@OneToMany(mappedBy = "product")
 	private List<OrderProduct> orders = new ArrayList<>();
 

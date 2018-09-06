@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../../core/services/auth.service";
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { AuthLogin } from '../../../core/interfaces/auth-login';
+import { AuthToken } from '../../../core/interfaces/auth-token';
 import { Router } from '@angular/router';
 
 @Component({
@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
     const email = this.loginForm.get('email').value;
     const password = this.loginForm.get('password').value;
-    this.authS.login(email, password).subscribe((data: AuthLogin) => {
+    
+    this.authS.login(email, password).subscribe((data: AuthToken) => {
       this.authS.saveTokens(data.access_token, data.refresh_token);
       this.authS.setLoggedIn(true);
       this.router.navigate(['/']);

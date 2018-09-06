@@ -13,6 +13,13 @@ public interface UserService {
 	User save(User user);
 	List<User> findAll();
 	void delete(Long id);
+	
+	/**
+	 * Find user by username
+	 * 
+	 * @param String username 
+	 * @return User user
+	 */
 	User findOne(String username);
 	User findById(Long id);
 	Set<? extends GrantedAuthority> getAuthorities(Set<Role> roles);

@@ -1,4 +1,4 @@
-export interface AuthLogin {
+export interface AuthToken {
     token_type: string,
     access_token: string,
     refresh_token: string

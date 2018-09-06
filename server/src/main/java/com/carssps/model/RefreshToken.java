@@ -29,6 +29,11 @@ public class RefreshToken {
 	RefreshToken() {
 	}
 	
+	public RefreshToken(int id, int exp) {
+		this.id = id;
+		this.exp = exp;
+	}
+	
 	public RefreshToken(User user, String token, int exp, String device) {
 		this.user = user;
 		this.token = token;

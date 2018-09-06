@@ -1,0 +1,41 @@
+.btn {
+    padding: .375em .75em;
+    border-radius: .25em;
+    font-size: 1em;
+}
+.btn--reg, .btn--login, .btn--logout {
+    padding: 5px 25px;
+    border: 1px solid #d6d4d5;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: bold;
+    line-height: 26px;
+    transition: background-color .3s ease-in-out;
+}
+.btn--login {
+    color: #669cd6;
+    &:hover { background: #e6eef9 }
+}
+.btn--reg, .btn--logout {
+    background: #669cd6;
+    color: #fff;
+    &:hover { background: #5793d4 }
+}
+
+.btn-success {
+    margin-top: 20px;
+    padding: .375em .75em;
+    color: #fff;
+    background-color: #28a745;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color .15s;
+    border: 1px solid #28a745;
+    border-radius: .25rem;
+
+    &:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+}

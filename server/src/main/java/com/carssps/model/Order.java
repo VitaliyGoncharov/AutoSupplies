@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
 import com.carssps.controller.View;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity

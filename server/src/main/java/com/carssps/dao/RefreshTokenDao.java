@@ -8,5 +8,6 @@ import com.carssps.model.User;
 
 @Repository
 public interface RefreshTokenDao extends JpaRepository<RefreshToken, Integer> {
-	RefreshToken findByUserAndTokenAndDevice(User user, String token, String device);
+	RefreshToken findByUser(User user);
+	RefreshToken findByUserAndToken(User user, String token);
 }
