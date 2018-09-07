@@ -1,25 +1,25 @@
 <div id="main-sidebar">
     <div class="mobile-controls">
         <div class="controls--authenticated" *ngIf="isLoggedIn">
-        <a routerLink="/profile" class="mobile-profile--link">
+        <a routerLink="/profile" class="mobile-profile--link" toggleSidebar>
             <i class="fas fa-user"></i><span>{{ email }}</span>
         </a>
-        <a href="#" class="btn btn--logout" (click)="logout($event)" toggleSideBar>Выйти</a>
+        <a href="#" class="btn btn--logout" (click)="logout($event)" toggleSidebar>Выйти</a>
         </div>
         
         <div class="controls--not_authenticated" *ngIf="!isLoggedIn">
             <a class="btn btn--login" routerLink="/login" toggleSidebar>Вход</a>
-            <a href="#" class="btn btn--reg" toggleSideBar>Регистрация</a>
+            <a href="#" class="btn btn--reg" toggleSidebar>Регистрация</a>
         </div>
     </div>
     
     <div class="catalogs">
         <ul>
-            <li *ngIf="hasAuthorities('MANAGER','ADMIN')"><a href="#" routerLink="manager/orders" toggleSideBar>Заказы пользователей</a></li>
-            <li><a href="#" routerLink="catalog/oil-and-grease" toggleSideBar>Масло и смазки</a></li>
-            <li><a href="#" routerLink="catalog/accumulator" toggleSideBar>Аккумуляторы</a></li>
-            <li><a href="#" routerLink="catalog/tire" toggleSideBar>Шины и диски</a></li>
-            <li><a href="#" routerLink="catalog/parts" toggleSideBar>Запчасти</a></li>
+            <li *ngIf="hasAuthorities('MANAGER','ADMIN')" toggleSidebar><a href="#" routerLink="/manager/orders">Заказы пользователей</a></li>
+            <li toggleSidebar><a href="#" routerLink="/catalog/oil-and-grease">Масло и смазки</a></li>
+            <li toggleSidebar><a href="#" routerLink="/catalog/accumulator">Аккумуляторы</a></li>
+            <li toggleSidebar><a href="#" routerLink="/catalog/tire">Шины и диски</a></li>
+            <li toggleSidebar><a href="#" routerLink="/catalog/parts">Запчасти</a></li>
         </ul>
     </div>
 </div>

@@ -162,6 +162,7 @@ export class OrderEditComponent implements OnInit {
     })
     this.orderS.save(productsReq, this.orderId).subscribe(data => {
       console.log(data);
+      this.router.navigate(['/manager/order/details', {id: this.orderId}]);
     });
   }
 
