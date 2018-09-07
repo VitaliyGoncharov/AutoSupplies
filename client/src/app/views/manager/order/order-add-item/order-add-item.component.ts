@@ -11,7 +11,7 @@ import { ItemsService } from '../../../../core/services/items.service';
 })
 export class OrderAddItemComponent implements OnInit {
 
-  @Input() tempItems: Array<{product: Item, amount: number}>;
+  @Input() items: Array<{product: Item, amount: number}>;
 
   @Output() addedItem = new EventEmitter<string>();
 
@@ -39,7 +39,7 @@ export class OrderAddItemComponent implements OnInit {
   }
 
   addItem(item: Item) {
-    this.tempItems.push({product: item, amount: 1});
+    this.items.push({product: item, amount: 1});
     this.addedItem.emit('added');
     this.goBack();
   }

@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import { BehaviorSubject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthToken } from '../interfaces/auth-token';
+import { TokenService } from './token.service';
 
 interface Tokens {
   access_token: string;
@@ -22,8 +23,11 @@ export class AuthService {
     'Content-Type':'application/json'
   });
 
-  constructor(private http: HttpClient, private router: Router) {
-  }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private tokenS: TokenService
+  ) { }
   
   setLoggedIn(value: boolean) {
     this.loggedInSubj.next(value);
@@ -37,22 +41,6 @@ export class AuthService {
       return false;
 
     return true;
-    // const helper = new JwtHelperService();
-    // const decodedToken = helper.decodeToken(access_token);
-    // let curTime = Math.floor(Date.now() / 1000);
-
-    // if (!decodedToken) return false;
-    // if (!decodedToken.sub || !decodedToken.exp || !decodedToken.authorities) return false;
-
-    // if (decodedToken.exp > curTime) {
-    //   return true;
-    // }
-
-    // if (decodedToken.exp < curTime) {
-    //   return false;
-    // }
-
-    // return false;
   }
 
   logout() {
@@ -101,23 +89,20 @@ export class AuthService {
     return this.http.post(this.REFRESH_TOKENS, body, options);
   }
 
-  hasAuthorities(...authorities) {
+  hasAuthorities(authorities: Array<string>) {
     let hasAuthorities = false;
+
     authorities = authorities.map(authority => {
       return 'ROLE_' + authority;
     });
 
-    let access_token = localStorage.getItem('access_token');
-    const helper = new JwtHelperService();
-    const decodedToken = helper.decodeToken(access_token);
-    let token_authorities: Array<string> = decodedToken.authorities;
+    let tokenAuthorities: Array<string> = this.tokenS.getAuthorities();
 
-    for (let tokenAuthority of token_authorities) {
-      for (let authority of authorities) {
-        if (tokenAuthority == authority) {
-          hasAuthorities = true;
-          break;
-        }
+    for (let tokenAuthority of tokenAuthorities) {
+      let authority = authorities.find(authority => authority == tokenAuthority);
+      if (authority) {
+        hasAuthorities = true;
+        break;
       }
     }
     return hasAuthorities;

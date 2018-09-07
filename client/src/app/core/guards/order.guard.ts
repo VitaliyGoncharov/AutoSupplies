@@ -18,7 +18,7 @@ export class OrderGuard implements CanActivateChild {
         /**
          * If user doesn't have authorities, then redirect to home page
          */
-        if (!this.authS.hasAuthorities('MANAGER','ADMIN')) {
+        if (!this.authS.hasAuthorities(['MANAGER','ADMIN'])) {
             console.log("Don't have authorities");
             this._router.navigate(['/']);
             return false;

@@ -30,7 +30,7 @@
                 </div>
         
                 <input type="text" class="count" maxlength="3"
-                    (keydown)="changeAmount($event)" (blur)="checkAmount($event)" [value]="item.amount">
+                    (keydown)="filterAmount($event)" (keyup)="changeAmount($event)" (blur)="checkAmount($event)" [value]="item.amount">
                 
                 <div class="btn-plus" (click)="plusItem($event)">
                     <i class="fas fa-plus"></i>
@@ -48,6 +48,6 @@
         <button type="submit" class="btn btn-success" (click)="saveChanges()">Сохранить</button>
     </div>
 </div>
-<app-order-add-item [tempItems]="tempItems" (addedItem)="countTotal()"></app-order-add-item>
+<app-order-add-item [items]="items" (addedItem)="countTotal()"></app-order-add-item>
 
 

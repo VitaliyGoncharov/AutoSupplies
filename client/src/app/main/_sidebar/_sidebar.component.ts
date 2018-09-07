@@ -17,7 +17,7 @@ export class SidebarComponent {
         this.authS.loggedInSubj.subscribe(value => {
             this.isLoggedIn = value;
             if (this.isLoggedIn)
-                this.email = this.tokenS.getEmail();
+                this.email = this.tokenS.getSubject();
         });
     }
 

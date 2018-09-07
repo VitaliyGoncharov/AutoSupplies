@@ -39,7 +39,6 @@ public class Product {
 	@Column(name = "description")
 	private String description;
 	
-	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "products_props",
@@ -50,6 +49,7 @@ public class Product {
 			)
 	private List<ProductProp> properties = new ArrayList<>();
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "product")
 	private List<OrderProduct> orders = new ArrayList<>();
 

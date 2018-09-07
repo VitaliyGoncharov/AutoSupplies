@@ -3,6 +3,8 @@ package com.carssps.controller.manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +43,9 @@ public class OrderController {
 	@Autowired
 	private OrderProductService orderProductService;
 	
+	@Autowired
+	private EntityManager entityManager;
+	
 	@RequestMapping(value = "/order/{orderId}/products/edit", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> updateOrderProducts(
 			@PathVariable("orderId") Integer orderId,
@@ -72,6 +77,8 @@ public class OrderController {
 				this.addProduct(productReq, orderId);
 			}
 		}
+		
+		this.updateTotal(orderId);
 		return ResponseEntity.ok(true);
 	}
 	
@@ -81,7 +88,7 @@ public class OrderController {
 				orderId,
 				productReq.getProductId()
 		);
-		this.updateTotal(orderId);
+		
 		return orderProductId;
 	}
 	
@@ -90,7 +97,6 @@ public class OrderController {
 		Order order = orderService.findById(orderId);
 		OrderProduct orderProduct = new OrderProduct(order, product, productReq.getAmount());
 		OrderProduct newRcd = orderProductService.save(orderProduct);
-		this.updateTotal(orderId);
 		return ResponseEntity.ok(newRcd.getId());
 	}
 	
@@ -99,7 +105,6 @@ public class OrderController {
 				orderId,
 				productDB.getProduct().getId()
 		);
-		this.updateTotal(orderId);
 	}
 	
 	@JsonView(View.Public.class)
@@ -160,6 +165,7 @@ public class OrderController {
 	
 	private int updateTotal(int orderId) {
 		int total = 0;
+		entityManager.clear();
 		Order order = orderService.findById(orderId);
 		List<OrderProduct> products = order.getProducts();
 		for (OrderProduct orderProduct : products) {

@@ -17,7 +17,7 @@ export class OrderService {
   private FIND_BY_ID = "/api/manager/order";
   private FIND_ALL_ORDERS = "api/manager/orders";
   private ADD_ORDER = "/api/manager/order/add";
-  private SAVE_ORDER = "/api/manager/order/products/update";
+  private SAVE_ORDER = ["/api/manager/order/","/products/edit"];
   private UPDATE_PRODUCT_AMOUNT = "/api/manager/order/product/amount/edit";
   private ADD_PRODUCT = "/api/manager/order/product/add";
   private DELETE_PRODUCT = "/api/manager/order/product/delete";
@@ -74,10 +74,10 @@ export class OrderService {
     return this.http.post(this.ADD_PRODUCT, body, options);
   }
 
-  save(products: Array<{product: Item, amount: number}>) {
+  save(products: Array<{productId: number, amount: number}>, orderId: number) {
     let body = products;
     let options = { headers: this.addAuthHeader(this.headers) };
-    console.log(products);
-    return this.http.post(this.SAVE_ORDER, body, options);
+    let url = this.SAVE_ORDER[0] + orderId + this.SAVE_ORDER[1];
+    return this.http.post(url, body, options);
   }
 }

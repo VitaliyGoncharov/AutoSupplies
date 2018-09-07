@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
         this.authS.loggedInSubj.subscribe(isLoggedIn => {
             this.isLoggedIn = isLoggedIn;
             if (isLoggedIn)
-                this.email = this.tokenS.getEmail();
+                this.email = this.tokenS.getSubject();
         });
     }
     

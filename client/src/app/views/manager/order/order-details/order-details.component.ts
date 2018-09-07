@@ -13,6 +13,7 @@ import { OrderService } from '../../../../core/services/order.service';
 export class OrderDetailsComponent implements OnInit {
 
   private order: Order;
+  private orderId: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,8 +26,8 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   getOrderDetails() {
-    let id = Number.parseInt(this.route.snapshot.paramMap.get('id'));
-    this.orderS.findById(id).subscribe((order: Order) => {
+    this.orderId = Number.parseInt(this.route.snapshot.paramMap.get('id'));
+    this.orderS.findById(this.orderId).subscribe((order: Order) => {
         switch(order.status) {
           case 1: {
             order.status = "В обработке";
@@ -42,8 +43,7 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   goToOrderEditor(event) {
-    let id = this.route.snapshot.paramMap.get('id');
-    return this.router.navigate(['/manager/order/edit',{id: id}]);
+    return this.router.navigate(['/manager/order/edit',{id: this.orderId}]);
   }
 
 }

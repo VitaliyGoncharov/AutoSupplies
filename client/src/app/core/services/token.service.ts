@@ -14,8 +14,18 @@ export class TokenService {
         this.jwtHelper = new JwtHelperService();
     }
 
-    getEmail() {
+    getSubject() {
         let decodedToken: AccessToken = this.jwtHelper.decodeToken(localStorage.getItem('access_token'));
         return decodedToken.sub;
+    }
+
+    getExp() {
+        let decodedToken: AccessToken = this.jwtHelper.decodeToken(localStorage.getItem('access_token'));
+        return decodedToken.exp;
+    }
+
+    getAuthorities() {
+        let decodedToken: AccessToken = this.jwtHelper.decodeToken(localStorage.getItem('access_token'));
+        return decodedToken.authorities;
     }
 }

@@ -55,12 +55,8 @@ export class OrderEditComponent implements OnInit {
     }
 
     if (item.amount > 1) {
-      this.orderS.updateProductAmount(item.amount - 1, this.orderId, itemId).subscribe(data => {
-        console.log("Amount of item with id="+itemId+" was changed");
-        item.amount = --item.amount;
-      }, null, () => {
-        this.countTotal();
-      });
+      --item.amount;
+      this.countTotal();
     }
   }
 
@@ -70,15 +66,8 @@ export class OrderEditComponent implements OnInit {
 
     let item = this.items.find(item => item.product.id == itemId);
 
-    this.orderS.updateProductAmount(item.amount + 1, this.orderId, itemId).subscribe(data => {
-      console.log("Amount of item with id="+itemId+" was changed");
-      item.amount = ++item.amount;
-      console.log(this.items);
-    }, null, () => {
-      this.countTotal();
-    });
-    // item.amount = ++item.amount;
-    // this.countTotal();
+    ++item.amount;
+    this.countTotal();
   }
 
   removeItem(event) {
@@ -87,16 +76,20 @@ export class OrderEditComponent implements OnInit {
 
     let item = this.items.find(item => item.product.id == itemId);
 
-    this.orderS.deleteProduct(this.orderId, itemId).subscribe(data => {
-      console.log("Item with id="+itemId+" was removed");
-      let index = this.items.indexOf(item);
-      if (index > -1) this.items.splice(index, 1);
-    }, null, () => {
-      this.countTotal();
-    });
+    let index = this.items.indexOf(item);
+    if (index > -1) this.items.splice(index, 1);
+    this.countTotal();
   }
 
-  changeAmount(event) {
+  /**
+   * It is fired on keyDown event.
+   * The key hasn't been inserted to <input> yet.
+   * We need to check if this key is "number" or "backspace",
+   * if it's not a number or a backspace button then don't insert it to <input>
+   * 
+   * @param event 
+   */
+  filterAmount(event) {
     let input = event.target;
     let amount = input.value;
     let itemBlock = event.target.closest(".item");
@@ -108,24 +101,34 @@ export class OrderEditComponent implements OnInit {
     // if "Backspace" was pressed
     if (event.keyCode == 8) {
       console.log("Backspace was pressed!");
-      amount = amount.substr(0,amount.length-1);
+      return true;
     }
 
     // if digit was pressed
     if (event.keyCode >= 48 && event.keyCode <= 57) {
       console.log("You pressed key of type number");
-      amount = amount + event.key;
+      return true;
     }
 
-    this.orderS.updateProductAmount(amount, this.orderId, itemId).subscribe(data => {
-      console.log("Amount of item with id="+itemId+" was changed");
-      item.amount = amount;
-      console.log(this.items);
-    }, null, () => {
-      this.countTotal();
-    });
-
     return false;
+  }
+
+  /**
+   * It is fired on keyUp event.
+   * We get here when digit has already been inserted to <input>!
+   * We need to update amount in array (this.items) if it was changed
+   * 
+   * @param event 
+   */
+  changeAmount(event) {
+    let input = event.target;
+    let itemId = input.closest(".item").dataset.itemId;
+    let item = this.items.find(item => item.product.id == itemId);
+
+    if (item.amount == input.value) return false;
+
+    item.amount = input.value;
+    this.countTotal();
   }
 
   /**
@@ -150,7 +153,14 @@ export class OrderEditComponent implements OnInit {
   }
 
   saveChanges() {
-    this.orderS.save(this.items).subscribe(data => {
+    let productsReq: Array<{productId: number, amount: number}> = [];
+    this.items.map(item => {
+      productsReq.push({
+        productId: item.product.id,
+        amount: item.amount
+      });
+    })
+    this.orderS.save(productsReq, this.orderId).subscribe(data => {
       console.log(data);
     });
   }
