@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { ManagerModule } from "../views/manager/manager.module";
 import { UserModule } from "../views/user/user.module";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { CartComponent } from "../views/cart/cart.component";
 import { CatalogComponent } from "../views/catalog/catalog.component";
@@ -16,6 +16,7 @@ import { MainComponent } from "./main.component";
 import { ToggleSidebarDirective } from "../core/directives/toggleSidebar.directive";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { ToggleDropdownDirective } from "../core/directives/toggleDropdown.directive";
+import { AuthInterceptor } from "../core/interceptors/auth.interceptor";
 
 @NgModule({
     declarations: [
@@ -39,6 +40,12 @@ import { ToggleDropdownDirective } from "../core/directives/toggleDropdown.direc
         UserModule,
         ManagerModule
     ],
-    providers: []
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        }
+    ]
 })
 export class MainModule { }

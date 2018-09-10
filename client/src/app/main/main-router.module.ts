@@ -1,6 +1,5 @@
 import { Routes, RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
-import { LoadGuard } from "../core/guards/load.guard";
 import { MainComponent } from "./main.component";
 import { HomeComponent } from "../views/home/home.component";
 import { CatalogComponent } from "../views/catalog/catalog.component";
@@ -20,7 +19,6 @@ export const routes: Routes = [
     {
         path: '',
         component: MainComponent,
-        canActivateChild: [LoadGuard],
         children: [
             { path: '', component: HomeComponent },
             { path: 'catalog/oil-and-grease', component: CatalogComponent },
@@ -30,7 +28,7 @@ export const routes: Routes = [
             { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
             {
                 path: 'manager',
-                canActivateChild: [AuthGuard, OrderGuard],
+                canActivateChild: [AuthGuard],
                 children: [
                     { path: '', redirectTo: '/' , pathMatch: 'full' },
                     { path: 'orders', component: OrdersListComponent },

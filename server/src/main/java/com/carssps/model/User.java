@@ -1,5 +1,6 @@
 package com.carssps.model;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +18,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -26,8 +29,24 @@ public class User {
 	private Long id;
 	
 	@Column(nullable = false, unique = true)
-	private String username;
+	private String email;
+	
+	@JsonIgnore
 	private String password;
+	
+	@Column(name = "firstname")
+	private String firstname;
+	
+	@Column(name = "lastname")
+	private String lastname;
+	
+	private Date birth;
+	
+	private String gender;
+	
+	private String address;
+	
+	private String phone;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
@@ -44,26 +63,79 @@ public class User {
 	
 	public User() {
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		return username;
+
+	public String getEmail() {
+		return email;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public Date getBirth() {
+		return birth;
+	}
+
+	public void setBirth(Date birth) {
+		this.birth = birth;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -71,7 +143,7 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 	public List<RefreshToken> getRefreshTokens() {
 		return refreshTokens;
 	}
@@ -82,6 +154,6 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
+		return "User [id=" + id + ", email=" + email + ", password=" + password + "]";
 	}
 }

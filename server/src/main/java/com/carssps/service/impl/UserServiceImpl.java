@@ -36,13 +36,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	private PasswordEncoder encoder;
 	
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userDao.findByUsername(username);
+		User user = userDao.findByEmail(username);
 		Set<Role> roles = user.getRoles();
 		
 		if (user == null) {
 			throw new UsernameNotFoundException("Invalid username or password");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(roles));
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthorities(roles));
 	}
 	
 	public Set<? extends GrantedAuthority> getAuthorities(Set<Role> roles) {
@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public List<User> findAll() {
 		List<User> list = new ArrayList<>();
-//		userDao.findAll().iterator().forEachRemaining(list::add);
 		for (User user : userDao.findAll()) {
 			list.add(user);
 		}
@@ -79,8 +78,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public User findOne(String username) {
-		return userDao.findByUsername(username);
+	public User findOne(String email) {
+		return userDao.findByEmail(email);
 	}
 
 	@Override

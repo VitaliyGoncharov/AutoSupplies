@@ -1,4 +1,4 @@
-import { PropTitle } from "./propTitle";
+import { PropTitle } from "./prop-title";
 
 export interface Prop {
     id: number,

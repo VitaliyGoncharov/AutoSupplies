@@ -1,24 +1,29 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
+import { User } from '../interfaces/user';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private _url: string = "/api/user/";
-  private profileInfo_url: string = "/assets/userInfo.json";
+
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  private GET_USER_INFO: string = "/api/user";
 
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<any> {
-    const headers = new HttpHeaders({
-      authorization: 'Basic ' + btoa('bill:abc123')
-    });
-    return this.http.get<any>(this._url, {headers: headers});
+  addAuthHeader(headers: HttpHeaders) {
+    return headers.append("Authorization", localStorage.getItem('access_token'));
   }
 
-  getUserInfo() {
-    return this.http.get(this.profileInfo_url);
+  getUserInfo(): Observable<User> {
+    let options = { headers: this.addAuthHeader(this.headers) };
+    return this.http.get<User>(this.GET_USER_INFO, options);
   }
 }

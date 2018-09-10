@@ -8,7 +8,7 @@ import {AuthService} from "../services/auth.service";
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
 
-  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private authS: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.checkIfLoggedIn(next, state);
@@ -19,12 +19,13 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   checkIfLoggedIn(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log(":: AuthGuard ::");
+    console.log("[AuthGuard]");
     
-    if (this.auth.loggedInSubj.value) {
+    if (this.authS.isLoggedIn()) {
       return true;
     }
     
+    console.log("[AuthGuard] Navigate to login page!");
     this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
     return false;
   }

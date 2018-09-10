@@ -34,10 +34,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    let access_token: string = localStorage.getItem('access_token');
-    let refresh_token: string = localStorage.getItem('refresh_token');
-
-    if (!access_token || !refresh_token)
+    if (!this.getAccessToken() || !this.getRefreshToken())
       return false;
 
     return true;
@@ -46,6 +43,8 @@ export class AuthService {
   logout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    this.loggedInSubj.next(false);
+    return this.router.navigate(['/']);
   }
 
   login(email, password) {
@@ -63,20 +62,52 @@ export class AuthService {
     localStorage.setItem('refresh_token', refresh_token);
   }
 
-  tryAutoRefresh() {
-    return new Promise( (res, rej) => {
-      this.refreshTokens().subscribe((data: AuthToken) => {
-        this.saveTokens(data.access_token, data.refresh_token);
-        console.log("[200] Auto-refresh tokens");
-        return res();
-      },
-      error => {
-        this.logout();
-        console.log("[500] Auto-refreshed tokens");
-        console.log(error);
-        return rej();
+  autoRefreshTokens(): Promise<void> {
+    if (!this.tokenS.exist() || !this.tokenS.isValid())
+      return Promise.resolve();
+
+    if (!this.tokenS.isExpired()) {
+      this.loggedInSubj.next(true);
+      return Promise.resolve();
+    }
+
+    if (this.tokenS.isExpired()) {
+      console.log("Try to refresh token");
+      return new Promise( (res, rej) => {
+        setTimeout(() => {
+          console.log("In auth service");
+          res();
+        }, 4000);
+        // this.refreshTokens().subscribe(data => {
+        //   console.log("[200] Auto-refreshed tokens");
+        //   this.saveTokens(data.access_token, data.refresh_token);
+        //   // this.loggedInSubj.next(true);
+        //   res();
+        // },
+        // error => {
+        //   console.log("[500] Auto-refreshed tokens");
+        //   // console.log(error);
+        //   // this.logout();
+        //   // this.loggedInSubj.next(false);
+        //   rej();
+        // }, () => {
+        //   console.log("We complete!");
+        // });
+
+        // this.refreshTokens().subscribe(data => {
+        //   console.log(data);
+        //   this.saveTokens(data.access_token, data.refresh_token);
+        //   this.loggedInSubj.next(true);
+        //   res();
+        // }, error => {
+        //   console.log(error)
+        //   this.loggedInSubj.next(false);
+        //   res();
+        // }, () => {
+        //   console.log("FINISHED")
+        // });
       });
-    })
+    }
   }
 
   refreshTokens() {
@@ -86,7 +117,7 @@ export class AuthService {
       "refresh_token": refresh_token.toString()
     }
     let options = { headers: this.headers };
-    return this.http.post(this.REFRESH_TOKENS, body, options);
+    return this.http.post<AuthToken>(this.REFRESH_TOKENS, body, options);
   }
 
   hasAuthorities(authorities: Array<string>) {
@@ -106,5 +137,13 @@ export class AuthService {
       }
     }
     return hasAuthorities;
+  }
+
+  getAccessToken() {
+    return localStorage.getItem('access_token');
+  }
+
+  getRefreshToken() {
+    return localStorage.getItem('refresh_token');
   }
 }

@@ -1,6 +1,6 @@
-insert into users (username, password) values ('admin@gmail.com','$2a$11$uPbRVGe07TtmFrBGKrliUOGx8DpdqQ2Bn8oecZ//y/DchReYSuqdK')
-insert into users (username, password) values ('manager@gmail.com','$2a$11$uPbRVGe07TtmFrBGKrliUOGx8DpdqQ2Bn8oecZ//y/DchReYSuqdK')
-insert into users (username, password) values ('user@gmail.com','$2a$11$uPbRVGe07TtmFrBGKrliUOGx8DpdqQ2Bn8oecZ//y/DchReYSuqdK')
+insert into users (email, password) values ('admin@gmail.com','$2a$11$uPbRVGe07TtmFrBGKrliUOGx8DpdqQ2Bn8oecZ//y/DchReYSuqdK')
+insert into users (email, password, firstname, lastname, birth, gender, address, phone) values ('manager@gmail.com','$2a$11$uPbRVGe07TtmFrBGKrliUOGx8DpdqQ2Bn8oecZ//y/DchReYSuqdK','David','Belcher','1996-08-26','male','Fremont, CA','+1 555-427-5677')
+insert into users (email, password) values ('user@gmail.com','$2a$11$uPbRVGe07TtmFrBGKrliUOGx8DpdqQ2Bn8oecZ//y/DchReYSuqdK')
 insert into role (name) values ('ROLE_ADMIN'), ('ROLE_MANAGER'), ('ROLE_USER')
 
 insert into product (title, image, price) values ('Масло Castrol','https://ozon-st.cdn.ngenix.net/multimedia/audio_cd_covers/1023562045.jpg',50)

@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, OnInit } from "@angular/core";
+import { Component, Input, HostBinding, OnInit, DoCheck, ChangeDetectorRef, AfterViewChecked } from "@angular/core";
 import { AuthService } from "../../core/services/auth.service";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { TokenService } from "../../core/services/token.service";
@@ -9,18 +9,23 @@ import { Router } from "@angular/router";
     templateUrl: './_sidebar.component.html',
     styleUrls: ['./_sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, AfterViewChecked {
 
-    email: string;
     isLoggedIn: boolean;
+    email: string;
+    
 
     constructor(
         private authS: AuthService,
         private tokenS: TokenService,
-        private router: Router
+        private router: Router,
+        private cdRef: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
+        if (this.authS.isLoggedIn() && this.tokenS.isValid()) {
+            this.authS.loggedInSubj.next(true);
+        }
         this.authS.loggedInSubj.subscribe(value => {
             this.isLoggedIn = value;
             if (this.isLoggedIn)
@@ -28,16 +33,20 @@ export class SidebarComponent implements OnInit {
         });
     }
 
+    ngAfterViewChecked() {
+        this.cdRef.detectChanges();
+    }
+
     logout(event) {
         event.preventDefault();
         this.authS.logout();
-        this.isLoggedIn = false;
-        this.router.navigate(['/']);
     }
 
     hasAuthorities(...authorities) {
-        if (!this.isLoggedIn)
+        if (!this.authS.isLoggedIn() || !this.tokenS.isValid()) {
+            this.authS.loggedInSubj.next(false);
             return false;
+        }
         return this.authS.hasAuthorities(authorities);
     }
 }

@@ -1,24 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, FormArray, SelectControlValueAccessor } from '@angular/forms';
-import { discardPeriodicTasks } from '@angular/core/testing';
-import * as LANG_DIRS from './../../locale/lang.conf.json';
 import { UserService } from '../../../core/services/user.service';
-import { UserInfo } from '../../../core/interfaces/userInfo';
-import { Observable, of } from 'rxjs';
+import { User } from '../../../core/interfaces/user';
+import { of, Observable, interval, BehaviorSubject, throwError } from 'rxjs';
+import { delay, switchMap, map, filter, take, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
 
   editForm: FormGroup;
-
-  profileKeys: Array<string>;
-  userInfo: UserInfo;
-
-  profileInfo: Array<{key: string, value: string}>;
+  user: User;
 
   constructor(
     private fb: FormBuilder,
@@ -26,30 +21,36 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getUserInfo();
+
     this.editForm = this.fb.group({
-      
+      email: [''],
+      firstname: [''],
+      lastname: [''],
+      birth: [''],
+      gender: [''],
+      address: [''],
+      phone: ['']
     });
-
-    this.profileInfo = [];
-
-    this.getUserInfo().then(
-      response => {
-        
-      },
-      error => { }
-    );
   }
 
+  simulateFirebase(val: any, delayTime: number) {
+    return interval(delayTime).pipe(
+      map(index => val + " " + index)
+    )
+  }
 
-  getUserInfo(): Promise<string> {
-    return new Promise( (res, rej) => {
-      let response = this.userS.getUserInfo().toPromise();
-      response.then(
-        (data: UserInfo) => {
-          this.userInfo = data;
-          res("done");
-        }
-      );
+  simulateHttp(val: string, delayTime: number) {
+    return of(val).pipe(delay(delayTime));
+  }
+
+  getUserInfo() {
+    this.userS.getUserInfo().subscribe(data => {
+      this.user = data;
     });
+  }
+
+  updateUser() {
+    console.log(this.editForm);
   }
 }
