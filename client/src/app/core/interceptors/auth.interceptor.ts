@@ -37,8 +37,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
         return next.handle(req).pipe(
             catchError(error => {
-                
-
                 if (req.url.includes("token")) {
                     console.log("[AuthInterceptor] RefreshToken is not valid");
                     return throwError(error);
@@ -47,8 +45,8 @@ export class AuthInterceptor implements HttpInterceptor {
                 let isGuardedRoute = this.GUARDED_ROUTES.filter(route => req.url.includes(route));
                 if (isGuardedRoute.length == 0) return throwError(error);
 
-                if (this.authS.getAccessToken() == null || this.authS.getRefreshToken() == null) {
-                    console.log("[AuthInterceptor] No tokens in localStorage (you removed them manually OR guard doesn't deny access)");
+                if (this.tokenS.getAccessToken() == null || this.tokenS.getRefreshToken() == null) {
+                    console.log("[AuthInterceptor] No tokens in localStorage (maybe you removed them manually)");
                     this.router.navigate(['/login']);
                     return throwError(error);
                 }
@@ -74,7 +72,7 @@ export class AuthInterceptor implements HttpInterceptor {
                             this.refreshTokenSubject.next(tokens);
 
                             // save tokens in localStorage
-                            this.authS.saveTokens(tokens.access_token, tokens.refresh_token);
+                            this.tokenS.saveTokens(tokens.access_token, tokens.refresh_token);
 
                             return next.handle(this.authToken(req));
                         }),
@@ -93,7 +91,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     authToken(request) {
-        const accessToken = this.authS.getAccessToken();
+        const accessToken = this.tokenS.getAccessToken();
 
         if (!accessToken) {
             return request;
@@ -101,7 +99,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
         return request.clone({
             setHeaders: {
-                Authorization: this.authS.getAccessToken()
+                Authorization: this.tokenS.getAccessToken()
             }
         })
     }

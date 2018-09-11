@@ -12,9 +12,10 @@ export class ToggleSidebarDirective {
 
     @HostListener('click') toggle() {
         let toggleMenu = document.querySelector('.toggleMenu');
-        toggleMenu.classList.toggle('translatedX');
+        // toggleMenu.classList.toggle('translatedX');
         toggleMenu.classList.toggle('toggleMenu--active');
 
         document.querySelector('#main-sidebar').classList.toggle('is-open');
+        document.querySelector('.content').classList.toggle('opacity');
     }
 }

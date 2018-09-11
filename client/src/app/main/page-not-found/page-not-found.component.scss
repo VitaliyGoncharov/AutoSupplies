@@ -1,0 +1,19 @@
+.wrap { display: grid; }
+#not-found-title {
+    margin: 150px 0 50px 0;
+    text-align: center;
+}
+#to-main-page_link {
+    display: inline-block;
+    justify-self: center;
+    text-align: center;
+    font-size: 1.2em;
+    color: #fff;
+    border: 1px solid rgb(58, 58, 212);
+    border-radius: .25em;
+    padding: .375em .75em;
+    background-color: rgb(58, 58, 212);
+    text-decoration: none;
+
+    &:hover { background-color:rgb(31, 31, 199) }
+}

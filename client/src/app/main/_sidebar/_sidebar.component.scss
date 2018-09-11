@@ -1,11 +1,58 @@
 @import '../../scss/buttons.scss';
 
+@media only screen and (max-width: 768px) {
+    .toggleMenu {
+        display: block!important;
+    }
+}
+
+.toggleMenu {
+    display: none;
+    position: absolute;
+    top: 13px;
+    left: -60px;
+    width: 50px;
+    height: 50px;
+    // background-color: #dfe21c;
+    // border: 1px solid #d6d4d5;
+    border-radius: 20%;
+    cursor: pointer;
+    transition: .3s;
+  
+    span {
+        top: 50%; margin-top: -1px;
+        left: 50%; margin-left: -15px;
+
+        &, &::before, &::after {
+            position: absolute;
+            width: 30px;
+            height: 4px;
+            background-color: #3c3636;
+            border-radius: 12px;
+        }
+
+        &::before, &::after {
+            content: '';
+            display: block;
+            transition: .5s;
+        }
+
+        &::before { transform: translateY(-10px) }
+        &::after { transform: translateY(10px) }
+    }
+
+    &.toggleMenu--active span {
+        height: 0;
+        &::before { transform: rotate(-45deg) }
+        &::after { transform: rotate(45deg) }
+    }
+}
 #main-sidebar {
     display: grid;
     position: fixed;
     top: 0; right: 0;
     grid-auto-flow: row;
-    grid-template-rows: 10% 90%;
+    grid-auto-rows: max-content;
     align-items: start;
     height: 100vh;
     width: 0px;
@@ -17,6 +64,7 @@
 .mobile-controls {
     width: 260px;
     padding: 0 15px;
+    padding: 15px;
 
     &, .controls--not_authenticated {
         display: grid;

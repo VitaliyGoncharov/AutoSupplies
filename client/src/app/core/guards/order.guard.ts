@@ -13,13 +13,13 @@ export class OrderGuard implements CanActivateChild {
     constructor(private _router: Router, private authS: AuthService) { }
 
     canActivateChild(route: ActivatedRouteSnapshot) {
-        console.log(":: OrderGuard ::");
+        console.log("[OrderGuard]");
 
         /**
          * If user doesn't have authorities, then redirect to home page
          */
         if (!this.authS.hasAuthorities(['MANAGER','ADMIN'])) {
-            console.log("Don't have authorities");
+            console.log("[OrderGuard] Don't have authorities");
             this._router.navigate(['/']);
             return false;
         }

@@ -10,10 +10,9 @@ import { Router } from "@angular/router";
     styleUrls: ['./_sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit, AfterViewChecked {
-
+    
     isLoggedIn: boolean;
     email: string;
-    
 
     constructor(
         private authS: AuthService,

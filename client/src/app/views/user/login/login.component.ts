@@ -3,6 +3,7 @@ import {AuthService} from "../../../core/services/auth.service";
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { AuthToken } from '../../../core/interfaces/auth-token';
 import { Router } from '@angular/router';
+import { TokenService } from '../../../core/services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authS: AuthService,
+    private tokenS: TokenService,
     private fb: FormBuilder,
     private router: Router
   ) { }
@@ -32,7 +34,7 @@ export class LoginComponent implements OnInit {
     const password = this.loginForm.get('password').value;
     
     this.authS.login(email, password).subscribe((data: AuthToken) => {
-      this.authS.saveTokens(data.access_token, data.refresh_token);
+      this.tokenS.saveTokens(data.access_token, data.refresh_token);
       this.authS.setLoggedIn(true);
       this.router.navigate(['/']);
     });

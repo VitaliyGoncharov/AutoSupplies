@@ -28,13 +28,13 @@ export const routes: Routes = [
             { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
             {
                 path: 'manager',
-                canActivateChild: [AuthGuard],
+                canActivateChild: [AuthGuard, OrderGuard],
                 children: [
                     { path: '', redirectTo: '/' , pathMatch: 'full' },
                     { path: 'orders', component: OrdersListComponent },
-                    { path: 'order/details', component: OrderDetailsComponent },
-                    { path: 'order/edit', component: OrderEditComponent },
-                    { path: 'order/item/add', component: OrderAddItemComponent }
+                    { path: 'order/:id/details', component: OrderDetailsComponent },
+                    { path: 'order/:id/edit', component: OrderEditComponent },
+                    { path: 'order/:id/item/add', component: OrderAddItemComponent }
                 ]
             }
         ]

@@ -60,4 +60,22 @@ export class TokenService {
         }
         return true;
     }
+
+    getAccessToken() {
+        return localStorage.getItem('access_token');
+    }
+
+    getRefreshToken() {
+        return localStorage.getItem('refresh_token');
+    }
+
+    saveTokens(access_token, refresh_token) {
+        localStorage.setItem('access_token', access_token);
+        localStorage.setItem('refresh_token', refresh_token);
+    }
+
+    removeTokens() {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+    }
 }
