@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '../../../../node_modules/@angular/common/http';
 import { AuthService } from './auth.service';
 import { Item } from '../interfaces/item';
+import { Order } from '../interfaces/order';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class OrderService {
 
   findAll() {
     let options = { headers: this.addAuthHeader(this.headers) }
-    return this.http.get(this.FIND_ALL_ORDERS, options);
+    return this.http.get<Array<Order>>(this.FIND_ALL_ORDERS, options);
   }
 
   findById(id: number) {
@@ -37,7 +38,7 @@ export class OrderService {
       params: params,
       headers: this.addAuthHeader(this.headers)
     }
-    return this.http.get(this.FIND_BY_ID, options);
+    return this.http.get<Order>(this.FIND_BY_ID, options);
   }
 
   add(body) {
@@ -79,5 +80,35 @@ export class OrderService {
     let options = { headers: this.addAuthHeader(this.headers) };
     let url = this.SAVE_ORDER[0] + orderId + this.SAVE_ORDER[1];
     return this.http.post(url, body, options);
+  }
+
+  translateOrdersStatus(orders: Array<Order>) {
+    return orders.map(order => {
+      switch (order.status) {
+        case 1: {
+            order.status = "В обработке";
+            break;
+        }
+        case 2: {
+            order.status = "Собран";
+            break;
+        }
+      }
+      return order;
+    });
+  }
+
+  translateOrderStatus(order: Order) {
+    switch (order.status) {
+      case 1: {
+          order.status = "В обработке";
+          break;
+      }
+      case 2: {
+          order.status = "Собран";
+          break;
+      }
+    }
+    return order;
   }
 }

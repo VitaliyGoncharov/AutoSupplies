@@ -34,11 +34,10 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    if ( (!this.tokenS.getAccessToken() || !this.tokenS.getRefreshToken())
-            || !this.tokenS.isValid() )
-      return false;
+    if (this.tokenS.getAccessToken() && this.tokenS.getRefreshToken() && this.tokenS.isValid() )
+      return true;
 
-    return true;
+    return false;
   }
 
   logout() {

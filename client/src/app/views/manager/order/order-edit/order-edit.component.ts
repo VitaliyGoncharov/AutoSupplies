@@ -23,7 +23,10 @@ export class OrderEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getProducts();
+    let order = <Order> this.route.snapshot.data['order'];
+    this.items = order.products;
+    this.orderId = order.id;
+    this.countTotal();
   }
 
   countTotal() {
@@ -32,17 +35,6 @@ export class OrderEditComponent implements OnInit {
     },0);
   }
 
-  getProducts() {
-    this.orderId = Number.parseInt(this.route.snapshot.paramMap.get('id'));
-    this.orderS.findById(this.orderId).subscribe((order: Order) => {
-        this.items = order.products;
-        this.countTotal();
-    });
-  }
-
-  /**
-   * Note async!!!
-   */
   minusItem(event) {
     let target = event.target;
     let itemId = target.closest('.item').dataset.itemId;
@@ -162,7 +154,7 @@ export class OrderEditComponent implements OnInit {
     })
     this.orderS.save(productsReq, this.orderId).subscribe(data => {
       console.log("[OrderEditComponent] Order products were updated");
-      this.router.navigate(['/manager/order/details', {id: this.orderId}]);
+      this.router.navigate(['/manager/order/'+this.orderId+'/details']);
     });
   }
 

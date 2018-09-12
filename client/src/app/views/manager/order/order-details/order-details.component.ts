@@ -22,28 +22,11 @@ export class OrderDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getOrderDetails();
-  }
-
-  getOrderDetails() {
-    this.orderId = Number.parseInt(this.route.snapshot.paramMap.get('id'));
-    this.orderS.findById(this.orderId).subscribe((order: Order) => {
-        switch(order.status) {
-          case 1: {
-            order.status = "В обработке";
-            break;
-          }
-          case 2: {
-            order.status = "Собран";
-            break;
-          }
-        }
-        this.order = order;
-    })
+    this.order = this.route.snapshot.data['order'];
+    this.orderId = this.order.id;
   }
 
   goToOrderEditor(event) {
-    return this.router.navigate(['/manager/order/edit',{id: this.orderId}]);
+    return this.router.navigate(['/manager/order/'+this.orderId+'/edit']);
   }
-
 }

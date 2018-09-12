@@ -14,6 +14,8 @@ import { OrderDetailsComponent } from "../views/manager/order/order-details/orde
 import { OrderEditComponent } from "../views/manager/order/order-edit/order-edit.component";
 import { OrderAddItemComponent } from "../views/manager/order/order-add-item/order-add-item.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
+import { OrdersResolver } from "../core/resolvers/orders.resolver";
+import { OrderResolver } from "../core/resolvers/order.resolver";
 
 export const routes: Routes = [
     {
@@ -31,10 +33,9 @@ export const routes: Routes = [
                 canActivateChild: [AuthGuard, OrderGuard],
                 children: [
                     { path: '', redirectTo: '/' , pathMatch: 'full' },
-                    { path: 'orders', component: OrdersListComponent },
-                    { path: 'order/:id/details', component: OrderDetailsComponent },
-                    { path: 'order/:id/edit', component: OrderEditComponent },
-                    { path: 'order/:id/item/add', component: OrderAddItemComponent }
+                    { path: 'orders', component: OrdersListComponent, resolve: { orders: OrdersResolver} },
+                    { path: 'order/:id/details', component: OrderDetailsComponent, resolve: { order: OrderResolver } },
+                    { path: 'order/:id/edit', component: OrderEditComponent, resolve: { order: OrderResolver } }
                 ]
             }
         ]

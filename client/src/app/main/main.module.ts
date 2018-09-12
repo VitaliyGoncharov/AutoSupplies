@@ -17,6 +17,8 @@ import { ToggleSidebarDirective } from "../core/directives/toggleSidebar.directi
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { ToggleDropdownDirective } from "../core/directives/toggleDropdown.directive";
 import { AuthInterceptor } from "../core/interceptors/auth.interceptor";
+import { OrdersResolver } from "../core/resolvers/orders.resolver";
+import { OrderResolver } from "../core/resolvers/order.resolver";
 
 @NgModule({
     declarations: [
@@ -41,6 +43,8 @@ import { AuthInterceptor } from "../core/interceptors/auth.interceptor";
         ManagerModule
     ],
     providers: [
+        OrdersResolver,
+        OrderResolver,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,

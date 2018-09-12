@@ -15,6 +15,7 @@ import com.carssps.model.User;
 import com.carssps.service.UserService;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
@@ -61,11 +62,7 @@ public class JwtTokenUtil {
 	
 	public Claims parse(String compactJws) {
 		Claims claims = null;
-		try {
-			 claims = Jwts.parser().setSigningKey(SIGNING_KEY).parseClaimsJws(compactJws).getBody();
-		} catch (SignatureException e) {
-			e.printStackTrace();
-		}
+		claims = Jwts.parser().setSigningKey(SIGNING_KEY).parseClaimsJws(compactJws).getBody();
 		
 		logger.info("Getting claims!");
 		
