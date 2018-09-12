@@ -23,6 +23,8 @@ import com.carssps.service.UserService;
 import com.carssps.util.JwtTokenUtil;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	
@@ -48,16 +50,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (header != null) {
 			System.out.println(header);
 			authToken = header;
-			
-			Claims claims = jwtTokenUtil.parse(authToken);
-			username = claims.getSubject();
-			exp = (int) claims.get("exp");
-			authorities = claims.get("authorities", ArrayList.class);
+			try {
+				Claims claims = jwtTokenUtil.parse(authToken);
+				username = claims.getSubject();
+				exp = (int) claims.get("exp");
+				authorities = claims.get("authorities", ArrayList.class);
+			} catch(Exception e) { }
+			this.setAuthenticated(username, authorities, exp);
 		}
 		
+		filterChain.doFilter(request, response);
+	}
+	
+	private void setAuthenticated(String username, List<String> authorities, Integer exp) {
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null 
 				&& exp > (System.currentTimeMillis() / 1000L)) {
-			
+			System.out.println("Jwt token isn't expired");
 			Set<SimpleGrantedAuthority> contextAuthorities = new HashSet<>();
 			for (String authority : authorities) {
 				contextAuthorities.add(new SimpleGrantedAuthority(authority));
@@ -66,7 +74,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, contextAuthorities);
 			SecurityContextHolder.getContext().setAuthentication(auth);
 		}
-		
-		filterChain.doFilter(request, response);
 	}
 }

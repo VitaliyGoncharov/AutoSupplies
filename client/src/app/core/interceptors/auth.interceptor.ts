@@ -42,8 +42,11 @@ export class AuthInterceptor implements HttpInterceptor {
                     return throwError(error);
                 }
 
-                let isGuardedRoute = this.GUARDED_ROUTES.filter(route => req.url.includes(route));
-                if (isGuardedRoute.length == 0) return throwError(error);
+                if (error.status !== 401) {
+                    return throwError(error);
+                }
+                // let isGuardedRoute = this.GUARDED_ROUTES.filter(route => req.url.includes(route));
+                // if (isGuardedRoute.length == 0) return throwError(error);
 
                 if (this.tokenS.getAccessToken() == null || this.tokenS.getRefreshToken() == null) {
                     console.log("[AuthInterceptor] No tokens in localStorage (maybe you removed them manually)");

@@ -6,7 +6,6 @@ import { CatalogComponent } from "../views/catalog/catalog.component";
 import { CartComponent } from "../views/cart/cart.component";
 import { AuthGuard } from "../core/guards/auth.guard";
 import { ProfileComponent } from "../views/user/profile/profile.component";
-import { LogoutComponent } from "../views/user/logout/logout.component";
 import { LoginComponent } from "../views/user/login/login.component";
 import { OrderGuard } from "../core/guards/order.guard";
 import { OrdersListComponent } from "../views/manager/order/orders-list/orders-list.component";
@@ -26,7 +25,6 @@ export const routes: Routes = [
             { path: 'catalog/oil-and-grease', component: CatalogComponent },
             { path: 'cart', component: CartComponent },
             { path: 'login', component: LoginComponent },
-            { path: 'logout', component: LogoutComponent },
             { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
             {
                 path: 'manager',

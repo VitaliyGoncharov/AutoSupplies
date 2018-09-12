@@ -1,5 +1,7 @@
 package com.carssps.controller.manager;
 
+import java.nio.file.attribute.UserPrincipal;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,8 @@ import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -119,7 +123,7 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/order")
-	public ResponseEntity<Order> getOrder(@RequestParam("id") Integer orderId) {
+	public ResponseEntity<Order> getOrder(@RequestParam("id") Integer orderId, Principal principal) {
 		return ResponseEntity.ok(orderService.findById(orderId));
 	}
 	
