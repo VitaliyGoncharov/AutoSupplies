@@ -15,6 +15,7 @@ import { OrderAddItemComponent } from "../views/manager/order/order-add-item/ord
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { OrdersResolver } from "../core/resolvers/orders.resolver";
 import { OrderResolver } from "../core/resolvers/order.resolver";
+import { UserResolver } from "../core/resolvers/user.resolver";
 
 export const routes: Routes = [
     {
@@ -25,7 +26,12 @@ export const routes: Routes = [
             { path: 'catalog/oil-and-grease', component: CatalogComponent },
             { path: 'cart', component: CartComponent },
             { path: 'login', component: LoginComponent },
-            { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+            { 
+                path: 'profile',
+                component: ProfileComponent,
+                canActivate: [AuthGuard],
+                resolve: { user: UserResolver}
+            },
             {
                 path: 'manager',
                 canActivateChild: [AuthGuard, OrderGuard],

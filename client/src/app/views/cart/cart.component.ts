@@ -4,6 +4,7 @@ import { ItemsService } from '../../core/services/items.service';
 import { Item } from '../../core/interfaces/item';
 import { FormGroup, FormControl } from '@angular/forms';
 import { OrderService } from '../../core/services/order.service';
+import { OrderReq } from '../../core/interfaces/req/order-req';
 
 @Component({
   selector: 'app-cart',
@@ -52,7 +53,7 @@ export class CartComponent implements OnInit {
   }
 
   getItems() {
-    let items;
+    let items: Array<{id: number, amount: number}>;
     let cartCookie = this.cookieS.getCookie("cart");
 
     if (cartCookie) {
@@ -60,27 +61,22 @@ export class CartComponent implements OnInit {
     }
     
     if (!Array.isArray(items) || !items.length) {
-      console.log("Isn't array or null");
+      console.log("Cart info of wrong formate");
       return;
     }
     
     let itemsIds = items.map(item => item.id);
-    this.itemsS.findAllById(this._url_get_all_by_ids, itemsIds).subscribe( (data: Array<Item>) => {
-      console.log(data);
-        for (let i = 0; i < data.length; i++) {
-          this.items[i] = { product: data[i], amount: null };
-        }
-        console.log("Data was fetched");
+    this.itemsS.findAllById(this._url_get_all_by_ids, itemsIds).subscribe(data => {
+      for (let i = 0; i < data.length; i++) {
+        this.items[i] = { product: data[i], amount: null };
+      }
 
-        for (let item of this.items) {
-          // amount of item is in cookie
-          for (let itemFromCookie of items) {
-            if (item.product.id == itemFromCookie.id) {
-              item.amount = itemFromCookie.amount;
-              break;
-            }
-          }
-        }
+      for (let item of this.items) {
+        // amount of item is in cookie
+        let itemCookie = items.find(itemCookie => itemCookie.id == item.product.id);
+        if (itemCookie)
+          item.amount = itemCookie.amount;
+      }
     }, null, () => {
       this.countTotalPrice();
     });
@@ -95,11 +91,9 @@ export class CartComponent implements OnInit {
     this.changeAmountInCookie(event, null, {increment: true});
     
     // update amount in view 
-    for (let item of this.items) {
-      if (item.product.id == itemId) {
-        item.amount = ++item.amount;
-      }
-    }
+    let item = this.items.find(item => item.product.id == itemId);
+    if (item)
+      item.amount = ++item.amount;
 
     this.countTotalPrice();
   }
@@ -110,10 +104,6 @@ export class CartComponent implements OnInit {
 
     if (amount == 1) {
       // alert("Amount can't be less than 1. Use trash button to remove item from cart");
-      // $(amountInput).tooltip('show');
-      // setTimeout(function () {
-      //   $(amountInput).tooltip('hide');
-      // }, 1500);
       return;
     }
     
@@ -125,9 +115,9 @@ export class CartComponent implements OnInit {
     this.changeAmountInCookie(event, null, {decrement: true});
     
     // update amount in view 
-    for (let item of this.items) {
-      if (item.product.id == itemId) item.amount -= 1;
-    }
+    let item = this.items.find(item => item.product.id == itemId);
+    if (item)
+      item.amount -= 1;
 
     this.countTotalPrice();
   }
@@ -169,15 +159,12 @@ export class CartComponent implements OnInit {
 
     // update amount of item in cookie (when user reload the page amount will be read from cookie)
     let items: Array<{id: number, amount: number}> = JSON.parse(this.cookieS.getCookie("cart"));
-    for (let item of items) {
-      if (item.id == itemId) {
-        if (flags) {
-          if (flags.increment) item.amount = ++item.amount;
-          if (flags.decrement) item.amount = --item.amount;
-        }
-        
-        if (!flags) item.amount = inputedAmount;
-      }
+    let item = items.find(item => item.id == itemId);
+    if (item) {
+      if (flags && flags.increment) item.amount = ++item.amount;
+      if (flags && flags.decrement) item.amount = --item.amount;
+      
+      if (!flags) item.amount = inputedAmount;
     }
     this.cookieS.setCookie("cart", JSON.stringify(items));
   }
@@ -189,12 +176,10 @@ export class CartComponent implements OnInit {
 
     inputedAmount = amount ? amount : event.target.value;
 
-    // update amount in view 
-    for (let item of this.items) {
-      if (item.product.id == itemId) {
-        item.amount = inputedAmount;
-      }
-    }
+    // update amount in view
+    let item = this.items.find(item => item.product.id == itemId);
+    if (item)
+      item.amount = inputedAmount;
   }
 
   countTotalPrice() {
@@ -205,23 +190,21 @@ export class CartComponent implements OnInit {
   }
 
   removeItem(event) {
-    let item = event.target.closest(".item");
-    let itemId = item.dataset.itemId;
+    let itemElem = event.target.closest(".item");
+    let itemId = itemElem.dataset.itemId;
 
-    let items: Array<{id: number, amount: number}> = JSON.parse(this.cookieS.getCookie("cart"));
-    for (let item of items) {
-      if (item.id == itemId) {
-        let index = items.indexOf(item);
-        if (index > -1) items.splice(index, 1);
-      }
+    let itemsCookie: Array<{id: number, amount: number}> = JSON.parse(this.cookieS.getCookie("cart"));
+    let itemCookie = itemsCookie.find(item => item.id == itemId);
+    if (itemCookie) {
+      let index = itemsCookie.indexOf(itemCookie);
+      if (index > -1) itemsCookie.splice(index, 1);
     }
-    this.cookieS.setCookie("cart", JSON.stringify(items));
+    this.cookieS.setCookie("cart", JSON.stringify(itemsCookie));
 
-    for (let itemI of this.items) {
-      if (itemI.product.id == itemId) {
-        let index = this.items.indexOf(itemI);
-        if (index > -1) this.items.splice(index, 1);
-      }
+    let item = this.items.find(item => item.product.id == itemId);
+    if (item) {
+      let index = this.items.indexOf(item);
+      if (index > -1) this.items.splice(index, 1);
     }
     this.countTotalPrice();
   }
@@ -250,7 +233,6 @@ export class CartComponent implements OnInit {
   }
 
   showInfoMsg() {
-    this.saveOrder();
     (<HTMLElement>document.querySelector('#cart-container')).style.display = "none";
     (<HTMLElement>document.querySelector('.order-container')).style.display = "none";
     (<HTMLElement>document.querySelector('#nav-back')).style.display = "none";
@@ -258,12 +240,7 @@ export class CartComponent implements OnInit {
   }
 
   saveOrder() {
-    let orderInfo: {
-      name: string,
-      phone: string,
-      address: string,
-      products: Array<{productId, amount}>
-    } = {
+    let orderInfo: OrderReq = {
       name: this.orderForm.get('name').value,
       address: this.orderForm.get('address').value,
       phone: this.orderForm.get('phone').value,
@@ -273,11 +250,9 @@ export class CartComponent implements OnInit {
     };
 
     this.orderS.add(orderInfo).subscribe(data => {
-      console.log(data);
       this.orderId = <number>data;
-
       this.items = [];
       this.cookieS.eraseCookie('cart');
-    })
+    }, null, () => this.showInfoMsg());
   }
 }

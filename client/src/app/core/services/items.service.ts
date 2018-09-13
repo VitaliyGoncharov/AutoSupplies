@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+import { Item } from "../interfaces/item";
 
 @Injectable({
     providedIn: 'root'
@@ -37,6 +38,6 @@ export class ItemsService {
         let options = {
             params: params
         }
-        return this.http.get(_url, options);
+        return this.http.get<Array<Item>>(_url, options);
     }
 }

@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '../../../../node_modules/@a
 import { AuthService } from './auth.service';
 import { Item } from '../interfaces/item';
 import { Order } from '../interfaces/order';
+import { OrderReq } from '../interfaces/req/order-req';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class OrderService {
 
   private FIND_BY_ID = "/api/manager/order";
   private FIND_ALL_ORDERS = "api/manager/orders";
-  private ADD_ORDER = "/api/manager/order/add";
+  private ADD_ORDER = "/api/order/add";
   private SAVE_ORDER = ["/api/manager/order/","/products/edit"];
   private UPDATE_PRODUCT_AMOUNT = "/api/manager/order/product/amount/edit";
   private ADD_PRODUCT = "/api/manager/order/product/add";
@@ -41,8 +42,9 @@ export class OrderService {
     return this.http.get<Order>(this.FIND_BY_ID, options);
   }
 
-  add(body) {
-    let options = { headers: this.addAuthHeader(this.headers) };
+  add(body: OrderReq) {
+    let options = { headers: this.headers };
+    console.log("It's ok");
     return this.http.post(this.ADD_ORDER, body, options);
   }
 

@@ -62,6 +62,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		user.setRoles(new HashSet<Role>(Arrays.asList(defaultRole)));
 		return userDao.save(user);
 	}
+	
+	@Override
+	public User update(User user) {
+		String encodedPassword = encoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
+		return userDao.save(user);
+	}
 
 	@Override
 	public List<User> findAll() {

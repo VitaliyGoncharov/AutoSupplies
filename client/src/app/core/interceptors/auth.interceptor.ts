@@ -13,11 +13,6 @@ export class AuthInterceptor implements HttpInterceptor {
     private refreshTokenInProgress = false;
     private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-    private GUARDED_ROUTES = [
-        'manager',
-        'user'
-    ];
-
     constructor(
         private authS: AuthService,
         private tokenS: TokenService,
@@ -25,15 +20,6 @@ export class AuthInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-        // if (req.url.includes("manager") || req.url == "/api/user") {
-        //     console.log("Year, includes");
-        //     console.log(req.url);
-        //     const clonedReq = req.clone({
-        //         headers: req.headers.append('MY-TEST','azazalalka')
-        //     });
-        //     return next.handle(clonedReq);        
-        // }
 
         return next.handle(req).pipe(
             catchError(error => {
@@ -45,8 +31,6 @@ export class AuthInterceptor implements HttpInterceptor {
                 if (error.status !== 401) {
                     return throwError(error);
                 }
-                // let isGuardedRoute = this.GUARDED_ROUTES.filter(route => req.url.includes(route));
-                // if (isGuardedRoute.length == 0) return throwError(error);
 
                 if (this.tokenS.getAccessToken() == null || this.tokenS.getRefreshToken() == null) {
                     console.log("[AuthInterceptor] No tokens in localStorage (maybe you removed them manually)");

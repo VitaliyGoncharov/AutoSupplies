@@ -19,6 +19,7 @@ import { ToggleDropdownDirective } from "../core/directives/toggleDropdown.direc
 import { AuthInterceptor } from "../core/interceptors/auth.interceptor";
 import { OrdersResolver } from "../core/resolvers/orders.resolver";
 import { OrderResolver } from "../core/resolvers/order.resolver";
+import { UserResolver } from "../core/resolvers/user.resolver";
 
 @NgModule({
     declarations: [
@@ -45,6 +46,7 @@ import { OrderResolver } from "../core/resolvers/order.resolver";
     providers: [
         OrdersResolver,
         OrderResolver,
+        UserResolver,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,

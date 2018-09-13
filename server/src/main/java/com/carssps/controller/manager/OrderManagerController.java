@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping("/api/manager")
-public class OrderController {
+public class OrderManagerController {
 	
 	@Autowired
 	private OrderService orderService;
@@ -125,46 +125,6 @@ public class OrderController {
 	@RequestMapping("/order")
 	public ResponseEntity<Order> getOrder(@RequestParam("id") Integer orderId, Principal principal) {
 		return ResponseEntity.ok(orderService.findById(orderId));
-	}
-	
-	@RequestMapping(value = "/order/add", method = RequestMethod.POST)
-	public ResponseEntity<Integer> addOrder(@RequestBody OrderReq orderReq) {
-		
-		List<Integer> ids = new ArrayList<>();
-		for (OrderProductReq orderProduct : orderReq.getProducts()) {
-			ids.add(orderProduct.getProductId());
-		}
-		
-		List<Product> products = productService.findAllById(ids);
-		List<OrderProduct> orderProducts = new ArrayList<>();
-		
-		int total = 0;
-		for (int i = 0; i < products.size(); i++) {
-			total += products.get(i).getPrice() * orderReq.getProducts()[i].getAmount();
-		}
-		
-		Customer customer = customerService.add(new Customer(
-				orderReq.getName(),
-				orderReq.getPhone()
-		));
-		
-		Order order = orderService.add(new Order(
-				customer,
-				orderReq.getAddress(),
-				(short) 1,
-				total
-		));
-		
-		
-		for (int i = 0; i < products.size(); i++) {
-			orderProducts.add(new OrderProduct(
-					order,
-					products.get(i),
-					orderReq.getProducts()[i].getAmount()
-			));
-		}
-		orderProductService.saveAll(orderProducts);
-		return ResponseEntity.ok(order.getId());
 	}
 	
 	private int updateTotal(int orderId) {
