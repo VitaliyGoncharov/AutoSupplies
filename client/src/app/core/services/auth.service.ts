@@ -40,10 +40,11 @@ export class AuthService {
     return false;
   }
 
-  logout() {
+  logout(redirectTo?: string) {
+    redirectTo = redirectTo ? redirectTo : '/';
     this.tokenS.removeTokens();
     this.loggedInSubj.next(false);
-    return this.router.navigate(['/']);
+    return this.router.navigate([redirectTo]);
   }
 
   login(email, password) {

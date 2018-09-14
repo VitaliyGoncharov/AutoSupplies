@@ -11,18 +11,14 @@ export class ItemsService {
         'Content-Type':"application/json"
     });
 
-    private OIL     = "oil";
-    private GREASE  = "grease";
-    private BATTERY = "battery";
-    private TIRE    = "tire";
-    private WHEEL_DISKS = "wheel_disks";
-
+    private CATALOG = "/api/catalog/";
     private FIND_BY_KEYWORD = "/api/search/product";
 
     constructor(private http: HttpClient) {}
 
-    findAll(_url) {
-        return this.http.get(_url);
+    findAll(catalogTitle: string) {
+        let _url = this.CATALOG.concat(catalogTitle);
+        return this.http.get<Array<Item>>(_url);
     }
 
     findByKeyword(keyword: string) {

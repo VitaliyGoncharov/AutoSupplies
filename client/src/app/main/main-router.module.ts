@@ -16,6 +16,7 @@ import { PageNotFoundComponent } from "./page-not-found/page-not-found.component
 import { OrdersResolver } from "../core/resolvers/orders.resolver";
 import { OrderResolver } from "../core/resolvers/order.resolver";
 import { UserResolver } from "../core/resolvers/user.resolver";
+import { ItemsResolver } from "../core/resolvers/items.resolver";
 
 export const routes: Routes = [
     {
@@ -23,9 +24,13 @@ export const routes: Routes = [
         component: MainComponent,
         children: [
             { path: '', component: HomeComponent },
-            { path: 'catalog/oil-and-grease', component: CatalogComponent },
             { path: 'cart', component: CartComponent },
             { path: 'login', component: LoginComponent },
+            {
+                path: 'catalog/:title',
+                component: CatalogComponent,
+                resolve: { items: ItemsResolver }
+            },
             { 
                 path: 'profile',
                 component: ProfileComponent,

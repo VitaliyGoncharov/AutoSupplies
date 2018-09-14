@@ -7,37 +7,42 @@
 		<div class="email-block">
 			<label for="email" id="email-lbl">Email</label>
 			<input type="email" id="email" placeholder="Ваша почта"
-				formControlName="email" [value]="user.email">
+				formControlName="email">
 		</div>
 
-		<div class="name-block">
-			<label for="name" id="name-lbl">Имя</label>
-			<input type="text" id="name" placeholder="Ваше имя"
-				formControlName="firstname" [value]="user.firstname">
+		<div class="password-block">
+			<label for="password" id="password-lbl">Изменить пароль</label>
+			<input type="password" id="password" formControlName="password" placeholder="******">
 		</div>
 
-		<div class="surname-block">
-			<label for="surname" id="surname-lbl">Фамилия</label>
-			<input type="text" id="surname" placeholder="Ваша фамилия"
-				formControlName="lastname" [value]="user.lastname">
+		<div class="firstname-block">
+			<label for="firstname" id="firstname-lbl">Имя</label>
+			<input type="text" id="firstname" placeholder="Ваше имя"
+				formControlName="firstname">
+		</div>
+
+		<div class="lastname-block">
+			<label for="lastname" id="lastname-lbl">Фамилия</label>
+			<input type="text" id="lastname" placeholder="Ваша фамилия"
+				formControlName="lastname">
 		</div>
 
 		<div class="birth-block">
 			<label for="birth" id="birth-lbl">Дата рождения</label>
 			<input type="text" id="birth" placeholder="Дата рождения"
-				formControlName="birth" [value]="user.birth">
+				formControlName="birth">
 		</div>
 
 		<div class="gender-block">
 			<div id="gender-male-block">
 				<input type="radio" name="gender" id="gender-male"
-					formControlName="gender" checked>
+					formControlName="gender" value="male">
 				<label for="gender-male" id="gender-male-lbl">Мужчина</label>
 			</div>
 			
 			<div id="gender-female-block">
 				<input type="radio" name="gender" id="gender-female"
-					formControlName="gender">
+					formControlName="gender" value="female">
 				<label for="gender-female" id="gender-female-lbl">Женщина</label>
 			</div>
 		</div>
@@ -45,13 +50,13 @@
 		<div class="address-block">
 			<label for="address" id="address-lbl">Адресс доставки (по умолчанию)</label>
 			<input type="text" id="address" placeholder="Адресс доставки"
-				formControlName="address" [value]="user.address">
+				formControlName="address">
 		</div>
 
 		<div class="phone-block">
 			<label for="phone" id="phone-lbl">Телефон</label>
 			<input type="text" id="phone" placeholder="Ваш телефон"
-				formControlName="phone" [value]="user.phone">
+				formControlName="phone">
 		</div>
 
 		<button type="submit" id="btn--update-profile" (click)="updateUser()">Сохранить изменения</button>

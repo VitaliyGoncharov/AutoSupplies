@@ -15,12 +15,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.carssps.controller.View;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "product")
+@Json
 public class Product {
 	
 	@Id
@@ -52,6 +54,10 @@ public class Product {
 	@JsonBackReference
 	@OneToMany(mappedBy = "product")
 	private List<OrderProduct> orders = new ArrayList<>();
+	
+	@JsonBackReference("")
+	@ManyToMany(mappedBy = "products")
+	private List<Catalog> catalogs = new ArrayList<>();
 
 	public Product() {
 	}
@@ -84,7 +90,7 @@ public class Product {
 		return price;
 	}
 
-	public void setPrice(Integer price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -110,5 +116,13 @@ public class Product {
 
 	public void setOrders(List<OrderProduct> orders) {
 		this.orders = orders;
+	}
+
+	public List<Catalog> getCatalogs() {
+		return catalogs;
+	}
+
+	public void setCatalogs(List<Catalog> catalogs) {
+		this.catalogs = catalogs;
 	}
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ItemsService } from '../../core/services/items.service';
 import { Item } from '../../core/interfaces/item';
 import { CookieService } from '../../core/services/cookie.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-catalog',
@@ -12,20 +13,17 @@ import { CookieService } from '../../core/services/cookie.service';
 export class CatalogComponent implements OnInit {
 
   private _url = "/api/catalog/oil-and-grease";
-  // private _url = "/assets/catalog/oil-and-grease.json";
 
   items: Array<Item> = [];
 
-  constructor(private itemsS: ItemsService, private cookieS: CookieService) { }
+  constructor(
+    private itemsS: ItemsService,
+    private cookieS: CookieService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
-    this.getItems();
-  }
-
-  getItems() {
-    this.itemsS.findAll(this._url).subscribe( data  => {
-      this.items = <Array<Item>> data;
-    });
+    this.items = this.route.snapshot.data['items'];
   }
 
   addItemToCart(itemId) {
@@ -54,11 +52,10 @@ export class CatalogComponent implements OnInit {
 
     let items: Array<{id: number, amount: number}> = JSON.parse(this.cookieS.getCookie("cart"));
 
-    for (let itemIterable of items) {
-      if (item.id == itemIterable.id) {
-        return true;
-      }
-    }
+    let match = items.find(x => x.id == item.id);
+    if (match)
+      return true;
+    
     return false;
   }
 }

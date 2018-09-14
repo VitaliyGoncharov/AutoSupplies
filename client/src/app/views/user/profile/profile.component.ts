@@ -28,14 +28,14 @@ export class ProfileComponent implements OnInit {
     this.user = this.route.snapshot.data['user'];
 
     this.editForm = this.fb.group({
-      email: [''],
+      email: [this.user.email],
       password: [''],
-      firstname: [''],
-      lastname: [''],
-      birth: [''],
-      gender: [''],
-      address: [''],
-      phone: ['']
+      firstname: [this.user.firstname],
+      lastname: [this.user.lastname],
+      birth: [this.user.birth],
+      gender: [this.user.gender],
+      address: [this.user.address],
+      phone: [this.user.phone]
     });
   }
 

@@ -20,6 +20,7 @@ import { AuthInterceptor } from "../core/interceptors/auth.interceptor";
 import { OrdersResolver } from "../core/resolvers/orders.resolver";
 import { OrderResolver } from "../core/resolvers/order.resolver";
 import { UserResolver } from "../core/resolvers/user.resolver";
+import { ItemsResolver } from "../core/resolvers/items.resolver";
 
 @NgModule({
     declarations: [
@@ -47,6 +48,7 @@ import { UserResolver } from "../core/resolvers/user.resolver";
         OrdersResolver,
         OrderResolver,
         UserResolver,
+        ItemsResolver,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,

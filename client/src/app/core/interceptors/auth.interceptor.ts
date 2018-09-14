@@ -66,8 +66,7 @@ export class AuthInterceptor implements HttpInterceptor {
                         catchError(err => {
                             console.log("[AuthInterceptor] Refreshing tokens fails");
                             this.refreshTokenInProgress = false;
-                            this.authS.logout();
-                            this.router.navigate(['/login']);
+                            this.authS.logout('/login');
                             return throwError(error);
                         })
                     )

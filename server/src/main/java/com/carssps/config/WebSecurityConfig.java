@@ -38,7 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/api/user/**").authenticated()
 			.antMatchers("/api/manager/**").hasAnyRole("MANAGER","ADMIN")
-			
 			.anyRequest().permitAll()
 			.and()
 			.exceptionHandling().authenticationEntryPoint(unathorizedHandler)
