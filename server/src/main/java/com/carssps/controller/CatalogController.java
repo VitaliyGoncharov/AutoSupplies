@@ -22,21 +22,8 @@ public class CatalogController {
 	private CatalogService catalogService;
 	
 	@RequestMapping(value = "/catalog/{catName}", method = RequestMethod.GET)
-	public ResponseEntity<List<Product>> getItems(@PathVariable("catName") String catName) {
+	public ResponseEntity<List<Product>> getCatalogItems(@PathVariable("catName") String catName) {
 		Catalog catalog = catalogService.findByPathName(catName); 
 		return ResponseEntity.ok(catalog.getProducts());
 	}
-	
-//	@RequestMapping(value = "/catalog/oil-and-grease/specific", method = RequestMethod.GET)
-//	public ResponseEntity<List<Product>> getItemsByIds(@RequestParam String ids) {
-//		String[] idsStringArray = ids.split(",");
-//		Integer[] idsIntArray = new Integer[idsStringArray.length];
-//		for (int i = 0; i < idsIntArray.length; i++) {
-//			idsIntArray[i] = Integer.parseInt(idsStringArray[i]);
-//		}
-//		List<Integer> iterableIds = Arrays.asList(idsIntArray);
-//		
-//		List<Product> products = productService.findAllById(iterableIds);
-//		return ResponseEntity.ok(products);
-//	}
 }

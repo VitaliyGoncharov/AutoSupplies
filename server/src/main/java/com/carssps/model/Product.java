@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "product")
-@Json
 public class Product {
 	
 	@Id
@@ -55,7 +54,7 @@ public class Product {
 	@OneToMany(mappedBy = "product")
 	private List<OrderProduct> orders = new ArrayList<>();
 	
-	@JsonBackReference("")
+	@JsonManagedReference("products")
 	@ManyToMany(mappedBy = "products")
 	private List<Catalog> catalogs = new ArrayList<>();
 

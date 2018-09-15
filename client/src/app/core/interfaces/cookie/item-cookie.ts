@@ -1,4 +1,4 @@
 export interface ItemCookie {
-    productId: number,
+    id: number,
     amount: number
 }

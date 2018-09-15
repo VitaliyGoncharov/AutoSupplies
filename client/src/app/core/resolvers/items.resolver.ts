@@ -12,7 +12,7 @@ export class ItemsResolver implements Resolve<any> {
         let catalogTitle = route.paramMap.get('title');
         console.log("[ItemsResolver] Title: ", catalogTitle);
         return new Promise( (res, rej) => {
-            this.itemS.findAll(catalogTitle).subscribe(data => res(data), error => rej());
+            this.itemS.findAll(catalogTitle).subscribe(data => res(data), error => rej(error));
         });
     }
 }

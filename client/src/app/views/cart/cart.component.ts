@@ -5,6 +5,9 @@ import { Item } from '../../core/interfaces/item';
 import { FormGroup, FormControl } from '@angular/forms';
 import { OrderService } from '../../core/services/order.service';
 import { OrderReq } from '../../core/interfaces/req/order-req';
+import { ItemContainer } from '../../core/interfaces/item-container';
+import { ActivatedRoute } from '@angular/router';
+import { ItemCookie } from '../../core/interfaces/cookie/item-cookie';
 
 @Component({
   selector: 'app-cart',
@@ -22,7 +25,7 @@ export class CartComponent implements OnInit {
   step3: boolean;
 
 
-  items: Array<{product: Item, amount: number}> = [];
+  items: Array<ItemContainer> = [];
   totalPrice: number;
   
   orderForm: FormGroup = new FormGroup({
@@ -37,8 +40,9 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cookieS: CookieService,
-    private itemsS: ItemsService,
-    private orderS: OrderService
+    private orderS: OrderService,
+    private itemS: ItemsService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -49,37 +53,13 @@ export class CartComponent implements OnInit {
     //   selector: '[data-toggle="tooltip"]'
     // });
 
-    this.getItems();
+    this.processItems();
   }
 
-  getItems() {
-    let items: Array<{id: number, amount: number}>;
-    let cartCookie = this.cookieS.getCookie("cart");
-
-    if (cartCookie) {
-      items = JSON.parse(cartCookie);
-    }
-    
-    if (!Array.isArray(items) || !items.length) {
-      console.log("Cart info of wrong formate");
-      return;
-    }
-    
-    let itemsIds = items.map(item => item.id);
-    this.itemsS.findAllById(this._url_get_all_by_ids, itemsIds).subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        this.items[i] = { product: data[i], amount: null };
-      }
-
-      for (let item of this.items) {
-        // amount of item is in cookie
-        let itemCookie = items.find(itemCookie => itemCookie.id == item.product.id);
-        if (itemCookie)
-          item.amount = itemCookie.amount;
-      }
-    }, null, () => {
-      this.countTotalPrice();
-    });
+  processItems() {
+    let items = this.route.snapshot.data['items'];
+    this.items = this.itemS.mapItems(items);
+    this.countTotalPrice();
   }
 
   plusItem(event) {
@@ -158,7 +138,7 @@ export class CartComponent implements OnInit {
     inputedAmount = amount ? amount : event.target.value;
 
     // update amount of item in cookie (when user reload the page amount will be read from cookie)
-    let items: Array<{id: number, amount: number}> = JSON.parse(this.cookieS.getCookie("cart"));
+    let items: Array<ItemCookie> = JSON.parse(this.cookieS.getCookie("cart"));
     let item = items.find(item => item.id == itemId);
     if (item) {
       if (flags && flags.increment) item.amount = ++item.amount;
@@ -193,7 +173,7 @@ export class CartComponent implements OnInit {
     let itemElem = event.target.closest(".item");
     let itemId = itemElem.dataset.itemId;
 
-    let itemsCookie: Array<{id: number, amount: number}> = JSON.parse(this.cookieS.getCookie("cart"));
+    let itemsCookie: Array<ItemCookie> = JSON.parse(this.cookieS.getCookie("cart"));
     let itemCookie = itemsCookie.find(item => item.id == itemId);
     if (itemCookie) {
       let index = itemsCookie.indexOf(itemCookie);
@@ -245,7 +225,7 @@ export class CartComponent implements OnInit {
       address: this.orderForm.get('address').value,
       phone: this.orderForm.get('phone').value,
       products: this.items.map(x => {
-        return { productId: x.product.id, amount: x.amount };
+        return { id: x.product.id, amount: x.amount };
       })
     };
 

@@ -3,7 +3,7 @@ insert into users (email, password, firstname, lastname, birth, gender, address,
 insert into users (email, password) values ('user@gmail.com','$2a$11$uPbRVGe07TtmFrBGKrliUOGx8DpdqQ2Bn8oecZ//y/DchReYSuqdK')
 insert into role (name) values ('ROLE_ADMIN'), ('ROLE_MANAGER'), ('ROLE_USER')
 
-insert into catalog (parent_id, cat_name, path_name) values (0, 'Масло и смазки','oil-and-grease'), (0, 'Диски', 'disks')
+insert into catalog (parent_id, cat_name, path_name) values (0, 'Масло и смазки','oil-and-grease'), (0, 'Диски', 'disks'), (0,'Аккумуляторы','accumulator')
 
 insert into product (title, image, price) values ('Масло Castrol','https://ozon-st.cdn.ngenix.net/multimedia/audio_cd_covers/1023562045.jpg',50)
 insert into product (title, image, price) values ('Масло Toyota','https://ozon-st.cdn.ngenix.net/multimedia/audio_cd_covers/1022715721.jpg',60)
@@ -15,10 +15,17 @@ insert into product (title, image, price) values ('Масло GTX Castrol','http
 
 insert into catalog_product(catalog_id, product_id) values (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7)
 
-insert into product (title, image, price) values ('Диски хромовые R-234','http://no photo',62)
-insert into product (title, image, price) values ('Диски хромовые S-540','http://no photo',78)
+insert into product (title, image, price) values ('Диски ALUTEC POISON SCHWARZ 6X16 4X100 ET40 D58.1','https://a.d-cd.net/16e2be8s-960.jpg',62)
+insert into product (title, image, price) values ('Колесные диски K&K Кристалл 6x15/5x112 D66.6 ET40 Алмаз черный','http://avatars.mds.yandex.net/get-mpic/195452/img_id7168814409836755755/orig',78)
+insert into product (title, image, price) values ('Литые диски R13 4GO','https://vkolesa.ru/image/data/DP153GMMF(1).JPG',54)
 
-insert into catalog_product(catalog_id, product_id) values (2,8),(2,9)
+insert into catalog_product(catalog_id, product_id) values (2,8),(2,9),(2,10)
+
+insert into product (title, image, price) values ('Аккумулятор автомобильный Varta Blue Dynamic A14 6СТ-40 обр. (42B19L)','https://www.autoakb.ru/photo/big/1480505819_77.jpg',28)
+insert into product (title, image, price) values ('Аккумулятор автомобильный Totachi KOR 42B19FLS 6СТ-40 обр. с бортом','https://www.autoakb.ru/photo/big/1471426757_16.jpeg',31)
+insert into product (title, image, price) values ('Аккумулятор автомобильный Eco President 44B19L 6СТ-42 обр.','https://www.autoakb.ru/photo/big/1473844432_20.jpg',54)
+
+insert into catalog_product(catalog_id, product_id) values (3,11),(3,12),(3,13)
 
 insert into p_prop_title (name) values ('color'), ('manufacturer')
 insert into p_prop (prop_title_id, value) values (1, 'orange')

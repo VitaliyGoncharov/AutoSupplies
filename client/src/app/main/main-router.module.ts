@@ -17,6 +17,7 @@ import { OrdersResolver } from "../core/resolvers/orders.resolver";
 import { OrderResolver } from "../core/resolvers/order.resolver";
 import { UserResolver } from "../core/resolvers/user.resolver";
 import { ItemsResolver } from "../core/resolvers/items.resolver";
+import { ItemsCartResolver } from "../core/resolvers/items-cart.resolver";
 
 export const routes: Routes = [
     {
@@ -24,8 +25,12 @@ export const routes: Routes = [
         component: MainComponent,
         children: [
             { path: '', component: HomeComponent },
-            { path: 'cart', component: CartComponent },
             { path: 'login', component: LoginComponent },
+            {
+                path: 'cart',
+                component: CartComponent,
+                resolve: { items: ItemsCartResolver }
+            },
             {
                 path: 'catalog/:title',
                 component: CatalogComponent,

@@ -12,8 +12,6 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CatalogComponent implements OnInit {
 
-  private _url = "/api/catalog/oil-and-grease";
-
   items: Array<Item> = [];
 
   constructor(
@@ -23,7 +21,9 @@ export class CatalogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.items = this.route.snapshot.data['items'];
+    this.route.url.subscribe(data => {
+      this.items = this.route.snapshot.data['items'];
+    }); 
   }
 
   addItemToCart(itemId) {

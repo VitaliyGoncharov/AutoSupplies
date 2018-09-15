@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "catalog")
 public class Catalog {
@@ -31,6 +33,7 @@ public class Catalog {
 	@Column(name = "path_name")
 	private String pathName;
 	
+	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "catalog_product",
