@@ -60,7 +60,7 @@ public class OrderManagerController {
 		List<OrderProduct> productsDB = order.getProducts();
 		for (OrderProduct productDB : productsDB) {
 			OrderProductReq productReq = productsReq.stream()
-				.filter(product -> product.getProductId() == productDB.getProduct().getId())
+				.filter(product -> product.getId() == productDB.getProduct().getId())
 				.findFirst().orElse(null);
 			
 			if (productReq == null) {
@@ -90,14 +90,14 @@ public class OrderManagerController {
 		int orderProductId = orderProductService.updateProductAmountByOrderId(
 				productReq.getAmount(),
 				orderId,
-				productReq.getProductId()
+				productReq.getId()
 		);
 		
 		return orderProductId;
 	}
 	
 	public ResponseEntity<Integer> addProduct(OrderProductReq productReq, int orderId) {
-		Product product = productService.findById(productReq.getProductId());
+		Product product = productService.findById(productReq.getId());
 		Order order = orderService.findById(orderId);
 		OrderProduct orderProduct = new OrderProduct(order, product, productReq.getAmount());
 		OrderProduct newRcd = orderProductService.save(orderProduct);

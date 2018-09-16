@@ -7,7 +7,7 @@
 
   <div class="main-search">
     <form>
-      <input type="search" placeholder="Укажите наименование товара">
+      <input type="search" [formControl]="search" placeholder="Укажите наименование товара">
 
       <span>
         <div class="main-search__icon"><i class="fa fa-search"></i></div>
@@ -38,11 +38,15 @@
 <div class="main-header_bottom container">
     <div class="main-search">
       <form>
-        <input type="search" placeholder="Укажите наименование товара">
-
+        <input type="search" [formControl]="search" placeholder="Укажите наименование товара">
+        
         <span>
           <div class="main-search__icon"><i class="fa fa-search"></i></div>
         </span>
+
+        <div *ngIf="results?.length" class="results">
+            <div *ngFor="let result of results" class="hint">{{ result }}</div>
+        </div>
       </form>
     </div>
 

@@ -42,7 +42,7 @@ public class OrderController {
 		
 		List<Integer> ids = new ArrayList<>();
 		for (OrderProductReq orderProduct : orderReq.getProducts()) {
-			ids.add(orderProduct.getProductId());
+			ids.add(orderProduct.getId());
 		}
 		
 		List<Product> products = productService.findAllById(ids);
@@ -50,7 +50,7 @@ public class OrderController {
 		
 		int total = 0;
 		for (int i = 0; i < products.size(); i++) {
-			total += products.get(i).getPrice() * orderReq.getProducts()[i].getAmount();
+			total += products.get(i).getPrice() * orderReq.getProducts().get(i).getAmount();
 		}
 		
 		Customer customer = customerService.add(new Customer(
@@ -70,7 +70,7 @@ public class OrderController {
 			orderProducts.add(new OrderProduct(
 					order,
 					products.get(i),
-					orderReq.getProducts()[i].getAmount()
+					orderReq.getProducts().get(i).getAmount()
 			));
 		}
 		orderProductService.saveAll(orderProducts);

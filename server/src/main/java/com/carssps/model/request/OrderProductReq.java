@@ -3,18 +3,18 @@ package com.carssps.model.request;
 import java.util.Optional;
 
 public class OrderProductReq {
-	private int productId;
+	private int id;
 	private int amount;
 	
 	public OrderProductReq() {
 	}
 
-	public int getProductId() {
-		return productId;
+	public int getId() {
+		return id;
 	}
 
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setProductId(int id) {
+		this.id = id;
 	}
 
 	public int getAmount() {
@@ -27,6 +27,6 @@ public class OrderProductReq {
 
 	@Override
 	public String toString() {
-		return "OrderProductReq [productId=" + productId + ", amount=" + amount + "]";
+		return "OrderProductReq [id=" + id + ", amount=" + amount + "]";
 	}
 }

@@ -64,9 +64,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 	
 	@Override
-	public User update(User user) {
-		String encodedPassword = encoder.encode(user.getPassword());
-		user.setPassword(encodedPassword);
+	public User update(User user, boolean pwdWasChanged) {
+		if (pwdWasChanged) {
+			String encodedPassword = encoder.encode(user.getPassword());
+			user.setPassword(encodedPassword);
+		}
+			
 		return userDao.save(user);
 	}
 

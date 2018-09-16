@@ -26,7 +26,7 @@ export class OrderAddItemComponent implements OnInit {
       distinctUntilChanged()
     ).subscribe(val => {
       if (val != null) {
-        this.itemS.findByKeyword(val).subscribe((data: Array<Item>) => {
+        this.itemS.findByKeyword(val).subscribe(data => {
           this.results = data;
         })
       }

@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService } from '../../core/services/cookie.service';
 import { ItemsService } from '../../core/services/items.service';
 import { Item } from '../../core/interfaces/item';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { OrderService } from '../../core/services/order.service';
 import { OrderReq } from '../../core/interfaces/req/order-req';
 import { ItemContainer } from '../../core/interfaces/item-container';
 import { ActivatedRoute } from '@angular/router';
 import { ItemCookie } from '../../core/interfaces/cookie/item-cookie';
+import { User } from '../../core/interfaces/user';
+import { getDefaultService } from 'selenium-webdriver/edge';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-cart',
@@ -27,13 +30,9 @@ export class CartComponent implements OnInit {
 
   items: Array<ItemContainer> = [];
   totalPrice: number;
-  
-  orderForm: FormGroup = new FormGroup({
-    name: new FormControl(),
-    address: new FormControl(),
-    phone: new FormControl()
-  });
   orderId: number;
+  orderForm: FormGroup;
+  user: User = null;
 
   private _url_get_all = "/api/catalog/oil-and-grease";
   private _url_get_all_by_ids = "/api/catalog/oil-and-grease/specific";
@@ -42,16 +41,32 @@ export class CartComponent implements OnInit {
     private cookieS: CookieService,
     private orderS: OrderService,
     private itemS: ItemsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
     // $('[data-toggle="tooltip"]').tooltip will not work
     // 'cause items are added to page dynamically
-    // and there is a delay of getting items info from the server
+    // and we can't set listener directly on element that will appear in future
     // $("body").tooltip({
     //   selector: '[data-toggle="tooltip"]'
     // });
+    let name = '', address = '', phone = '';
+
+    this.user = this.route.snapshot.data['user'];
+
+    if (this.user) {
+      name = this.user.firstname;
+      address = this.user.address;
+      phone = this.user.phone;
+    }
+
+    this.orderForm = this.fb.group({
+      name: [name],
+      address: [address],
+      phone: [phone]
+    });
 
     this.processItems();
   }

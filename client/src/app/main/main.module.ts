@@ -22,6 +22,7 @@ import { OrderResolver } from "../core/resolvers/order.resolver";
 import { UserResolver } from "../core/resolvers/user.resolver";
 import { ItemsResolver } from "../core/resolvers/items.resolver";
 import { ItemsCartResolver } from "../core/resolvers/items-cart.resolver";
+import { SearchComponent } from "../views/search/search.component";
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import { ItemsCartResolver } from "../core/resolvers/items-cart.resolver";
         FooterComponent,
         HomeComponent,
         CatalogComponent,
-        CartComponent
+        CartComponent,
+        SearchComponent
     ],
     imports: [
         BrowserModule,

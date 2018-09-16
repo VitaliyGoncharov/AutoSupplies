@@ -40,6 +40,7 @@ public class UserController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findOne(authentication.getName());
 		String pwd;
+		boolean pwdWasChanged = false;
 		
 		if (user == null) {
 			throw new Exception("User not found");
@@ -54,9 +55,10 @@ public class UserController {
 		
 		if ((pwd = userEditReq.getPassword()) != null) {
 			user.setPassword(pwd);
+			pwdWasChanged = true;
 		}
 		
-		User updatedUser = userService.update(user);
+		User updatedUser = userService.update(user, pwdWasChanged);
 		return ResponseEntity.ok(updatedUser.getId());
 	}
 }

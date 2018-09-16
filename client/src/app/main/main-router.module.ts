@@ -18,6 +18,7 @@ import { OrderResolver } from "../core/resolvers/order.resolver";
 import { UserResolver } from "../core/resolvers/user.resolver";
 import { ItemsResolver } from "../core/resolvers/items.resolver";
 import { ItemsCartResolver } from "../core/resolvers/items-cart.resolver";
+import { SearchComponent } from "../views/search/search.component";
 
 export const routes: Routes = [
     {
@@ -26,10 +27,11 @@ export const routes: Routes = [
         children: [
             { path: '', component: HomeComponent },
             { path: 'login', component: LoginComponent },
+            { path: 'search', component: SearchComponent },
             {
                 path: 'cart',
                 component: CartComponent,
-                resolve: { items: ItemsCartResolver }
+                resolve: { items: ItemsCartResolver, user: UserResolver }
             },
             {
                 path: 'catalog/:title',

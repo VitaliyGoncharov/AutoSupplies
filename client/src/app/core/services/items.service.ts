@@ -30,7 +30,7 @@ export class ItemsService {
         let options = {
             headers: this.headers
         }
-        return this.http.post(this.FIND_BY_KEYWORD, body, options);
+        return this.http.post<Array<Item>>(this.FIND_BY_KEYWORD, body, options);
     }
 
     findAllById(ids) {

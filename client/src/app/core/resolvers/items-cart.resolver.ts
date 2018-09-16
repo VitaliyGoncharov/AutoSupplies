@@ -11,6 +11,7 @@ export class ItemsCartResolver implements Resolve<any> {
     constructor(private itemS: ItemsService, private cookieS: CookieService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Array<Item>> {
+        console.log("[ItemsCartResolver]")
         let items: Array<ItemCookie>;
         let cartCookie = this.cookieS.getCookie("cart");
 
@@ -20,7 +21,7 @@ export class ItemsCartResolver implements Resolve<any> {
         
         if (!Array.isArray(items) || !items.length) {
             console.log("[ItemsCartResolver] Cart info of wrong formate");
-            return;
+            return Promise.resolve(null);
         }
 
         let itemsIds = items.map(item => item.id);

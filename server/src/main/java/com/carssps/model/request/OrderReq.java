@@ -1,5 +1,6 @@
 package com.carssps.model.request;
 
+import java.util.List;
 import java.util.Optional;
 
 public class OrderReq {
@@ -7,7 +8,7 @@ public class OrderReq {
 	private String address;
 	private String phone;
 	private String surname;
-	private OrderProductReq[] products;
+	private List<OrderProductReq> products;
 	
 	public String getName() {
 		return name;
@@ -33,10 +34,10 @@ public class OrderReq {
 	public void setSurname(String surname) {
 		this.surname = Optional.ofNullable(surname).orElse(null);
 	}
-	public OrderProductReq[] getProducts() {
+	public List<OrderProductReq> getProducts() {
 		return products;
 	}
-	public void setProducts(OrderProductReq[] products) {
+	public void setProducts(List<OrderProductReq> products) {
 		this.products = products;
 	}
 	

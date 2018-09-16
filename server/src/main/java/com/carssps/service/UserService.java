@@ -11,7 +11,7 @@ import com.carssps.model.User;
 
 public interface UserService {
 	User save(User user);
-	User update(User user);
+	User update(User user, boolean pwdWasChanged);
 	List<User> findAll();
 	void delete(Long id);
 	

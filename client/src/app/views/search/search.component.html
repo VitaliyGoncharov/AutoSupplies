@@ -1,0 +1,31 @@
+<div *ngIf="results.length == 0" class="no-results">
+    We didn't find any items with such title
+</div>
+<div class="items-container">
+    <div *ngFor="let item of results" class="item">
+        <div class="title">
+            <span>{{ item.title }}</span> 
+        </div>
+    
+        <div class="image">
+          <img [src]="item.image" class="" alt="">
+        </div>
+        
+        <div class="rating">
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="far fa-star"></span>
+            <span class="far fa-star"></span>
+        </div>
+    
+        <div class="price">
+            <span>${{ item.price }}</span>
+        </div>
+    
+        <div class="buttons">
+            <a *ngIf="!isInCart(item)" class="btn-add_to_cart" (click)="addItemToCart(item.id)">В корзину</a>
+            <a *ngIf="isInCart(item)" class="btn-go_to_cart" routerLink="/cart">Перейти в корзину</a>
+        </div>
+    </div>
+</div>

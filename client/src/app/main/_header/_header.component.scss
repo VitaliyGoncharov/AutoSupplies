@@ -76,6 +76,7 @@
 
     form {
         display: grid;
+        position: relative;
         grid-template-columns: 1fr;
         grid-auto-flow: column;
         min-width: 260px;
@@ -92,6 +93,23 @@
             align-items: center;
             height: 100%;
             margin-left: -25px;
+        }
+
+        .results {
+            border: 1px solid gray;
+            position: absolute;
+            background: #fff;
+            top: 102%; left: 0;
+            width: 100%;
+            border-radius: .25em;
+
+            .hint {
+                padding: .3em .5em;
+                cursor: pointer;
+                
+                &:hover { background-color: #dbdbdb }
+                &:not(:last-child) { border-bottom: 1px solid gray }
+            }
         }
     }
 }

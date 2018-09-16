@@ -4,6 +4,10 @@ import { AuthService } from "../../core/services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SidebarComponent } from "../_sidebar/_sidebar.component";
 import { TokenService } from "../../core/services/token.service";
+import { FormControl } from "@angular/forms";
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ItemsService } from "../../core/services/items.service";
+import { SearchService } from "../../core/services/search.service";
 
 @Component({
     selector: 'main-header',
@@ -14,11 +18,16 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
     isLoggedIn: boolean;
     email: string;
 
+    search: FormControl = new FormControl;
+    // results: Array<string>;
+
     constructor(
         private authS: AuthService,
         private tokenS: TokenService,
         private router: Router,
-        private cdRef: ChangeDetectorRef
+        private cdRef: ChangeDetectorRef,
+        private itemS: ItemsService,
+        private searchS: SearchService
     ) { }
 
     ngOnInit() {
@@ -30,6 +39,26 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
             if (isLoggedIn)
                 this.email = this.tokenS.getSubject();
         });
+
+        this.search.valueChanges.pipe(
+            debounceTime(500),
+            distinctUntilChanged()
+        ).subscribe(val => {
+            if (val != null) {
+                this.itemS.findByKeyword(val).subscribe(data => {
+                    this.searchS.searchResults.next(data);
+                    if (this.router.url !== '/search') {
+                        console.log("[HeaderComponent] Navigate to '/search'");
+                        this.router.navigate(['/search']);
+                    }
+                },error => {
+                    if (this.router.url !== '/search') {
+                        console.log("[HeaderComponent] Navigate to '/search'");
+                        this.router.navigate(['/search']);
+                    }
+                });
+            }
+        })
     }
 
     ngAfterViewChecked() {
