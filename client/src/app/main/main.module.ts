@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ManagerModule } from "../views/manager/manager.module";
 import { UserModule } from "../views/user/user.module";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
@@ -23,11 +23,17 @@ import { UserResolver } from "../core/resolvers/user.resolver";
 import { ItemsResolver } from "../core/resolvers/items.resolver";
 import { ItemsCartResolver } from "../core/resolvers/items-cart.resolver";
 import { SearchComponent } from "../views/search/search.component";
+import { MenuModule } from "./_menu/menu.module";
+import { CatalogsListComponent } from "../views/catalogs-list/catalogs-list.component";
+import { CatalogsResolver } from "../core/resolvers/catalogs.resolver";
+import { GetValuesPipe } from "../core/pipes/get-value";
+import { CatalogTreeComponent } from "../views/catalog-tree/catalog-tree.component";
 
 @NgModule({
     declarations: [
         ToggleSidebarDirective,
         ToggleDropdownDirective,
+        GetValuesPipe,
         PageNotFoundComponent,
         MainComponent,
         HeaderComponent,
@@ -35,17 +41,20 @@ import { SearchComponent } from "../views/search/search.component";
         FooterComponent,
         HomeComponent,
         CatalogComponent,
+        CatalogsListComponent,
         CartComponent,
-        SearchComponent
+        SearchComponent,
+        CatalogTreeComponent
     ],
     imports: [
+        MenuModule,
         BrowserModule,
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
         MainRouterModule,
         UserModule,
-        ManagerModule
+        ManagerModule,
     ],
     providers: [
         OrdersResolver,
@@ -53,6 +62,7 @@ import { SearchComponent } from "../views/search/search.component";
         UserResolver,
         ItemsResolver,
         ItemsCartResolver,
+        CatalogsResolver,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,

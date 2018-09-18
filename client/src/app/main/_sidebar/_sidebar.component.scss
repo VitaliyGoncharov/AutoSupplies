@@ -99,26 +99,3 @@
     .btn--logout { margin-left: 12px }
 }
 
-.catalogs {
-    li {
-        list-style: none;
-
-        a {
-            display: block;
-            width: 100%;
-            text-decoration: none;
-            color: #fff;
-            font-size:1.2em;
-            padding: .6em 0 .6em 1.6em;
-            border-bottom: 1px solid #fff;
-
-            &:hover {
-                background-color: #f1f0ff;
-                color: #0062cc;
-            }
-        }
-
-        &:first-child a { border-top: 1px solid #fff }
-    }
-}
-

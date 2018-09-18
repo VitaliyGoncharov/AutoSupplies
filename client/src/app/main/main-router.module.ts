@@ -19,11 +19,14 @@ import { UserResolver } from "../core/resolvers/user.resolver";
 import { ItemsResolver } from "../core/resolvers/items.resolver";
 import { ItemsCartResolver } from "../core/resolvers/items-cart.resolver";
 import { SearchComponent } from "../views/search/search.component";
+import { CatalogsResolver } from "../core/resolvers/catalogs.resolver";
+import { CatalogsListComponent } from "../views/catalogs-list/catalogs-list.component";
 
 export const routes: Routes = [
     {
         path: '',
         component: MainComponent,
+        resolve: { catalogs: CatalogsResolver },
         children: [
             { path: '', component: HomeComponent },
             { path: 'login', component: LoginComponent },
@@ -32,6 +35,10 @@ export const routes: Routes = [
                 path: 'cart',
                 component: CartComponent,
                 resolve: { items: ItemsCartResolver, user: UserResolver }
+            },
+            {
+                path: 'catalog/list/:catalog',
+                component: CatalogsListComponent
             },
             {
                 path: 'catalog/:title',

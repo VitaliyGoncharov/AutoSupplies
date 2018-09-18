@@ -17,6 +17,11 @@ public class CatalogServiceImpl implements CatalogService {
 	
 	@Autowired
 	private CatalogDao catalogDao;
+	
+	@Override
+	public List<Catalog> findAll() {
+		return catalogDao.findAll();
+	}
 
 	@Override
 	public Catalog findByPathName(String pathName) {

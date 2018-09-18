@@ -21,6 +21,11 @@ public class CatalogController {
 	@Autowired
 	private CatalogService catalogService;
 	
+	@RequestMapping(value = "/catalogs")
+	public ResponseEntity<List<Catalog>> getCatalogs() {
+		return ResponseEntity.ok(catalogService.findAll());
+	}
+	
 	@RequestMapping(value = "/catalog/{catName}", method = RequestMethod.GET)
 	public ResponseEntity<List<Product>> getCatalogItems(@PathVariable("catName") String catName) {
 		Catalog catalog = catalogService.findByPathName(catName); 

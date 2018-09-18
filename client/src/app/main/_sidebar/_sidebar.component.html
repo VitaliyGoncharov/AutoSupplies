@@ -18,12 +18,7 @@
     </div>
     
     <div class="catalogs">
-        <ul>
-            <li *ngIf="hasAuthorities('MANAGER','ADMIN')" toggleSidebar><a href="#" routerLink="/manager/orders">Заказы пользователей</a></li>
-            <li toggleSidebar><a href="#" routerLink="/catalog/oil-and-grease">Масло и смазки</a></li>
-            <li toggleSidebar><a href="#" routerLink="/catalog/accumulator">Аккумуляторы</a></li>
-            <li toggleSidebar><a href="#" routerLink="/catalog/disks">Шины и диски</a></li>
-            <li toggleSidebar><a href="#" routerLink="/catalog/parts">Запчасти</a></li>
-        </ul>
+        <li *ngIf="hasAuthorities('MANAGER','ADMIN')" toggleSidebar><a href="#" routerLink="/manager/orders">Заказы пользователей</a></li>
+        <main-menu-mobile [catalogs]="catalogs"></main-menu-mobile>
     </div>
 </div>

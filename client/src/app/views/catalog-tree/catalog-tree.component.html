@@ -1,0 +1,6 @@
+<ul>
+    <li *ngFor="let catalog of catalogs">
+        {{ catalog.title }}
+        <catalog-tree *ngIf="catalog.childs && catalog.childs.length" [catalogs]="catalog.childs"></catalog-tree>
+    </li>
+</ul>

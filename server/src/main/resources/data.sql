@@ -3,7 +3,9 @@ insert into users (email, password, firstname, lastname, birth, gender, address,
 insert into users (email, password) values ('user@gmail.com','$2a$11$uPbRVGe07TtmFrBGKrliUOGx8DpdqQ2Bn8oecZ//y/DchReYSuqdK')
 insert into role (name) values ('ROLE_ADMIN'), ('ROLE_MANAGER'), ('ROLE_USER')
 
-insert into catalog (parent_id, cat_name, path_name) values (0, 'Масло и смазки','oil-and-grease'), (0, 'Диски', 'disks'), (0,'Аккумуляторы','accumulator')
+insert into catalog (parent_id, cat_name, path_name) values (0, 'Масло и смазки','oil-and-grease'), (0, 'Диски', 'disks'), (0,'Аккумуляторы','accumulator'), (0,'Запчасти','spare-parts')
+insert into catalog (parent_id, cat_name, path_name) values (4, 'Двигатель и элементы двигателя','engine_and_engine-parts')
+insert into catalog (parent_id, cat_name, path_name) values (5, 'Коллектор','collector')
 
 insert into product (title, image, price) values ('Масло Castrol','https://ozon-st.cdn.ngenix.net/multimedia/audio_cd_covers/1023562045.jpg',50)
 insert into product (title, image, price) values ('Масло Toyota','https://ozon-st.cdn.ngenix.net/multimedia/audio_cd_covers/1022715721.jpg',60)
@@ -26,6 +28,12 @@ insert into product (title, image, price) values ('Аккумулятор авт
 insert into product (title, image, price) values ('Аккумулятор автомобильный Eco President 44B19L 6СТ-42 обр.','https://www.autoakb.ru/photo/big/1473844432_20.jpg',54)
 
 insert into catalog_product(catalog_id, product_id) values (3,11),(3,12),(3,13)
+
+insert into product (title, image, price) values ('Головка блока цилиндров 2C,3C,3CT','https://static.baza.farpost.ru/drom/1461031479502_default',39)
+insert into product (title, image, price) values ('Поршневая группа Isuzu 6HH1','https://static.baza.farpost.ru/drom/1528847918889_bulletin',42)
+insert into product (title, image, price) values ('Головка блока цилиндров Toyota 2C 2CT 3T 3C 2 3 в сборе','https://static.baza.farpost.ru/drom/1509932347675_bulletin',44)
+
+insert into catalog_product(catalog_id, product_id) values (5,14),(5,15),(5,16)
 
 insert into p_prop_title (name) values ('color'), ('manufacturer')
 insert into p_prop (prop_title_id, value) values (1, 'orange')
