@@ -8,53 +8,47 @@ import { Catalog } from "../interfaces/catalog";
 })
 export class CatalogService {
 
+    catalogsDB = null;
+    catalogs: Array<Catalog> = null;
     private GET_CATALOGS = "/api/catalogs";
+    private GET_CATALOG_BY_ID = "/api/catalog/id/";
+    private GET_CATALOGS_FROM_ROOT = "/api/catalog/list/";
 
     constructor(private http: HttpClient) { }
 
     getAll() {
-        return this.http.get<Array<CatalogRes>>(this.GET_CATALOGS);
+        return this.http.get(this.GET_CATALOGS);
     }
 
-    getTree(dataset: Array<CatalogRes>): Map<number, Catalog> {
-        let tree: Map<number, Catalog> = new Map();
+    getCatalog(id: number) {
+        let _url = this.GET_CATALOG_BY_ID.concat(id.toString());
+        return this.http.get<Catalog>(_url);
+    }
 
-        for(let node of dataset) {
-            if (!node.parentId) {
-                tree.set(node.id, this.toCatalog(node));
-            } else {
-                if (tree.get(node.parentId).children == null) tree.get(node.parentId).children = new Map();
-                tree.get(node.parentId).children.set(node.id, this.toCatalog(node));
+    getAllFromRoot(rootCatalog) {
+        let _url = this.GET_CATALOGS_FROM_ROOT.concat(rootCatalog);
+        return this.http.get(_url);
+    }
+
+    /**
+     * catalogs [
+     *  {id: {id,parentId,title,childs: {} }},
+     *  {...}
+     * ]
+     * 
+     * @param catalogs 
+     */
+    convertChildsToArray(catalogs): Array<Catalog> {
+        let result: Array<Catalog> = [];
+        let keys = Object.keys(catalogs);
+        if (!keys) return result;
+
+        for (let key of keys) {
+            if (catalogs[key].childs != null) {
+                catalogs[key].childs = this.convertChildsToArray(catalogs[key].childs);
             }
+            result.push(catalogs[key]);
         }
-        return tree;
-    }
-
-    // getTreeFromRoot(dataset: Array<CatalogRes>, root: string): Map<number, Catalog> {
-    //     let tree: Map<number, Catalog> = new Map();
-
-    //     for (let node of dataset) {
-    //         if (node.pathName == root) {
-    //             tree.set(node.id, this.toCatalog(node))
-    //         } else {
-
-    //         }
-    //     }
-    // }
-
-    find(pathName: string, data: Map<number, Catalog>) {
-        for (let catalog of data.values()) {
-            if (catalog.pathName == pathName)
-                return catalog;
-        }
-    }
-
-    toCatalog(node: CatalogRes): Catalog {
-        return {
-            id: node.id,
-            catName: node.catName,
-            pathName: node.pathName,
-            children: null
-        }
+        return result;
     }
 }

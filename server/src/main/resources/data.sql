@@ -5,7 +5,8 @@ insert into role (name) values ('ROLE_ADMIN'), ('ROLE_MANAGER'), ('ROLE_USER')
 
 insert into catalog (parent_id, cat_name, path_name) values (0, 'Масло и смазки','oil-and-grease'), (0, 'Диски', 'disks'), (0,'Аккумуляторы','accumulator'), (0,'Запчасти','spare-parts')
 insert into catalog (parent_id, cat_name, path_name) values (4, 'Двигатель и элементы двигателя','engine_and_engine-parts')
-insert into catalog (parent_id, cat_name, path_name) values (5, 'Коллектор','collector')
+insert into catalog (parent_id, cat_name, path_name) values (5, 'Блок ДВС и детали','ICE-block_and_parts')
+insert into catalog (parent_id, cat_name, path_name) values (1, 'Масло','oil')
 
 insert into product (title, image, price) values ('Масло Castrol','https://ozon-st.cdn.ngenix.net/multimedia/audio_cd_covers/1023562045.jpg',50)
 insert into product (title, image, price) values ('Масло Toyota','https://ozon-st.cdn.ngenix.net/multimedia/audio_cd_covers/1022715721.jpg',60)
@@ -15,7 +16,7 @@ insert into product (title, image, price) values ('Масло GAZPROMNET','https
 insert into product (title, image, price) values ('Масло Лукойл','https://avatars.mds.yandex.net/get-mpic/195452/img_id1075648514582913699/9hq',30)
 insert into product (title, image, price) values ('Масло GTX Castrol','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhuVogGPWb_3o157AZDTSrYd8ozVSfNAGYp02J82OcIPuK1p-0',57)
 
-insert into catalog_product(catalog_id, product_id) values (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7)
+insert into catalog_product(catalog_id, product_id) values (7,1),(7,2),(7,3),(7,4),(7,5),(7,6),(7,7)
 
 insert into product (title, image, price) values ('Диски ALUTEC POISON SCHWARZ 6X16 4X100 ET40 D58.1','https://a.d-cd.net/16e2be8s-960.jpg',62)
 insert into product (title, image, price) values ('Колесные диски K&K Кристалл 6x15/5x112 D66.6 ET40 Алмаз черный','http://avatars.mds.yandex.net/get-mpic/195452/img_id7168814409836755755/orig',78)
@@ -33,7 +34,7 @@ insert into product (title, image, price) values ('Головка блока ц�
 insert into product (title, image, price) values ('Поршневая группа Isuzu 6HH1','https://static.baza.farpost.ru/drom/1528847918889_bulletin',42)
 insert into product (title, image, price) values ('Головка блока цилиндров Toyota 2C 2CT 3T 3C 2 3 в сборе','https://static.baza.farpost.ru/drom/1509932347675_bulletin',44)
 
-insert into catalog_product(catalog_id, product_id) values (5,14),(5,15),(5,16)
+insert into catalog_product(catalog_id, product_id) values (6,14),(6,15),(6,16)
 
 insert into p_prop_title (name) values ('color'), ('manufacturer')
 insert into p_prop (prop_title_id, value) values (1, 'orange')

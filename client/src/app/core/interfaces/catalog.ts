@@ -1,6 +1,7 @@
 export interface Catalog {
     id: number,
+    parentId: number,
     catName: string,
     pathName: string,
-    children: Map<number, Catalog> | null
+    childs: Array<Catalog>
 }

@@ -1,3 +1,37 @@
 ul {
-    margin-left: 20px;
+    list-style: none;
+}
+ul li {
+    padding: .4em 1.6em;
+    border-color: #ddd;
+    border-width: 1px 0;
+    border-style: solid;
+    background-color: #fff;
+
+    a {
+        display: flex;
+        text-decoration: none;
+        color: black;
+        font-size: 1.1em;
+
+        .caption {
+            flex: 0 0 90%;
+        }
+
+        .category-link {
+            flex: 0 0 10%;
+            display: flex;
+            align-items: center;
+
+            span {
+                display: block;
+                margin-left: auto;
+                width: 8px; height: 8px;
+                border-width: 2px 2px 0 0;
+                border-style: solid;
+                border-color: black;
+                transform: rotate(45deg);
+            }
+        }
+    }
 }

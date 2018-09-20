@@ -1,3 +1,8 @@
 <div class="catalogs-list">
+    <a *ngIf="prevCatalog" href="#" class="nav-back" [routerLink]="'/catalog/list/' + prevCatalog.pathName">
+        <span class="link"></span>
+        <span class="caption">{{ curCatalog.catName }}</span>
+    </a>
+
     <catalog-tree [catalogs]="catalogs"></catalog-tree>
 </div>

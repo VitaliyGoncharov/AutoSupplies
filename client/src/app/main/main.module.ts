@@ -28,11 +28,10 @@ import { CatalogsListComponent } from "../views/catalogs-list/catalogs-list.comp
 import { CatalogsResolver } from "../core/resolvers/catalogs.resolver";
 import { GetValuesPipe } from "../core/pipes/get-value";
 import { CatalogTreeComponent } from "../views/catalog-tree/catalog-tree.component";
+import { DirectivesModule } from "../core/directives/directives.module";
 
 @NgModule({
     declarations: [
-        ToggleSidebarDirective,
-        ToggleDropdownDirective,
         GetValuesPipe,
         PageNotFoundComponent,
         MainComponent,
@@ -48,6 +47,7 @@ import { CatalogTreeComponent } from "../views/catalog-tree/catalog-tree.compone
     ],
     imports: [
         MenuModule,
+        DirectivesModule,
         BrowserModule,
         HttpClientModule,
         FormsModule,
@@ -68,6 +68,7 @@ import { CatalogTreeComponent } from "../views/catalog-tree/catalog-tree.compone
             useClass: AuthInterceptor,
             multi: true
         }
-    ]
+    ],
+    exports: []
 })
 export class MainModule { }

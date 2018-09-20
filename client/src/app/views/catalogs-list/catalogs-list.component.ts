@@ -10,7 +10,9 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class CatalogsListComponent implements OnInit {
 
-    catalogs;
+    catalogs: Array<Catalog>;
+    curCatalog: Catalog;
+    prevCatalog: Catalog;
 
     constructor(
         private catalogS: CatalogService,
@@ -18,28 +20,20 @@ export class CatalogsListComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        let rootCatalog = this.route.snapshot.paramMap.get('catalog');
-        console.log("[CatalogsListComponent]");
-        this.catalogs = JSON.parse('{"1":{"id":1,"parent":0,"title":"spare-parts","childs":{"2":{"id":2,"parent":1,"title":"engine","childs":{"3":{"id":3,"parent":2,"title":"collector","childs":null}}}}}}');
-        this.catalogs = this.convertChildsToArray(this.catalogs);
-    }
+        this.route.url.subscribe(data => {
+            let rootCatalog = this.route.snapshot.paramMap.get('catalog');
+            console.log("[CatalogsListComponent]");
 
-    /**
-     * catalog {id: {id,parentId,title,childs: {} }}
-     * 
-     * @param catalogs 
-     */
-    convertChildsToArray(catalogs): Array<Catalog> {
-        let result = [];
-        let keys = Object.keys(catalogs);
-        if (!keys) return result;
+            this.catalogS.getAllFromRoot(rootCatalog).subscribe(data => {
+                
+                let catsWithRoot = this.catalogS.convertChildsToArray(data);
+                this.catalogs = catsWithRoot[0].childs;
+                this.curCatalog = catsWithRoot[0];
 
-        for (let key of keys) {
-            if (catalogs[key].childs != null) {
-                catalogs[key].childs = this.convertChildsToArray(catalogs[key].childs);
-            }
-            result.push(catalogs[key]);
-        }
-        return result;
+                this.catalogS.getCatalog(this.curCatalog.parentId).subscribe(data => {
+                    this.prevCatalog = data;
+                });
+            });
+        });        
     }
 }

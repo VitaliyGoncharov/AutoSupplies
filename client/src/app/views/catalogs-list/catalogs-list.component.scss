@@ -1,0 +1,27 @@
+.nav-back {
+    display: block;
+    padding: 1em 1.6em;
+
+    .link {
+        display: inline-block;
+        width: 8px; height: 8px;
+        vertical-align: middle;
+        margin-right: 10px;
+        border-width: 0 0 2px 2px;
+        border-style: solid;
+        border-color: gray;
+        transform: rotate(45deg);
+    }
+
+    .caption {
+        display: inline-block;
+        vertical-align: middle;
+        color: black;
+        font-size: 1.1em;
+    }
+}
+.catalogs-list {
+    padding-top: 2em;
+    background-color: #efefef;
+    min-height: calc(100vh - 137px);
+}

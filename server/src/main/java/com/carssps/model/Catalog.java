@@ -2,6 +2,7 @@ package com.carssps.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -43,6 +45,9 @@ public class Catalog {
 					name = "product_id", referencedColumnName = "id")
 			)
 	private List<Product> products = new ArrayList<>();
+	
+	@Transient
+	private Map<Integer, Catalog> childs;
 
 	public Catalog() {
 	}
@@ -85,5 +90,13 @@ public class Catalog {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+
+	public Map<Integer, Catalog> getChilds() {
+		return childs;
+	}
+
+	public void setChilds(Map<Integer, Catalog> childs) {
+		this.childs = childs;
 	}
 }

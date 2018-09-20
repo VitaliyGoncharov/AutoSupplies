@@ -1,6 +1,19 @@
 <ul>
     <li *ngFor="let catalog of catalogs">
-        {{ catalog.title }}
-        <catalog-tree *ngIf="catalog.childs && catalog.childs.length" [catalogs]="catalog.childs"></catalog-tree>
+        <a href="#" *ngIf="catalog.childs && catalog.childs.length" [routerLink]="'/catalog/list/' + catalog.pathName">
+            <div class="caption">{{ catalog.catName }}</div>
+            <div class="category-link">
+                <span class="icon"></span>
+            </div>
+        </a>
+        <a href="#" *ngIf="!catalog.childs" [routerLink]="'/catalog/' + catalog.pathName">
+            <div class="caption">{{ catalog.catName }}</div>
+            <div class="category-link">
+                <span class="icon"></span>
+            </div>
+        </a>
+        
+        <!-- If we want to show tree of catalogs on one page -->
+        <!-- <catalog-tree *ngIf="catalog.childs && catalog.childs.length" [catalogs]="catalog.childs"></catalog-tree> -->
     </li>
 </ul>

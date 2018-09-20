@@ -5,10 +5,10 @@
 
     <div class="mobile-controls">
         <div class="controls--authenticated" *ngIf="isLoggedIn">
-        <a routerLink="/profile" class="mobile-profile--link" toggleSidebar>
-            <i class="fas fa-user"></i><span>{{ email }}</span>
-        </a>
-        <a href="#" class="btn btn--logout" (click)="logout($event)" toggleSidebar>Выйти</a>
+            <a routerLink="/profile" class="mobile-profile--link" toggleSidebar>
+                <i class="fas fa-user"></i><span>{{ email }}</span>
+            </a>
+            <a href="#" class="btn btn--logout" (click)="logout($event)" toggleSidebar>Выйти</a>
         </div>
         
         <div class="controls--not_authenticated" *ngIf="!isLoggedIn">
@@ -18,7 +18,8 @@
     </div>
     
     <div class="catalogs">
-        <li *ngIf="hasAuthorities('MANAGER','ADMIN')" toggleSidebar><a href="#" routerLink="/manager/orders">Заказы пользователей</a></li>
+        <a href="#" *ngIf="hasAuthorities('MANAGER','ADMIN')" id="manager-panel_link" routerLink="/manager/orders"
+            toggleSidebar>Заказы пользователей</a>
         <main-menu-mobile [catalogs]="catalogs"></main-menu-mobile>
     </div>
 </div>

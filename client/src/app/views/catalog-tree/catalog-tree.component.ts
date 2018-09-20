@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import { Catalog } from "../../core/interfaces/catalog";
 
 @Component({
     selector: 'catalog-tree',
@@ -6,5 +7,5 @@ import { Component, Input } from "@angular/core";
     styleUrls: ['./catalog-tree.component.scss']
 })
 export class CatalogTreeComponent {
-    @Input() catalogs;
+    @Input() catalogs: Array<Catalog>;
 }

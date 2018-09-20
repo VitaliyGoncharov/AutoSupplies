@@ -2,6 +2,7 @@ package com.carssps.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,20 @@ public class CatalogController {
 	private CatalogService catalogService;
 	
 	@RequestMapping(value = "/catalogs")
-	public ResponseEntity<List<Catalog>> getCatalogs() {
-		return ResponseEntity.ok(catalogService.findAll());
+	public ResponseEntity<Map<Integer, Catalog>> getCatalogs() {
+		List<Catalog> catalogs = catalogService.findAll();
+		return ResponseEntity.ok(catalogService.mapToTree(catalogs));
+	}
+	
+	@RequestMapping(value = "/catalog/id/{id}")
+	public ResponseEntity<Catalog> getCatalogById(@PathVariable("id") Integer id) {
+		return ResponseEntity.ok(catalogService.findById(id));
+	}
+	
+	@RequestMapping(value = "/catalog/list/{catName}")
+	public ResponseEntity<Map<Integer, Catalog>> getSubCatalogs(@PathVariable("catName") String rootCatalog) {
+		List<Catalog> catalogs = catalogService.findAll();
+		return ResponseEntity.ok(catalogService.mapToTree(catalogs, rootCatalog));
 	}
 	
 	@RequestMapping(value = "/catalog/{catName}", method = RequestMethod.GET)

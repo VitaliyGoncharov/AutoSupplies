@@ -16,7 +16,6 @@ export class SidebarComponent implements OnInit, AfterViewChecked {
     
     isLoggedIn: boolean;
     email: string;
-    catalogRes: Array<CatalogRes>;
     catalogs: Array<Catalog>;
 
     constructor(
@@ -24,22 +23,12 @@ export class SidebarComponent implements OnInit, AfterViewChecked {
         private tokenS: TokenService,
         private router: Router,
         private cdRef: ChangeDetectorRef,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private catalogS: CatalogService
     ) { }
 
     ngOnInit() {
-        this.catalogRes = this.route.snapshot.data['catalogs'];
-        if (this.catalogRes) {
-            let lvl_0 = this.catalogRes.filter(cat => cat.parentId == 0);
-            this.catalogs = lvl_0.map(cat => {
-                return { 
-                    id: cat.id,
-                    catName: cat.catName,
-                    pathName: cat.pathName,
-                    children: null
-                }
-            });
-        }
+        this.catalogs = this.catalogS.catalogs;
 
         if (this.authS.isLoggedIn() && this.tokenS.isValid()) {
             this.authS.loggedInSubj.next(true);

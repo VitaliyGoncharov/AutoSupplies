@@ -8,10 +8,14 @@ export class CatalogsResolver implements Resolve<any> {
 
     constructor(private catalogS: CatalogService) { }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Array<CatalogRes>> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<any> {
         console.log("[CatalogResolver]");
         return new Promise( (res, rej) => {
-            this.catalogS.getAll().subscribe(data => res(data), error => rej(error));
+            this.catalogS.getAll().subscribe(data => {
+                this.catalogS.catalogsDB = data;
+                this.catalogS.catalogs = this.catalogS.convertChildsToArray(data);
+                return res(data);
+            }, error => rej(error));
         });
     }
 }
