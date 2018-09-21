@@ -1,0 +1,16 @@
+li {
+    display: inline-block;
+    list-style: none;
+    font-size: 1.2em;
+    font-weight: bold;
+
+    &:hover { background-color: #3a85d6 }
+
+    a {
+        padding: 0 1.1em;
+        display: block;
+        color: #fff;
+        text-decoration: none;
+        line-height: 57px;
+    }
+}

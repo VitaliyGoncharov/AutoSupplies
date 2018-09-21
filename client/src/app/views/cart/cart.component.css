@@ -25,7 +25,6 @@
 #cart-container {
     display: grid;
     background: #fafafa;
-    box-shadow: 0px 4px 10px -2px #a7a7a7;
 
     padding-bottom: 10px;
 }
@@ -48,7 +47,9 @@
     flex: 0 0 20%;
 }
 
-
+.cart-empty {
+    margin-left: .6em;
+}
 
 .item {
     display: grid;
@@ -217,12 +218,11 @@ input[type="text"]:disabled {
 
 
 #order-info-container {
-    display: grid;
+    display: none;
     justify-items: center;
     padding-top: 1.5em;
 }
 #order-info {
-    display: none;
     padding: .75em 1.25em;
     width: 250px;
     color: #0c5460;

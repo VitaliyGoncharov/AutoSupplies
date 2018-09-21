@@ -17,7 +17,7 @@ export class CatalogService {
     constructor(private http: HttpClient) { }
 
     getAll() {
-        return this.http.get(this.GET_CATALOGS);
+        return this.http.get<Map<number, Catalog>>(this.GET_CATALOGS);
     }
 
     getCatalog(id: number) {
@@ -27,7 +27,7 @@ export class CatalogService {
 
     getAllFromRoot(rootCatalog) {
         let _url = this.GET_CATALOGS_FROM_ROOT.concat(rootCatalog);
-        return this.http.get(_url);
+        return this.http.get<Map<number, Catalog>>(_url);
     }
 
     /**

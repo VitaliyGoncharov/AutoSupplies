@@ -2,7 +2,6 @@ import { Routes, RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { MainComponent } from "./main.component";
 import { HomeComponent } from "../views/home/home.component";
-import { CatalogComponent } from "../views/catalog/catalog.component";
 import { CartComponent } from "../views/cart/cart.component";
 import { AuthGuard } from "../core/guards/auth.guard";
 import { ProfileComponent } from "../views/user/profile/profile.component";
@@ -21,6 +20,11 @@ import { ItemsCartResolver } from "../core/resolvers/items-cart.resolver";
 import { SearchComponent } from "../views/search/search.component";
 import { CatalogsResolver } from "../core/resolvers/catalogs.resolver";
 import { CatalogsListComponent } from "../views/catalogs-list/catalogs-list.component";
+import { CatalogItemsComponent } from "../views/catalog-items/catalog-items.component";
+import { SpecialDealsComponent } from "../views/special-deals/special-deals.component";
+import { ShopsListComponent } from "../views/shops-list/shops-list.component";
+import { CompanyInfoComponent } from "../views/company-info/company-info.component";
+import { SignUpComponent } from "../views/user/signup/signup.component";
 
 export const routes: Routes = [
     {
@@ -30,7 +34,11 @@ export const routes: Routes = [
         children: [
             { path: '', component: HomeComponent },
             { path: 'login', component: LoginComponent },
+            { path: 'signup', component: SignUpComponent },
             { path: 'search', component: SearchComponent },
+            { path: 'special-deals', component: SpecialDealsComponent },
+            { path: 'shops-list', component: ShopsListComponent },
+            { path: 'company-info', component: CompanyInfoComponent },
             {
                 path: 'cart',
                 component: CartComponent,
@@ -42,7 +50,7 @@ export const routes: Routes = [
             },
             {
                 path: 'catalog/:title',
-                component: CatalogComponent,
+                component: CatalogItemsComponent,
                 resolve: { items: ItemsResolver }
             },
             { 

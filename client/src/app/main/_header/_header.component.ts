@@ -8,6 +8,8 @@ import { FormControl } from "@angular/forms";
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ItemsService } from "../../core/services/items.service";
 import { SearchService } from "../../core/services/search.service";
+import { Catalog } from "../../core/interfaces/catalog";
+import { CatalogService } from "../../core/services/catalog.service";
 
 @Component({
     selector: 'main-header',
@@ -17,6 +19,7 @@ import { SearchService } from "../../core/services/search.service";
 export class HeaderComponent implements OnInit, AfterViewChecked {
     isLoggedIn: boolean;
     email: string;
+    catalogs: Array<Catalog>;
 
     search: FormControl = new FormControl;
     // results: Array<string>;
@@ -25,12 +28,15 @@ export class HeaderComponent implements OnInit, AfterViewChecked {
         private authS: AuthService,
         private tokenS: TokenService,
         private router: Router,
+        private catalogS: CatalogService,
         private cdRef: ChangeDetectorRef,
         private itemS: ItemsService,
         private searchS: SearchService
     ) { }
 
     ngOnInit() {
+        this.catalogs = this.catalogS.catalogs;
+
         if (this.authS.isLoggedIn() && this.tokenS.isValid()) {
             this.authS.loggedInSubj.next(true);
         }

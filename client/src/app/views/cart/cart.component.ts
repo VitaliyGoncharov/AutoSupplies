@@ -73,6 +73,7 @@ export class CartComponent implements OnInit {
 
   processItems() {
     let items = this.route.snapshot.data['items'];
+    if (!items || !items.length) return;
     this.items = this.itemS.mapItems(items);
     this.countTotalPrice();
   }
@@ -231,7 +232,7 @@ export class CartComponent implements OnInit {
     (<HTMLElement>document.querySelector('#cart-container')).style.display = "none";
     (<HTMLElement>document.querySelector('.order-container')).style.display = "none";
     (<HTMLElement>document.querySelector('#nav-back')).style.display = "none";
-    (<HTMLElement>document.querySelector('#order-info')).style.display = "grid";
+    (<HTMLElement>document.querySelector('#order-info-container')).style.display = "grid";
   }
 
   saveOrder() {

@@ -46,7 +46,7 @@ export class ItemsService {
      * 
      * @param itemsDB 
      */
-    mapItems(itemsDB: Array<Item>) {
+    mapItems(itemsDB: Array<Item>): Array<ItemContainer> {
         let mappedItems: Array<ItemContainer> = [];
         let itemsCookie: Array<ItemCookie> = this.getItemsFromCookies();
 

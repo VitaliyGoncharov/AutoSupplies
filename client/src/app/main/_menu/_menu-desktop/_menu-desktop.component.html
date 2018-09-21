@@ -1,0 +1,9 @@
+<ul>
+    <li *ngFor="let catalog of catalogs">
+        <a href="#" *ngIf="catalog.childs" [routerLink]="'/catalog/list/' + catalog.pathName">{{ catalog.catName }}</a>
+        <a href="#" *ngIf="!catalog.childs" [routerLink]="'/catalog/' + catalog.pathName">{{ catalog.catName }}</a>
+        
+        <!-- <main-menu-mobile *ngIf="catalog.children && catalog.children.length"
+            [catalogs]="catalog.children"></main-menu-mobile> -->
+    </li>
+</ul>

@@ -5,7 +5,6 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { CartComponent } from "../views/cart/cart.component";
-import { CatalogComponent } from "../views/catalog/catalog.component";
 import { HomeComponent } from "../views/home/home.component";
 import { HeaderComponent } from "./_header/_header.component";
 import { FooterComponent } from "./_footer/_footer.component";
@@ -26,24 +25,28 @@ import { SearchComponent } from "../views/search/search.component";
 import { MenuModule } from "./_menu/menu.module";
 import { CatalogsListComponent } from "../views/catalogs-list/catalogs-list.component";
 import { CatalogsResolver } from "../core/resolvers/catalogs.resolver";
-import { GetValuesPipe } from "../core/pipes/get-value";
-import { CatalogTreeComponent } from "../views/catalog-tree/catalog-tree.component";
 import { DirectivesModule } from "../core/directives/directives.module";
+import { CatalogListModule } from "../views/catalogs-list/catalog-list.module";
+import { CatalogItemsComponent } from "../views/catalog-items/catalog-items.component";
+import { GetObjectValuesPipe } from "../core/pipes/get-object-values";
+import { SpecialDealsModule } from "../views/special-deals/special-deals.module";
+import { ShopsListComponent } from "../views/shops-list/shops-list.component";
+import { CompanyInfoComponent } from "../views/company-info/company-info.component";
 
 @NgModule({
     declarations: [
-        GetValuesPipe,
+        GetObjectValuesPipe,
         PageNotFoundComponent,
         MainComponent,
         HeaderComponent,
         SidebarComponent,
         FooterComponent,
         HomeComponent,
-        CatalogComponent,
-        CatalogsListComponent,
+        CatalogItemsComponent,
         CartComponent,
         SearchComponent,
-        CatalogTreeComponent
+        ShopsListComponent,
+        CompanyInfoComponent
     ],
     imports: [
         MenuModule,
@@ -55,6 +58,8 @@ import { DirectivesModule } from "../core/directives/directives.module";
         MainRouterModule,
         UserModule,
         ManagerModule,
+        CatalogListModule,
+        SpecialDealsModule
     ],
     providers: [
         OrdersResolver,

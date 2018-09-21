@@ -145,24 +145,24 @@ li h1 {
     width: 100%;
     padding: 2px 0;
     background-color: #1b212b;
-}
-.bottom-links div {
-    width: 150px;
-    text-align: center;
-    cursor: pointer;
-    color: #fff;
-    opacity: .5;
-}
-.bottom-links div span {
-    display: block;
-}
-.bottom-links div i {
-    font-size: 3em;
-    margin-bottom: .1em;
-    /* color: rgba(0,0,0,.125); */
-}
-.bottom-links div:hover {
-    opacity: 1;
+
+    a {
+        display: block;
+        width: 150px;
+        text-align: center;
+        cursor: pointer;
+        color: #fff;
+        opacity: .5;
+        text-decoration: none;
+
+        i { 
+            font-size: 3em;
+            margin-bottom: .1em;
+        }
+        span { display: block }
+
+        &:hover { opacity: 1 }
+    }
 }
 .footer {
     position: fixed;

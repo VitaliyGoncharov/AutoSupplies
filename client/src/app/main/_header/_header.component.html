@@ -20,10 +20,9 @@
         <i class="fas fa-shopping-cart"></i>
       </a>
       <a class="btn btn--login" routerLink="/login" *ngIf="!isLoggedIn">Вход</a>
-      <!-- <a href="#" class="btn btn--reg" *ngIf="!isLoggedIn">Регистрация</a> -->
 
-      <div class="main-dropdown" *ngIf="isLoggedIn">
-        <a class="main-profile--link" toggleDropdown>
+      <div class="main-dropdown" *ngIf="isLoggedIn" toggleDropdown>
+        <a class="main-profile--link">
           <span>{{ email }}</span><i class="fas fa-user"></i><i class="fas fa-angle-down"></i>
         </a>
         <div class="main-dropdown-content">
@@ -51,11 +50,6 @@
     </div>
 
     <div class="catalogs">
-        <ul>
-          <li><a href="#" routerLink="catalog/oil-and-grease">Масло и смазки</a></li>
-          <li><a href="#" routerLink="catalog/accumulator">Аккумуляторы</a></li>
-          <li><a href="#" routerLink="catalog/tire">Шины и диски</a></li>
-          <li><a href="#" routerLink="catalog/parts">Запчасти</a></li>
-        </ul>
+        <main-menu-desktop [catalogs]="catalogs"></main-menu-desktop>
     </div>
 </div>

@@ -7,10 +7,10 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-catalog',
-  templateUrl: './catalog.component.html',
-  styleUrls: ['./catalog.component.css']
+  templateUrl: './catalog-items.component.html',
+  styleUrls: ['./catalog-items.component.css']
 })
-export class CatalogComponent implements OnInit {
+export class CatalogItemsComponent implements OnInit {
 
   items: Array<Item> = [];
 

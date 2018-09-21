@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Catalog } from "../../core/interfaces/catalog";
+import { Catalog } from "../../../core/interfaces/catalog";
 
 @Component({
     selector: 'catalog-tree',

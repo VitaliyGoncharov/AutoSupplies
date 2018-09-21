@@ -52,6 +52,7 @@
     text-decoration: none;
     color: #0062cc;
     font-size: 1.1em;
+    line-height: 50px;
 
     span { 
         display: inline-block;
@@ -128,6 +129,7 @@
 }
   
 .main-dropdown {
+    height: 100%;
     position: relative;
     &:hover { cursor: pointer }
 
@@ -137,7 +139,7 @@
         background-color: #f9f9f9;
         top: 2.5em; right: 0;
         min-width: 140px;
-        border-radius: 10px;
+        border-radius: .25em;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         z-index: 1;
 
@@ -164,30 +166,6 @@
   
     /** Search input is placed in the header_bottom on mobile version */
     .main-search { display: none }
-    
-    .catalogs {
-        display: grid;
-        align-items: center;
-  
-        ul li {
-            display: inline-block;
-            font-weight: bold;
-            font-size: 1.2em;
-            text-decoration: none;
-            list-style: none;
-            padding-left: 1.1em;
-            padding-right: 1.1em;
-
-            &:hover { background-color: #3e81ca }
-
-            a {
-                display: block;
-                line-height: 57px;
-                color: #fff;
-                text-decoration: none;
-            }
-        }
-    }
 }
 
 .d-block { display: block!important }

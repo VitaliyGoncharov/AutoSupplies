@@ -13,6 +13,7 @@ export class CatalogsListComponent implements OnInit {
     catalogs: Array<Catalog>;
     curCatalog: Catalog;
     prevCatalog: Catalog;
+    backLink: string;
 
     constructor(
         private catalogS: CatalogService,
@@ -30,9 +31,14 @@ export class CatalogsListComponent implements OnInit {
                 this.catalogs = catsWithRoot[0].childs;
                 this.curCatalog = catsWithRoot[0];
 
-                this.catalogS.getCatalog(this.curCatalog.parentId).subscribe(data => {
-                    this.prevCatalog = data;
-                });
+                if (this.curCatalog.parentId != 0) {
+                    this.catalogS.getCatalog(this.curCatalog.parentId).subscribe(data => {
+                        this.prevCatalog = data;
+                        this.backLink = "/catalog/list/" + this.prevCatalog.pathName;
+                    });
+                } else {
+                    this.backLink = "/";
+                }
             });
         });        
     }

@@ -6,10 +6,12 @@ import { MenuMobileComponent } from "./_menu-mobile/_menu-mobile.component";
 import { ToggleSidebarDirective } from "../../core/directives/toggleSidebar.directive";
 import { MainModule } from "../main.module";
 import { DirectivesModule } from "../../core/directives/directives.module";
+import { MenuDesktopComponent } from "./_menu-desktop/_menu-desktop.component";
 
 @NgModule({
     declarations: [
-        MenuMobileComponent
+        MenuMobileComponent,
+        MenuDesktopComponent
     ],
     imports: [
         CommonModule,
@@ -18,6 +20,7 @@ import { DirectivesModule } from "../../core/directives/directives.module";
     ],
     exports: [
         MenuMobileComponent,
+        MenuDesktopComponent
     ]
 })
 export class MenuModule { }

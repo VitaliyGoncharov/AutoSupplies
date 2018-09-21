@@ -7,7 +7,7 @@
     <h3>Корзина</h3>
   </div>
 
-  <div class="total" *ngIf="items.length">
+  <div class="total" *ngIf="items?.length">
     <span class="lbl">Итого</span>
 
     <div class="price-total">
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div *ngIf="!items.length">Корзина пуста</div>
+  <div *ngIf="!items?.length" class="cart-empty">Корзина пуста</div>
 
   <div *ngFor="let item of items" class="item"  [attr.data-item-price]="item.price" 
     [attr.data-item-id]="item.product.id">
