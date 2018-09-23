@@ -1,0 +1,55 @@
+.signup-container {
+    display: grid;
+    justify-items: center;
+    padding-top: 2em;
+    
+    form {
+        width: 250px;
+
+        div {
+            margin-bottom: 1em;
+    
+            label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: .5em;
+            }
+    
+            input {
+                padding: .375em .75em;
+                width: 100%;
+                font-size: 1em;
+                border-radius: .25em;
+                border: 1px solid #dedede;
+            }
+        }
+    
+        .btn-signup {
+            display: block;
+            width: 100%;
+            padding: .375em .75em;
+            color: #fff;
+            font-size: 1.1em;
+            background-color: #42b142;
+            border: 1px solid green;
+            border-radius: .25em;
+            cursor: pointer;
+    
+            &:hover { background-color: green }
+        }
+    }
+}
+
+button[disabled] {
+    background-color: #42b142!important;
+
+    &:hover { cursor: not-allowed!important }
+}
+
+.ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948!important; /* green */
+}
+
+.ng-invalid:not(form)  {
+    border-left: 5px solid #a94442!important; /* red */
+}

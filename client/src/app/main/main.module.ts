@@ -74,6 +74,7 @@ import { CompanyInfoComponent } from "../views/company-info/company-info.compone
             multi: true
         }
     ],
-    exports: []
+    exports: [
+    ]
 })
 export class MainModule { }

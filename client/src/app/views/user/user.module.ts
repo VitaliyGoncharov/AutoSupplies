@@ -5,6 +5,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SignUpComponent } from './signup/signup.component';
 import { RouterModule } from '@angular/router';
+import { ValidatorMessages } from '../validator-messages/validator-messages.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     LoginComponent,
     SignUpComponent,
-    ProfileComponent
+    ProfileComponent,
+    ValidatorMessages
   ],
   exports: [
     LoginComponent,

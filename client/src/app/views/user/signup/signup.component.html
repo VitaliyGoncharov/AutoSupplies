@@ -1,0 +1,47 @@
+<div class="signup-container">
+    <form [formGroup]="signupForm" id="signup-form" (submit)="signup()">
+        <div class="email-block">
+            <label for="email" id="email-lbl">Email</label>
+            <input type="email" id="email" formControlName="email" placeholder="Введите email" autocomplete="email" required>
+            <validator-messages [control]="signupForm.controls.email" [controlName]="fieldNames['email']"></validator-messages>
+        </div>
+    
+        <div class="password-block">
+            <label for="password" id="pwd-lbl">Пароль</label>
+            <input
+                type="text"
+                class="form-control" id="password"
+                formControlName="password"
+                placeholder="Введите пароль" autocomplete="current-password"
+                required>
+
+            <validator-messages [control]="signupForm.controls.password" [controlName]="fieldNames['password']"></validator-messages>
+        </div>
+
+        <div class="password-confirm-block">
+            <label for="password-confirm" id="pwd-confirm-lbl">Повторите пароль</label>
+            <input
+                type="text"
+                class="form-control" id="password-confirm"
+                formControlName="passwordConfirm"
+                placeholder="Повторите пароль" autocomplete="current-password"
+                required>
+            
+            <validator-messages [control]="signupForm.controls.passwordConfirm" [controlName]="fieldNames['passwordConfirm']"></validator-messages>
+        </div>
+
+        <div class="firstname-block">
+            <label for="firstname" id="firstname-lbl">Имя</label>
+            <input type="text" class="form-control" id="firstname" formControlName="firstname" placeholder="Ваше имя" required>
+            <validator-messages [control]="signupForm.controls.firstname" [controlName]="fieldNames['firstname']"></validator-messages>
+        </div>
+
+        <div class="lastname-block">
+            <label for="lastname" id="lastname-lbl">Фамилия</label>
+            <input type="text" class="form-control" id="lastname" formControlName="lastname" placeholder="Ваше фамилию" required>
+            <validator-messages [control]="signupForm.controls.lastname" [controlName]="fieldNames['lastname']"></validator-messages>
+        </div>
+
+        <button type="submit" [disabled]="!signupForm.valid" class="btn-signup">Создать аккаунт</button>
+    </form>
+</div>
