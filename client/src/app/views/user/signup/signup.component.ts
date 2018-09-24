@@ -2,6 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { ValidatorService } from "../../../core/services/validator.service";
 import { PasswordsEqualValidator } from "../../../core/validators/password-equal";
+import { UserReq } from "../../../core/interfaces/req/user-req";
+import { UserService } from "../../../core/services/user.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'sign-up',
@@ -11,6 +14,9 @@ import { PasswordsEqualValidator } from "../../../core/validators/password-equal
 export class SignUpComponent implements OnInit {
 
     private signupForm: FormGroup;
+    private count: number = 5;
+    private signedup: boolean = false;
+
     fieldNames = {
         email: "Почта",
         password: "Пароль",
@@ -19,7 +25,10 @@ export class SignUpComponent implements OnInit {
         lastname: "Фамилия"
     }
 
-    constructor() {}
+    constructor(
+        private userS: UserService,
+        private router: Router
+    ) { }
 
     ngOnInit() {
         this.signupForm = new FormGroup({
@@ -28,14 +37,33 @@ export class SignUpComponent implements OnInit {
                 ValidatorService.emailValidator
             ]),
             password: new FormControl('', [Validators.required, ValidatorService.passwordValidator]),
-            passwordConfirm: new FormControl(),
+            passwordConfirm: new FormControl('', [Validators.required]),
             firstname: new FormControl('', [Validators.required]),
             lastname: new FormControl('', [Validators.required])
         }, { validators: PasswordsEqualValidator })
     }
 
     signup() {
-        console.log(this.signupForm);
+        let controls = this.signupForm.controls;
+        let user: UserReq = UserReq.createForSignup(
+            controls.email.value,
+            controls.password.value,
+            controls.firstname.value,
+            controls.lastname.value,
+        );
+
+        this.userS.signup(user).subscribe(data => {
+            this.signedup = true;
+            let interval = setInterval( () => {
+                if (this.count == 0) {
+                    clearInterval(interval);
+                    console.log("[SignUpComponent] Navigate to '/login'");
+                    this.router.navigate(['/login']);
+                } else {
+                    --this.count;
+                }
+            }, 1000);
+        });
     }
 
     get email() { return this.signupForm.get('email') }

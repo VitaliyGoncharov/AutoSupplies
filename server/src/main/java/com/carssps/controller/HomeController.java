@@ -17,6 +17,7 @@ import com.carssps.dao.GoodPropsTitlesDao;
 import com.carssps.dao.ProductDao;
 import com.carssps.model.RefreshToken;
 import com.carssps.model.User;
+import com.carssps.model.request.UserReq;
 import com.carssps.model.response.TokenRequest;
 import com.carssps.model.response.TokenResponse;
 import com.carssps.service.RefreshTokenService;
@@ -51,10 +52,10 @@ public class HomeController {
 		return passwordEncoder.encode(password);
 	}
 	
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String register(@RequestBody User user) {
 		userService.save(user);
-		return "{\"message\":\"You were successfully registered!\"}";
+		return "{\"success\":\"true\"}";
 	}
 	
 	/**

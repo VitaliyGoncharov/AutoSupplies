@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.carssps.model.User;
-import com.carssps.model.request.UserEditReq;
+import com.carssps.model.request.UserReq;
 import com.carssps.service.UserService;
 
 @RestController
@@ -36,7 +36,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/user/edit")
-	public ResponseEntity<Long> editUser(@RequestBody UserEditReq userEditReq) throws Exception {
+	public ResponseEntity<Long> editUser(@RequestBody UserReq userEditReq) throws Exception {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findOne(authentication.getName());
 		String pwd;

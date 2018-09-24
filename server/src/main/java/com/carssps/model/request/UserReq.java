@@ -4,7 +4,7 @@ import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class UserEditReq {
+public class UserReq {
 	
 	private String email;
 	private String password;

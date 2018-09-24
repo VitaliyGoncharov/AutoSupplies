@@ -14,6 +14,7 @@ export class UserService {
   });
 
   private GET_USER_INFO: string = "/api/user";
+  private SIGNUP: string = "/api/signup"
   private EDIT_USER: string = "/api/user/edit";
 
   constructor(private http: HttpClient) { }
@@ -30,5 +31,10 @@ export class UserService {
   update(user: UserReq) {
     let options = { headers: this.addAuthHeader(this.headers) };
     return this.http.post<number>(this.EDIT_USER, user, options);
+  }
+
+  signup(user: UserReq) {
+    let options = { headers: this.headers };
+    return this.http.post(this.SIGNUP, user, options);
   }
 }
