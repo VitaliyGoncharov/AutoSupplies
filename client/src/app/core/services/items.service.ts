@@ -16,7 +16,9 @@ export class ItemsService {
 
     private FIND_BY_IDS = "/api/products";
     private CATALOG = "/api/catalog/";
+    private GET_BY_CATALOG_NAME_AND_PAGE = "/api/catalog/items/";
     private FIND_BY_KEYWORD = "/api/search/product";
+    private GET_AMOUNT_BY_CATALOG_TITLE = ["/api/catalog/","/items/count"];
 
     constructor(private http: HttpClient, private cookieS: CookieService) {}
 
@@ -39,6 +41,13 @@ export class ItemsService {
             params: params
         }
         return this.http.get<Array<Item>>(this.FIND_BY_IDS, options);
+    }
+
+    getAmountByCatalogName(catalogTitle: string) {
+        let _url = this.GET_AMOUNT_BY_CATALOG_TITLE[0]
+            .concat(catalogTitle)
+            .concat(this.GET_AMOUNT_BY_CATALOG_TITLE[1]);
+        return this.http.get<number>(_url);
     }
 
     /**

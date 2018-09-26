@@ -32,6 +32,7 @@ import { GetObjectValuesPipe } from "../core/pipes/get-object-values";
 import { SpecialDealsModule } from "../views/special-deals/special-deals.module";
 import { ShopsListComponent } from "../views/shops-list/shops-list.component";
 import { CompanyInfoComponent } from "../views/company-info/company-info.component";
+import { PaginationComponent } from "../views/pagination/pagination.component";
 
 @NgModule({
     declarations: [
@@ -46,7 +47,8 @@ import { CompanyInfoComponent } from "../views/company-info/company-info.compone
         CartComponent,
         SearchComponent,
         ShopsListComponent,
-        CompanyInfoComponent
+        CompanyInfoComponent,
+        PaginationComponent
     ],
     imports: [
         MenuModule,

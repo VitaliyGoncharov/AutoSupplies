@@ -6,20 +6,21 @@ import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "catalog")
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property = "id")
 public class Catalog {
 	
 	@Id
@@ -35,16 +36,8 @@ public class Catalog {
 	@Column(name = "path_name")
 	private String pathName;
 	
-	@JsonBackReference
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "catalog_product",
-			joinColumns = @JoinColumn(
-					name = "catalog_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(
-					name = "product_id", referencedColumnName = "id")
-			)
-	private List<Product> products = new ArrayList<>();
+	@OneToMany(mappedBy = "product")
+	private List<CatalogProduct> products = new ArrayList<>();
 	
 	@Transient
 	private Map<Integer, Catalog> childs;
@@ -84,11 +77,11 @@ public class Catalog {
 		this.pathName = pathName;
 	}
 
-	public List<Product> getProducts() {
+	public List<CatalogProduct> getProducts() {
 		return products;
 	}
 
-	public void setProducts(List<Product> products) {
+	public void setProducts(List<CatalogProduct> products) {
 		this.products = products;
 	}
 

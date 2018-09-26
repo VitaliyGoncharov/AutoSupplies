@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.carssps.dao.CatalogDao;
 import com.carssps.model.Catalog;
+import com.carssps.model.Product;
 import com.carssps.service.CatalogService;
 
 @Service
@@ -92,5 +93,10 @@ public class CatalogServiceImpl implements CatalogService {
 			}
 		}
 		return tree;
+	}
+	
+	public int countCatalogItems(String catalogPathName) {
+		Catalog catalog = this.findByPathName(catalogPathName);
+		return catalogDao.countCatalogItems(catalog.getId());
 	}
 }

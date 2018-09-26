@@ -9,6 +9,7 @@ public interface CatalogService {
 	Catalog findByPathName(String pathName);
 	Catalog findById(Integer id);
 	List<Catalog> findAll();
+	int countCatalogItems(String catalogPathName);
 	Map<Integer, Catalog> mapToTree(List<Catalog> catalogs);
 	Map<Integer, Catalog> mapToTree(List<Catalog> catalogs, String rootCatalog);
 }

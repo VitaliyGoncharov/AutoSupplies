@@ -50,8 +50,12 @@ export const routes: Routes = [
             },
             {
                 path: 'catalog/:title',
-                component: CatalogItemsComponent,
-                resolve: { items: ItemsResolver }
+                redirectTo: 'catalog/:title/1'
+            },
+            {
+                path: 'catalog/:title/:page',
+                resolve: { items: ItemsResolver },
+                component: CatalogItemsComponent
             },
             { 
                 path: 'profile',
