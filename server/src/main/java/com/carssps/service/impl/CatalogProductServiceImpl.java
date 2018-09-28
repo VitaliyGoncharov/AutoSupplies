@@ -16,7 +16,17 @@ public class CatalogProductServiceImpl implements CatalogProductService {
 	private CatalogProductDao catalogProductDao;
 
 	@Override
-	public List<CatalogProduct> getPortionByCatalogIdWithLimitAndOffset(int catalogId, int offset, int limit) {
+	public List<CatalogProduct> getPortion(int catalogId, int offset, int limit) {
 		return catalogProductDao.getPortionByCatalogIdWithLimitAndOffset(catalogId, offset, limit);
+	}
+
+	@Override
+	public CatalogProduct findByCatalogIdAndProductId(int catalogId, int productId) {
+		return catalogProductDao.findByCatalogIdAndProductId(catalogId, productId);
+	}
+
+	@Override
+	public CatalogProduct save(CatalogProduct catalogProduct) {
+		return catalogProductDao.save(catalogProduct);
 	}
 }

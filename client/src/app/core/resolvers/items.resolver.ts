@@ -9,10 +9,13 @@ export class ItemsResolver implements Resolve<any> {
     constructor(private itemS: ItemsService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Array<Item>> {
-        let catalogTitle = route.paramMap.get('title');
-        console.log("[ItemsResolver] Title: ", catalogTitle);
+        let catName = route.paramMap.get('title');
+        let page = Number.parseInt(route.paramMap.get('page'));
+        let limit = 3;
+        console.log("[ItemsResolver] Page: ", page);
+        console.log("[ItemResolver] Default limit: ", limit);
         return new Promise( (res, rej) => {
-            this.itemS.findAll(catalogTitle).subscribe(data => res(data), error => rej(error));
+            this.itemS.findPortion(catName, page, limit).subscribe(data => res(data), error => rej(error));
         });
     }
 }

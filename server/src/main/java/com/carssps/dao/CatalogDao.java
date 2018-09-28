@@ -11,6 +11,6 @@ import com.carssps.model.Catalog;
 public interface CatalogDao extends JpaRepository<Catalog, Integer> {
 	Catalog findByPathName(String pathName);
 	
-	@Query("SELECT COUNT(*) FROM catalog_product WHERE catalog_id = :catalogId")
-	int countCatalogItems(@Param("catalogId") int catalogId);
+	@Query("SELECT COUNT(cp) FROM CatalogProduct cp WHERE cp.catalog = :catalog")
+	int countCatalogItems(@Param("catalog") Catalog catalog);
 }

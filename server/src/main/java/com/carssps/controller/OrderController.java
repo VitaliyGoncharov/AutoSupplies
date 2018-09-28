@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.carssps.model.Customer;
 import com.carssps.model.Order;
-import com.carssps.model.OrderProduct;
+import com.carssps.model.OrderDetails;
 import com.carssps.model.Product;
 import com.carssps.model.request.OrderProductReq;
 import com.carssps.model.request.OrderReq;
 import com.carssps.service.CustomerService;
-import com.carssps.service.OrderProductService;
+import com.carssps.service.OrderDetailsService;
 import com.carssps.service.OrderService;
 import com.carssps.service.ProductService;
 
@@ -32,7 +32,7 @@ public class OrderController {
 	private CustomerService customerService;
 	
 	@Autowired
-	private OrderProductService orderProductService;
+	private OrderDetailsService orderProductService;
 	
 	@Autowired
 	private OrderService orderService;
@@ -46,7 +46,7 @@ public class OrderController {
 		}
 		
 		List<Product> products = productService.findAllById(ids);
-		List<OrderProduct> orderProducts = new ArrayList<>();
+		List<OrderDetails> orderProducts = new ArrayList<>();
 		
 		int total = 0;
 		for (int i = 0; i < products.size(); i++) {
@@ -67,7 +67,7 @@ public class OrderController {
 		
 		
 		for (int i = 0; i < products.size(); i++) {
-			orderProducts.add(new OrderProduct(
+			orderProducts.add(new OrderDetails(
 					order,
 					products.get(i),
 					orderReq.getProducts().get(i).getAmount()

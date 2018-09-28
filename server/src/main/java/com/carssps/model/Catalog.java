@@ -10,17 +10,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "catalog")
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "id")
 public class Catalog {
 	
 	@Id
@@ -36,8 +35,9 @@ public class Catalog {
 	@Column(name = "path_name")
 	private String pathName;
 	
-	@OneToMany(mappedBy = "product")
-	private List<CatalogProduct> products = new ArrayList<>();
+	@JsonBackReference
+	@OneToMany(mappedBy = "catalog")
+	private List<CatalogProduct> catalogProducts = new ArrayList<>();
 	
 	@Transient
 	private Map<Integer, Catalog> childs;
@@ -77,12 +77,12 @@ public class Catalog {
 		this.pathName = pathName;
 	}
 
-	public List<CatalogProduct> getProducts() {
-		return products;
+	public List<CatalogProduct> getCatalogProducts() {
+		return catalogProducts;
 	}
 
-	public void setProducts(List<CatalogProduct> products) {
-		this.products = products;
+	public void setCatalogProducts(List<CatalogProduct> catalogProducts) {
+		this.catalogProducts = catalogProducts;
 	}
 
 	public Map<Integer, Catalog> getChilds() {

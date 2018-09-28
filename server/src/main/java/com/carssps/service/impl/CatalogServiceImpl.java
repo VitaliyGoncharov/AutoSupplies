@@ -97,6 +97,6 @@ public class CatalogServiceImpl implements CatalogService {
 	
 	public int countCatalogItems(String catalogPathName) {
 		Catalog catalog = this.findByPathName(catalogPathName);
-		return catalogDao.countCatalogItems(catalog.getId());
+		return catalogDao.countCatalogItems(catalog);
 	}
 }

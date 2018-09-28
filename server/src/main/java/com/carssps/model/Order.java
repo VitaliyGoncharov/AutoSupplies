@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
-import com.carssps.controller.View;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -23,12 +22,10 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Table(name = "orders")
 public class Order {
 	
-	@JsonView(View.Public.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@JsonView(View.Public.class)
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
@@ -39,23 +36,20 @@ public class Order {
 	@Column(name = "total")
 	private int total;
 	
-	@JsonView(View.Public.class)
 	@Column(name = "status")
 	private short status;
 	
 	@Column(name = "updated_at")
 	private Date updatedAt;
 	
-	@JsonView(View.Public.class)
 	@Column(name = "created_at")
 	private Date createdAt;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-	private List<OrderProduct> products = new ArrayList<>();
+	private List<OrderDetails> orderProducts = new ArrayList<>();
 
 	public Order() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Order(Customer customer, String address, short status, int total) {
@@ -114,11 +108,19 @@ public class Order {
 		this.status = status;
 	}
 
-	public List<OrderProduct> getProducts() {
-		return products;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setProducts(List<OrderProduct> products) {
-		this.products = products;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public List<OrderDetails> getOrderProducts() {
+		return orderProducts;
+	}
+
+	public void setOrderProducts(List<OrderDetails> orderProducts) {
+		this.orderProducts = orderProducts;
 	}
 }

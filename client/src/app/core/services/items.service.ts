@@ -16,7 +16,7 @@ export class ItemsService {
 
     private FIND_BY_IDS = "/api/products";
     private CATALOG = "/api/catalog/";
-    private GET_BY_CATALOG_NAME_AND_PAGE = "/api/catalog/items/";
+    private GET_PORTION = "/api/catalog/items/";
     private FIND_BY_KEYWORD = "/api/search/product";
     private GET_AMOUNT_BY_CATALOG_TITLE = ["/api/catalog/","/items/count"];
 
@@ -25,6 +25,16 @@ export class ItemsService {
     findAll(catalogTitle: string) {
         let _url = this.CATALOG.concat(catalogTitle);
         return this.http.get<Array<Item>>(_url);
+    }
+
+    findPortion(catName: string, page: number, limit: number) {
+        let params = {
+            'catalog': catName,
+            'page': page.toString(),
+            'limit': limit.toString()
+        }
+        let options = { params: params }
+        return this.http.get<Array<Item>>(this.GET_PORTION, options);
     }
 
     findByKeyword(keyword: string) {

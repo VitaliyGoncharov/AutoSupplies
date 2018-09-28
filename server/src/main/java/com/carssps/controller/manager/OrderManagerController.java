@@ -18,15 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.carssps.controller.View;
 import com.carssps.model.Customer;
 import com.carssps.model.Order;
-import com.carssps.model.OrderProduct;
+import com.carssps.model.OrderDetails;
 import com.carssps.model.Product;
 import com.carssps.model.request.OrderProductReq;
 import com.carssps.model.request.OrderReq;
 import com.carssps.service.CustomerService;
-import com.carssps.service.OrderProductService;
+import com.carssps.service.OrderDetailsService;
 import com.carssps.service.OrderService;
 import com.carssps.service.ProductService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -45,7 +44,7 @@ public class OrderManagerController {
 	private CustomerService customerService;
 	
 	@Autowired
-	private OrderProductService orderProductService;
+	private OrderDetailsService orderProductService;
 	
 	@Autowired
 	private EntityManager entityManager;
@@ -57,8 +56,8 @@ public class OrderManagerController {
 		
 		Order order = orderService.findById(orderId);
 		
-		List<OrderProduct> productsDB = order.getProducts();
-		for (OrderProduct productDB : productsDB) {
+		List<OrderDetails> productsDB = order.getOrderProducts();
+		for (OrderDetails productDB : productsDB) {
 			OrderProductReq productReq = productsReq.stream()
 				.filter(product -> product.getId() == productDB.getProduct().getId())
 				.findFirst().orElse(null);
@@ -99,19 +98,18 @@ public class OrderManagerController {
 	public ResponseEntity<Integer> addProduct(OrderProductReq productReq, int orderId) {
 		Product product = productService.findById(productReq.getId());
 		Order order = orderService.findById(orderId);
-		OrderProduct orderProduct = new OrderProduct(order, product, productReq.getAmount());
-		OrderProduct newRcd = orderProductService.save(orderProduct);
+		OrderDetails orderProduct = new OrderDetails(order, product, productReq.getAmount());
+		OrderDetails newRcd = orderProductService.save(orderProduct);
 		return ResponseEntity.ok(newRcd.getId());
 	}
 	
-	public void deleteProduct(OrderProduct productDB, int orderId) {
+	public void deleteProduct(OrderDetails productDB, int orderId) {
 		orderProductService.deleteByOrderIdAndProductId(
 				orderId,
 				productDB.getProduct().getId()
 		);
 	}
 	
-	@JsonView(View.Public.class)
 	@RequestMapping("/orders")
 	public ResponseEntity<List<Order>> getOrders() {
 		return ResponseEntity.ok(orderService.findAll());
@@ -131,8 +129,8 @@ public class OrderManagerController {
 		int total = 0;
 		entityManager.clear();
 		Order order = orderService.findById(orderId);
-		List<OrderProduct> products = order.getProducts();
-		for (OrderProduct orderProduct : products) {
+		List<OrderDetails> products = order.getOrderProducts();
+		for (OrderDetails orderProduct : products) {
 			total += orderProduct.getAmount() * orderProduct.getProduct().getPrice();
 		}
 		return orderService.updateTotal(total, orderId);

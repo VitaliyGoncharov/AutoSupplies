@@ -12,9 +12,7 @@ import javax.persistence.FetchType;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.carssps.controller.View;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table(name = "customer")
@@ -24,16 +22,14 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@JsonView(View.Public.class)
 	@Column(name = "name")
 	private String name;
 	
-	@JsonView(View.Public.class)
 	@Column(name = "phone")
 	private String phone;
 	
 	@JsonBackReference
-	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "customer")
 	private List<Order> orders = new ArrayList<>();
 	
 	Customer() {}

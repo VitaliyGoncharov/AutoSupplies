@@ -17,13 +17,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "product")
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "id")
+@JsonIgnoreProperties(value = {"orderProducts", "catalogProducts"})
 public class Product {
 	
 	@Id
@@ -52,12 +52,11 @@ public class Product {
 			)
 	private List<ProductProp> properties = new ArrayList<>();
 	
-	@JsonBackReference
 	@OneToMany(mappedBy = "product")
-	private List<OrderProduct> orders = new ArrayList<>();
+	private List<OrderDetails> orderProducts = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "catalog")
-	private List<CatalogProduct> catalogs = new ArrayList<>();
+	private List<CatalogProduct> catalogProducts = new ArrayList<>();
 
 	public Product() {
 	}
@@ -110,19 +109,19 @@ public class Product {
 		this.properties = properties;
 	}
 
-	public List<OrderProduct> getOrders() {
-		return orders;
+	public List<OrderDetails> getOrderProducts() {
+		return orderProducts;
 	}
 
-	public void setOrders(List<OrderProduct> orders) {
-		this.orders = orders;
+	public void setOrderProducts(List<OrderDetails> orderProducts) {
+		this.orderProducts = orderProducts;
 	}
 
-	public List<CatalogProduct> getCatalogs() {
-		return catalogs;
+	public List<CatalogProduct> getCatalogProducts() {
+		return catalogProducts;
 	}
 
-	public void setCatalogs(List<CatalogProduct> catalogs) {
-		this.catalogs = catalogs;
+	public void setCatalogProducts(List<CatalogProduct> catalogProducts) {
+		this.catalogProducts = catalogProducts;
 	}
 }

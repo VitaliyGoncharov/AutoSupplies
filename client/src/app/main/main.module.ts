@@ -33,6 +33,8 @@ import { SpecialDealsModule } from "../views/special-deals/special-deals.module"
 import { ShopsListComponent } from "../views/shops-list/shops-list.component";
 import { CompanyInfoComponent } from "../views/company-info/company-info.component";
 import { PaginationComponent } from "../views/pagination/pagination.component";
+import { RouteReuseStrategy } from "@angular/router";
+import { CustomReuseStrategy } from "../core/reuse-strategy";
 
 @NgModule({
     declarations: [
@@ -74,7 +76,8 @@ import { PaginationComponent } from "../views/pagination/pagination.component";
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
             multi: true
-        }
+        },
+        // { provide: RouteReuseStrategy, useClass: CustomReuseStrategy }
     ],
     exports: [
     ]

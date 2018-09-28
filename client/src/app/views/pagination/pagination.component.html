@@ -1,9 +1,11 @@
 <div class="pagination-wrap">
     <div class="pagination">
-        <a href="#">&laquo;</a>
-        <a href="#" class="active">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">&raquo;</a>
+        <a *ngIf="backLink" [routerLink]="backLink">&laquo;</a>
+        <a *ngFor="let index of pages"
+            [routerLink]="'/catalog/' + catalogTitle + '/' + index"
+            [class.active]="index == curPage">
+            {{ index }}
+        </a>
+        <a *ngIf="nextLink" [routerLink]="nextLink">&raquo;</a>
     </div>
 </div>

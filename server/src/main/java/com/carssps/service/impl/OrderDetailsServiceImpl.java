@@ -3,9 +3,9 @@ package com.carssps.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.carssps.dao.OrderProductDao;
-import com.carssps.model.OrderProduct;
-import com.carssps.service.OrderProductService;
+import com.carssps.dao.OrderDetailsDao;
+import com.carssps.model.OrderDetails;
+import com.carssps.service.OrderDetailsService;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class OrderProductServiceImpl implements OrderProductService {
+public class OrderDetailsServiceImpl implements OrderDetailsService {
 	
 	@Autowired
-	private OrderProductDao orderProductDao;
+	private OrderDetailsDao orderProductDao;
 
 	@Override
 	public int updateProductAmountByOrderId(int amount, int orderId, int productId) {
@@ -29,12 +29,12 @@ public class OrderProductServiceImpl implements OrderProductService {
 	}
 	
 	@Override
-	public List<OrderProduct> saveAll(List<OrderProduct> orderProduct) {
+	public List<OrderDetails> saveAll(List<OrderDetails> orderProduct) {
 		return orderProductDao.saveAll(orderProduct);
 	}
 	
 	@Override
-	public OrderProduct save(OrderProduct orderProduct) {
+	public OrderDetails save(OrderDetails orderProduct) {
 		return orderProductDao.save(orderProduct);
 	}
 }
