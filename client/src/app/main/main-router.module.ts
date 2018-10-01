@@ -10,7 +10,6 @@ import { OrderGuard } from "../core/guards/order.guard";
 import { OrdersListComponent } from "../views/manager/order/orders-list/orders-list.component";
 import { OrderDetailsComponent } from "../views/manager/order/order-details/order-details.component";
 import { OrderEditComponent } from "../views/manager/order/order-edit/order-edit.component";
-import { OrderAddItemComponent } from "../views/manager/order/order-add-item/order-add-item.component";
 import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
 import { OrdersResolver } from "../core/resolvers/orders.resolver";
 import { OrderResolver } from "../core/resolvers/order.resolver";

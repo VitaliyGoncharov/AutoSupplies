@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table(name = "orders")
@@ -47,7 +46,7 @@ public class Order {
 	
 	@JsonBackReference
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-	private List<OrderDetails> orderProducts = new ArrayList<>();
+	private List<OrderDetails> products = new ArrayList<>();
 
 	public Order() {
 	}
@@ -116,11 +115,11 @@ public class Order {
 		this.customer = customer;
 	}
 
-	public List<OrderDetails> getOrderProducts() {
-		return orderProducts;
+	public List<OrderDetails> getProducts() {
+		return products;
 	}
 
-	public void setOrderProducts(List<OrderDetails> orderProducts) {
-		this.orderProducts = orderProducts;
+	public void setProducts(List<OrderDetails> products) {
+		this.products = products;
 	}
 }

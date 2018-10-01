@@ -38,7 +38,7 @@ public class CatalogController {
 		return ResponseEntity.ok(catalogService.mapToTree(catalogs));
 	}
 	/**
-	 * This should be POST requer
+	 * This should be POST request
 	 * 
 	 * @param catalogPathName
 	 * @param productId

@@ -1,5 +1,6 @@
 import { Item } from "./item";
 import { Customer } from "./customer";
+import { ItemContainer } from "./item-container";
 
 export interface Order {
     id: number,
@@ -8,6 +9,6 @@ export interface Order {
     status: number | string,
     updatedAt: string,
     createdAt: string,
-    products: Array<{product: Item, amount: number}>,
+    products: Array<ItemContainer>,
     customer: Customer
 }

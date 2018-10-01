@@ -1,16 +1,13 @@
 package com.carssps.controller.manager;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,17 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.carssps.model.Customer;
 import com.carssps.model.Order;
 import com.carssps.model.OrderDetails;
 import com.carssps.model.Product;
 import com.carssps.model.request.OrderProductReq;
-import com.carssps.model.request.OrderReq;
-import com.carssps.service.CustomerService;
 import com.carssps.service.OrderDetailsService;
 import com.carssps.service.OrderService;
 import com.carssps.service.ProductService;
-import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping("/api/manager")
@@ -39,9 +32,6 @@ public class OrderManagerController {
 	
 	@Autowired
 	private ProductService productService;
-	
-	@Autowired
-	private CustomerService customerService;
 	
 	@Autowired
 	private OrderDetailsService orderProductService;
@@ -56,7 +46,7 @@ public class OrderManagerController {
 		
 		Order order = orderService.findById(orderId);
 		
-		List<OrderDetails> productsDB = order.getOrderProducts();
+		List<OrderDetails> productsDB = order.getProducts();
 		for (OrderDetails productDB : productsDB) {
 			OrderProductReq productReq = productsReq.stream()
 				.filter(product -> product.getId() == productDB.getProduct().getId())
@@ -110,17 +100,17 @@ public class OrderManagerController {
 		);
 	}
 	
-	@RequestMapping("/orders")
+	@GetMapping("/orders")
 	public ResponseEntity<List<Order>> getOrders() {
 		return ResponseEntity.ok(orderService.findAll());
 	}
 	
-	@RequestMapping("/orders-fat")
+	@GetMapping("/orders-fat")
 	public ResponseEntity<List<Order>> getOrdersFat() {
 		return ResponseEntity.ok(orderService.findAll());
 	}
 	
-	@RequestMapping("/order")
+	@GetMapping("/order")
 	public ResponseEntity<Order> getOrder(@RequestParam("id") Integer orderId, Principal principal) {
 		return ResponseEntity.ok(orderService.findById(orderId));
 	}
@@ -129,7 +119,7 @@ public class OrderManagerController {
 		int total = 0;
 		entityManager.clear();
 		Order order = orderService.findById(orderId);
-		List<OrderDetails> products = order.getOrderProducts();
+		List<OrderDetails> products = order.getProducts();
 		for (OrderDetails orderProduct : products) {
 			total += orderProduct.getAmount() * orderProduct.getProduct().getPrice();
 		}
