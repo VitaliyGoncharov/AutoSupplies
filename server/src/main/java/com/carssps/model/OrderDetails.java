@@ -18,9 +18,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "order_product")
-@JsonIdentityInfo(
-		generator = ObjectIdGenerators.PropertyGenerator.class,
-		property = "id")
 @JsonIgnoreProperties(value = {"id","order"})
 public class OrderDetails implements Serializable {
 	

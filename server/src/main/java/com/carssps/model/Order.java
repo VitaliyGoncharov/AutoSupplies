@@ -44,7 +44,6 @@ public class Order {
 	@Column(name = "created_at")
 	private Date createdAt;
 	
-	@JsonBackReference
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
 	private List<OrderDetails> products = new ArrayList<>();
 
