@@ -15,7 +15,7 @@ export class SignUpComponent implements OnInit {
 
     private signupForm: FormGroup;
     private count: number = 5;
-    private signedup: boolean = false;
+    signedup: boolean = false;
 
     fieldNames = {
         email: "Почта",

@@ -12,7 +12,7 @@ import { OrderService } from '../../../../core/services/order.service';
 })
 export class OrderDetailsComponent implements OnInit {
 
-  private order: Order;
+  order: Order;
   private orderId: number;
 
   constructor(

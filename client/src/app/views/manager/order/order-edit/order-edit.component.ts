@@ -3,6 +3,7 @@ import { Item } from '../../../../core/interfaces/item';
 import { Router, Route, ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../../../core/services/order.service';
 import { Order } from '../../../../core/interfaces/order';
+import { ItemContainer } from '../../../../core/interfaces/item-container';
 
 @Component({
   selector: 'app-order-edit',
@@ -11,10 +12,10 @@ import { Order } from '../../../../core/interfaces/order';
 })
 export class OrderEditComponent implements OnInit {
 
-  private total;
+  total: number;
   private orderId;
 
-  private items: Array<{product: Item, amount: number}>;
+  items: Array<ItemContainer>;
 
   constructor(
     private route: ActivatedRoute,
