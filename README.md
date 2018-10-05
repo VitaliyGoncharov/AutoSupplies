@@ -1,19 +1,64 @@
 # AutoSupplies
 AutoSupplies shop on Spring Boot and Angular 6 RESTful
 
+# Description
+This is autoshop project, where users can view items from different catalogs, store items in cart and then make order without authentication. If user is logged in, data for order will be taken from his profile (for ex.: name, default address, phone).
+
+Manager can view all orders, their info, items. Also he can edit order products (add items, remove, change their amount).
+
+**Credentials:**
+
+ADMIN
+**********************
+email: admin@gmail.com
+password: 12345
+**********************
+
+MANAGER
+**********************
+email: manager@gmail.com
+password: 12345
+**********************
+
+USER
+**********************
+email: user@gmail.com
+password: 12345
+**********************
+
 ## Quickstart
 
 Requirements:
-- JVM
+- JRE >=8
+- Database (PostgreSQL is preferred OR MySQL OR you can choose in-memory database H2)
+
+Download one of the following jars for your database:
+- H2 | [google drive](https://drive.google.com/file/d/1AxMPvIHHwZ9LshV4M14339H32pIHo8gi/view?usp=sharing)  ( If you don't want to deal with database at all )
+- MySQL | [google drive](https://drive.google.com/file/d/15A1gFoPVhK56RK-urdaHKYKmOzuRx4r8/view?usp=sharing)
+- PostgreSQL | [google drive](https://drive.google.com/file/d/1pWVhedUZjKAy5pvy691umIBcYgZ87hlv/view?usp=sharing)
+
+Run the jar:
+```
+java -jar autoshop-{your database name}.jar
+```
+
+Open your browser on `localhost:8080`.
+
+
+
+## How to build jar
+
+Requirements:
+- JRE >=8
 - Maven
 - Database (PostgreSQL is preferred OR MySQL OR you can choose in-memory database H2)
 
-
+Clone repository:
 ```
 git clone https://github.com/VitaliyGoncharov/AutoSupplies.git
 ```
 
-#### Find file /server/src/main/resources/application.properties
+**Find file /server/src/main/resources/application.properties**
 
 For H2 database:
 - uncomment H2 Web Console and DATASOURCE for H2 blocks
@@ -35,8 +80,11 @@ For PostgreSQL database
 - change spring.datasource.username AND spring.datasource.password properties
 - create database `autoshop` | CREATE DATABASE autoshop;
 - make sure each model in server/src/main/java/com/carssps/model has @GeneratedValue(strategy = GenerationType.IDENTITY)
+- make sure the following in application.properties is uncomment: spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults= false 
 
 PostgreSQL is preferred 'cause I used postgres specific Full Text Search queries.
+
+--------------------------------------------------------------------------------------------------------------------------------
 
 Go to the `server` directory
 ```
